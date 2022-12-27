@@ -1,0 +1,21 @@
+
+vector<card> deck[deckn] = {vector<card>(40 - table.row), vector<card>(30 - table.row),
+                            vector<card>(20 - table.row)};
+	/*
+    for (int i = table.row ; i < deck[0].size(); ++i)
+        deck[0][i] = std::move(stack_1[n - 1 - i]);
+    for (int i = 0, n = deck[1].size(); i < n - table.row; ++i)
+        deck[1][i] = std::move(stack_2[n - 1 - i]);
+    for (int i = 0, n = deck[2].size(); i < n - table.row; ++i)
+        deck[2][i] = std::move(stack_3[n - 1 - i]);
+    for (int i = 0; i < deckn; ++i) {
+        for (int j = 0; j < table.row; ++j)
+            cerr << table[i][j].gem << ' ' << table[i][j].cost[0] << ' '
+                 << table[i][j].cost[1] << ' ' << table[i][j].cost[2] << ' '
+                 << table[i][j].cost[3] << ' ' << table[i][j].cost[4] << '\n';
+        for (int j = deck[i].size() - 1; j >= 0; --j)
+            cerr << deck[i][j].gem << ' ' << deck[i][j].cost[0] << ' '
+                 << deck[i][j].cost[1] << ' ' << deck[i][j].cost[2] << ' '
+                 << deck[i][j].cost[3] << ' ' << deck[i][j].cost[4] << '\n';
+    }
+	*/

@@ -151,9 +151,10 @@ for (int j = 0; j < deckn; ++j) {
         table[1][i] = stack_2[i];
         table[2][i] = stack_3[i];
     }
-    deck[0].init(stack_1); // stack moved
-    deck[1].init(stack_2);
-    deck[2].init(stack_3);
+
+    deck[0] = std::move(stack_1);
+    deck[1] = std::move(stack_2);
+    deck[2] = std::move(stack_3);
 
     // analyze table
 
