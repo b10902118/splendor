@@ -1,0 +1,35 @@
+
+// double demand[4]; //bonus to buy
+//   when step not clear
+//   base: lv1: step //lv2,3:card color!=0
+//   mid: lv1,2:step //lv3:card color
+//   last2: lv3:step lv1,lv2: card color
+
+int cal_step(const card c, const profile &p) {
+    int diff[4]{};
+    for (int i = 0; i < 4; ++i) {
+        if (c.cost[i] > Gem::num + p.bns[i]) {
+            return INF;
+        }
+        else diff[i] = max(c.cost[i] - p.gem[i] - p.bns[i], 0);
+    }
+    return 0; // not complete
+
+    // TODO compute least feasible steps (consider insufficiency)
+
+    /*
+    int diff[4]{},extra[4]{};
+    bool unafford=0;
+    for(int i=0;i<4;++i){
+            unafford=c.gem[i]>gpos_max+p.bns[i];
+            if(unafford){
+                    extra[i]=c[i]-gpos_max-p.bns[i];
+            }
+            else diff[i]=max(c[i]-p.gem[i]-p.bns[i],0);
+    }
+    if(unafford&&c.score>=4&&){
+            if(accumulate(extra,extra+4))
+    }
+    */
+}
+

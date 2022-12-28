@@ -1,4 +1,8 @@
+#include <cstdio>
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wunused-variable"
 #include "splender.h"
+#pragma GCC diagnostic pop
 #include <algorithm>
 #include <cstdlib>
 #include <iostream>
@@ -11,6 +15,9 @@
 using namespace std;
 
 const int deckn = 3, goal = 15;
+
+const int depth[deckn]{15, 10, 7};
+
 const int FST = 0, TAKE = 1, BUY = 2, RES = 3;
 
 namespace Gem {
@@ -34,12 +41,12 @@ class Deck {
     int top_i;
 
   public:
-    void init(vector &orig) {
-        deck = move(orig);
+    void init(vector<card> &orig) {
+        deck = std::move(orig);
         top_i = 4;
     }
     void pop() {
-        if (top_i >= deck.size()) {
+        if (top_i >= static_cast<int>(deck.size())) {
             cerr << "deck overpopped\n";
             exit(1);
         }
@@ -47,17 +54,17 @@ class Deck {
     }
     card operator[](int i) { // 0 for top, not vector's 0
         i += top_i;
-        if (i >= deck.size() || i < top_i) {
+        if (i >= static_cast<int>(deck.size()) || i < top_i) {
             cerr << "invalid index\n";
             exit(1);
         }
         return deck[i];
     }
-    bool empty() { return top_i == deck.size() ? true : false; }
+    bool empty() {
+        return top_i == static_cast<int>(deck.size()) ? true : false;
+    }
 };
 Deck deck[3];
-
-vector<card> deck[deckn];
 
 struct profile {
     int gem[Gem::all];
@@ -80,69 +87,81 @@ enum CardStat { INF = numeric_limits<int>::max() };
 
 int stage;
 
-// double demand[4]; //bonus to buy
-//   when step not clear
-//   base: lv1: step //lv2,3:card color!=0
-//   mid: lv1,2:step //lv3:card color
-//   last2: lv3:step lv1,lv2: card color
+struct keycard : public card {};
 
-int cal_step(const card c, const profile &p) {
-    int diff[4]{};
-    for (int i = 0; i < 4; ++i) {
-        if (c.cost[i] > Gem::num + p.bns[i]) {
-            return INF;
-        }
-        else diff[i] = max(c.cost[i] - p.gem[i] - p.bns[i], 0);
-    }
-    return 0; // not complete
+double supply[Gem::normal];
+double demand[Gem::normal];
+double value[deckn][table.row];
 
-    // TODO compute least feasible steps (consider insufficiency)
+// cal_step
 
-    /*
-    int diff[4]{},extra[4]{};
-    bool unafford=0;
-    for(int i=0;i<4;++i){
-            unafford=c.gem[i]>gpos_max+p.bns[i];
-            if(unafford){
-                    extra[i]=c[i]-gpos_max-p.bns[i];
-            }
-            else diff[i]=max(c[i]-p.gem[i]-p.bns[i],0);
+double score1(const card &cd) {
+    static const double c[6] = {0,       1 * 1,    1.2 * 2,
+                                1.3 * 3, 1.45 * 4, 1.55 * 5};
+    double score = 0;
+    // cout << cd.gem << ": ";
+    for (int i : cd.cost) {
+        // cout << i << ' ';
+        score += c[i];
     }
-    if(unafford&&c.score>=4&&){
-            if(accumulate(extra,extra+4))
-    }
-    */
+    // cout << 10 - score << endl;
+    return 10 - score;
 }
 
-void init(vector<card> stack_1, vector<card> stack_2, vector<card> stack_3) {
-
-    int cnt[deckn][Gem::normal]{};
-    for (auto c : stack_1) {
-        ++cnt[0][c.gem];
-        cout << c.gem << ' ' << c.cost[0] << ' ' << c.cost[1] << ' ' << c.cost[2] << ' '
-             << c.cost[3] << ' ' << c.cost[4] << '\n';
+double score2(const card &cd) {
+    static const double c1 = 1.2, c2 = 1.3; // c1*n - c2*pt
+    double score = 0;
+    // cout << cd.gem << ": ";
+    for (int i : cd.cost) {
+        // cout << i << ' ';
+        score += c1 * i;
     }
-    for (auto c : stack_2) {
-        ++cnt[1][c.gem];
-        cout << c.gem << ' ' << c.cost[0] << ' ' << c.cost[1] << ' ' << c.cost[2] << ' '
-             << c.cost[3] << ' ' << c.cost[4] << '\n';
-    }
-    for (auto c : stack_3) {
-        ++cnt[2][c.gem];
-        cout << c.gem << ' ' << c.cost[0] << ' ' << c.cost[1] << ' ' << c.cost[2] << ' '
-             << c.cost[3] << ' ' << c.cost[4] << '\n';
-    }
-    /*
-for (int j = 0; j < deckn; ++j) {
-    for (int i : cnt[j]) cout << i << ' ';
-    cout << endl;
+    // cout << score - c2 * cd.score << '\n';
+    return 10 - (score - c2 * cd.score);
 }
-    */
+
+double score3(const card &cd) {
+    static const double c1 = 1.2, c2 = 1.3;
+    double score = 0;
+    for (int i : cd.cost) {
+        score += c1 * (i - 1);
+    }
+    return 10 - (score - c2 * cd.score);
+}
+
+void init(vector<card> stack_1, vector<card> stack_2,
+          vector<card> stack_3) {
     // init var
     my.init();
     op.init();
     stage = 1;
+    fill(supply, supply + Gem::normal, 0);
     // fill(demand, demand+5, 0);
+
+    // analyze here because index of deck start from 4
+    // supply
+    for (int i = 0; i < depth[0]; ++i) {
+        supply[stack_1[i].gem] += score1(stack_1[i]);
+        // cout << stack_1[i].gem << " += " << score1(stack_1[i])
+        //<< '\n';
+    }
+    double sup1[Gem::normal] = {supply[0], supply[1], supply[2],
+                                supply[3], supply[4]};
+    for (int i = 0; i < depth[1]; ++i) {
+        supply[stack_2[i].gem] += 0.5 * score2(stack_2[i]);
+        // cout << stack_2[i].gem << " += " << score2(stack_2[i])
+        //<< '\n';
+    }
+
+    for (int i = 0; i < Gem::normal; ++i)
+        cout << "Gem-" << i << ": " << supply[i] << '\t' << sup1[i]
+             << '\t' << supply[i] - sup1[i] << '\n';
+
+    // pick key cards
+    for (int i = 0; i < depth[2]; ++i) {
+    }
+
+    // compute demand
 
     // set table and deck
     fill(Gem::remain, Gem::remain + Gem::all, 4);
@@ -151,12 +170,9 @@ for (int j = 0; j < deckn; ++j) {
         table[1][i] = stack_2[i];
         table[2][i] = stack_3[i];
     }
-
-    deck[0] = std::move(stack_1);
-    deck[1] = std::move(stack_2);
-    deck[2] = std::move(stack_3);
-
-    // analyze table
+    deck[0].init(stack_1); // stack "moved"
+    deck[1].init(stack_2);
+    deck[2].init(stack_3);
 
     /*
 for (int j = 0; j < table.row; ++j) {
