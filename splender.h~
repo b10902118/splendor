@@ -512,7 +512,8 @@ int main(int argc, char *argv[]) {
 #ifdef SPLENDER_INTERACTIVE
     cout << "Playing interactively!" << endl;
 #else
-    MODE = input_int("Which test group you want to test? ", 0, 7);
+    MODE = input_int("Which test group you want to test?\n", 0,
+                     7); // added \n
 #endif
 
     Send(to_string(MODE));
