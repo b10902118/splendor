@@ -18,12 +18,12 @@ using namespace std;
 constexpr int deckn = 3, goal = 15;
 
 constexpr int depth[deckn]{15, 10, 7};
-constexpr double rate[3]{0.96, 0.88, 0.7};
+constexpr double rate[3]{0.96, 0.88, 0.7}, part = 0.4; // for the second deck
 
-constexpr int FST = 0, TAKE = 1, BUY = 2, RES = 3;
+constexpr int TAKE = 1, BUY = 2, RES = 3;
 
 namespace Gem {
-constexpr int all = 6, normal = 5, num = 4;
+constexpr int all = 6, normal = 5, num = 4, joker = 5;
 constexpr int hold_max = 10, res_max = 3;
 int remain[Gem::all];
 }; // namespace Gem
@@ -47,12 +47,12 @@ class Deck {
         deck = std::move(orig);
         top_i = 4;
     }
-    void pop() {
+    card pop() {
         if (top_i >= static_cast<int>(deck.size())) {
             cerr << "deck overpopped\n";
             exit(1);
         }
-        ++top_i;
+        return deck[top_i++];
     }
     card operator[](int i) { // 0 for top, not vector's 0
         i += top_i;
@@ -62,9 +62,7 @@ class Deck {
         }
         return deck[i];
     }
-    bool empty() {
-        return top_i == static_cast<int>(deck.size()) ? true : false;
-    }
+    bool empty() { return top_i == static_cast<int>(deck.size()) ? true : false; }
 };
 Deck deck[3];
 
@@ -89,16 +87,15 @@ enum CardStat { INF = numeric_limits<int>::max() };
 
 int stage;
 
-double supply[Gem::normal];
 double demand[Gem::normal];
 double value[deckn][table.row];
+bool totake[5];
 
 double fac[deckn][depth[0]];
 void fac_init() {
     assert(depth[0] >= depth[1] && depth[0] >= depth[2]);
     for (int lv = 0; lv < deckn; ++lv) {
-        for (int i = 0; i <= table.row; ++i)
-            fac[lv][i] = 1; // first five
+        for (int i = 0; i <= table.row; ++i) fac[lv][i] = 1; // first five
         for (int i = table.row + 1; i < depth[lv]; ++i)
             fac[lv][i] = fac[lv][i - 1] * rate[lv];
     }
@@ -107,8 +104,7 @@ void fac_init() {
 // cal_step
 
 double score1(const card &cd) {
-    static constexpr double c[6] = {0,       1 * 1,    1.2 * 2,
-                                    1.3 * 3, 1.45 * 4, 1.55 * 5};
+    static constexpr double c[6] = {0, 1 * 1, 1.2 * 2, 1.3 * 3, 1.45 * 4, 1.55 * 5};
     double score = 0;
     // cout << cd.gem << ": ";
     for (int i : cd.cost) {
@@ -134,46 +130,87 @@ double score2(const card &cd) {
 double score3(const card &cd) {
     static constexpr double c1 = 1.2, c2 = 1.3;
     double score = 0;
+    cout << cd.gem << ": ";
     for (int i : cd.cost) {
-        score += c1 * (i - 1);
+        cout << i << ' ';
+        if (i != 0) score += c1 * (i - 1);
     }
+    cout << score - c2 * cd.score << '\n';
     return 10 - (score - c2 * cd.score);
 }
 
-void init(vector<card> stack_1, vector<card> stack_2,
-          vector<card> stack_3) {
+void init(vector<card> stack_1, vector<card> stack_2, vector<card> stack_3) {
     // init var
-
+    fac_init();
     my.init();
     op.init();
     stage = 1;
-    fill(supply, supply + Gem::normal, 0);
     // fill(demand, demand+5, 0);
 
     // analyze here because index of deck start from 4
-    // supply
+    // supply 1
+    double supply[Gem::normal]{};
     for (int i = 0; i < depth[0]; ++i) {
-        supply[stack_1[i].gem] += score1(stack_1[i]);
+        supply[stack_1[i].gem] += fac[0][i] * score1(stack_1[i]);
         // cout << stack_1[i].gem << " += " << score1(stack_1[i])
         //<< '\n';
     }
-    double sup1[Gem::normal] = {supply[0], supply[1], supply[2],
-                                supply[3], supply[4]};
+    double sup1[Gem::normal] = {supply[0], supply[1], supply[2], supply[3], supply[4]};
+    // supply and demand 2
     for (int i = 0; i < depth[1]; ++i) {
-        supply[stack_2[i].gem] += 0.5 * score2(stack_2[i]);
+        double v = fac[1][i] * part * score2(stack_2[i]);
+        supply[stack_2[i].gem] += v;
+        for (int type = 0; type < Gem::normal; ++type) {
+            demand[type] += v * stack_2[i].cost[type];
+        }
         // cout << stack_2[i].gem << " += " << score2(stack_2[i])
         //<< '\n';
     }
 
-    for (int i = 0; i < Gem::normal; ++i)
-        cout << "Gem-" << i << ": " << supply[i] << '\t' << sup1[i]
-             << '\t' << supply[i] - sup1[i] << '\n';
-
-    // pick key cards
-    for (int i = 0; i < depth[2]; ++i) {
+    for (int i = 0; i < Gem::normal; ++i) {
+        cout << "Gem-" << i << ": " << supply[i] << '\t' << sup1[i] << '\t'
+             << supply[i] - sup1[i] << '\n';
     }
 
-    // compute demand
+    cout << "demand before:\n";
+    for (double i : demand) cout << i << ' ';
+    cout << endl;
+    // demand 3
+    for (int i = 0; i < depth[2]; ++i) {
+        double v = fac[2][i] * score3(stack_3[i]);
+        for (int type = 0; type < Gem::normal; ++type) {
+            cout << v * stack_3[i].cost[type] << ' ';
+            demand[type] += v * stack_3[i].cost[type];
+        }
+        cout << endl << endl;
+    }
+    cout << "demand after:\n";
+    for (double i : demand) cout << i << ' ';
+    cout << endl;
+
+    for (int i = 0; i < Gem::normal; ++i) demand[i] *= supply[i];
+    cout << "demand times supply:\n";
+    for (double i : demand) cout << i << ' ';
+    cout << endl;
+    // decide major and minor by supply and demand
+    int fst = (demand[0] > demand[1]) ? 0 : 1, scd = 1 - fst;
+    for (int i = 2; i < Gem::normal; ++i) {
+        if (demand[i] > demand[fst]) {
+            scd = fst;
+            fst = i;
+        }
+        else if (demand[i] > demand[scd]) {
+            scd = i;
+        }
+    }
+    cout << fst << ' ' << scd << endl;
+    for (int i = 0; i < Gem::normal; ++i) {
+        if (i == fst) demand[i] = 10;
+        else if (i == scd) demand[i] = 5;
+        else demand[i] = 3;
+        cout << demand[i] << ' ';
+    }
+    cout << endl;
 
     // set table and deck
     fill(Gem::remain, Gem::remain + Gem::all, 4);
@@ -185,25 +222,55 @@ void init(vector<card> stack_1, vector<card> stack_2,
     deck[0].init(stack_1); // stack "moved"
     deck[1].init(stack_2);
     deck[2].init(stack_3);
-
-    /*
-for (int j = 0; j < table.row; ++j) {
-    my.step[1][j] = cal_step(table[1][j]);
 }
-    */
 
-    // analyze deck top
+void update(profile &p, const int cid, const int type) {
+    assert(type == BUY || type == RES);
+    for (int i = 0; i < deckn; ++i) {
+        for (int j = 0; j < table.row; ++j) {
+            if (table[i][j].id == cid) {
+                if (type == BUY) {
+                    for (int k = 0; k < Gem::normal; ++k) {
+                        p.gem[k] -= table[i][j].cost[k];
+                        if (p.gem[k] < 0) {
+                            p.gem[Gem::joker] += p.gem[k];
+                            p.gem[k] = 0;
+                        }
+                    }
+                    p.pts += table[i][j].score;
+                    ++p.bns[table[i][j].gem];
+                    ++p.bns_sum;
+                    table[i][j] = deck[i].pop();
+                }
+                else { // type==RES
+                    p.res.push_back(table[i][j]);
+                    ++p.gem[Gem::joker];
+                    table[i][j] = deck[i].pop();
+                }
+                return;
+            }
+        }
+    }
 }
 
 struct move player_move(struct move m) {
-    // analyze table
-    /*
-for (int i = 0; i <= stage; ++i) {
-    for (int j = 0; j < 4; ++j) {
-        my.step[1][j]= cal_step(tab[1][j]);
+    // record opponent's move
+    if (m.type != 0) { // update board
+        switch (m.type) {
+        case TAKE:
+            for (int i = 0; i < Gem::normal; ++i) {
+                op.gem[i] += m.gem[i];
+                Gem::remain[i] -= m.gem[i];
+            }
+            break;
+        case BUY:
+            update(op, m.card_id, BUY);
+            break;
+        case RES:
+            update(op, m.card_id, RES);
+            break;
+        }
     }
-}
-    */
 
     // formulate strategy
 
