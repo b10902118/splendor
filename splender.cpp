@@ -18,7 +18,8 @@ using namespace std;
 constexpr int deckn = 3, goal = 15;
 
 constexpr int depth[deckn]{15, 10, 7};
-constexpr double rate[3]{0.96, 0.88, 0.7}, part = 0.4; // for the second deck
+constexpr double rate[3]{0.96, 0.88, 0.7},
+part = 0.4; // for the second deck
 
 constexpr int TAKE = 1, BUY = 2, RES = 3;
 
@@ -62,7 +63,9 @@ class Deck {
         }
         return deck[i];
     }
-    bool empty() { return top_i == static_cast<int>(deck.size()) ? true : false; }
+    bool empty() {
+        return top_i == static_cast<int>(deck.size()) ? true : false;
+    }
 };
 Deck deck[3];
 
@@ -95,7 +98,8 @@ double fac[deckn][depth[0]];
 void fac_init() {
     assert(depth[0] >= depth[1] && depth[0] >= depth[2]);
     for (int lv = 0; lv < deckn; ++lv) {
-        for (int i = 0; i <= table.row; ++i) fac[lv][i] = 1; // first five
+        for (int i = 0; i <= table.row; ++i)
+            fac[lv][i] = 1; // first five
         for (int i = table.row + 1; i < depth[lv]; ++i)
             fac[lv][i] = fac[lv][i - 1] * rate[lv];
     }
@@ -104,12 +108,13 @@ void fac_init() {
 // cal_step
 
 double score1(const card &cd) {
-    static constexpr double c[6] = {0, 1 * 1, 1.2 * 2, 1.3 * 3, 1.45 * 4, 1.55 * 5};
+    static constexpr double c[6] = {0,       1 * 1,    1.2 * 2,
+                                    1.3 * 3, 1.45 * 4, 1.55 * 5};
     double score = 0;
     // cout << cd.gem << ": ";
-    for (int i : cd.cost) {
-        // cout << i << ' ';
-        score += c[i];
+    for (int i = 0; i < Gem::normal; ++i) {
+        // cout << cd.cost[i] << ' ';
+        score += c[cd.cost[i] - my.bns[i]];
     }
     // cout << 10 - score << endl;
     return 10 - score;
@@ -119,9 +124,10 @@ double score2(const card &cd) {
     static constexpr double c1 = 1.2, c2 = 1.3; // c1*n - c2*pt
     double score = 0;
     // cout << cd.gem << ": ";
-    for (int i : cd.cost) {
-        // cout << i << ' ';
-        score += c1 * i;
+    for (int i = 0; i < Gem::normal; ++i) {
+        int cost = cd.cost[i] - my.bns[i];
+        // cout << cost<< ' ';
+        if (cost > 0) score += c1 * cost;
     }
     // cout << score - c2 * cd.score << '\n';
     return 10 - (score - c2 * cd.score);
@@ -131,21 +137,23 @@ double score3(const card &cd) {
     static constexpr double c1 = 1.2, c2 = 1.3;
     double score = 0;
     cout << cd.gem << ": ";
-    for (int i : cd.cost) {
-        cout << i << ' ';
-        if (i != 0) score += c1 * (i - 1);
+    for (int i = 0; i < Gem::normal; ++i) {
+        int cost = cd.cost[i] - my.bns[i];
+        cout << cost << ' ';
+        if (cost > 0) score += c1 * (cost - 1);
     }
     cout << score - c2 * cd.score << '\n';
     return 10 - (score - c2 * cd.score);
 }
 
-void init(vector<card> stack_1, vector<card> stack_2, vector<card> stack_3) {
+void init(vector<card> stack_1, vector<card> stack_2,
+          vector<card> stack_3) {
     // init var
     fac_init();
     my.init();
     op.init();
     stage = 1;
-    // fill(demand, demand+5, 0);
+    fill(demand, demand + 5, 0);
 
     // analyze here because index of deck start from 4
     // supply 1
@@ -155,7 +163,8 @@ void init(vector<card> stack_1, vector<card> stack_2, vector<card> stack_3) {
         // cout << stack_1[i].gem << " += " << score1(stack_1[i])
         //<< '\n';
     }
-    double sup1[Gem::normal] = {supply[0], supply[1], supply[2], supply[3], supply[4]};
+    double sup1[Gem::normal] = {supply[0], supply[1], supply[2],
+                                supply[3], supply[4]};
     // supply and demand 2
     for (int i = 0; i < depth[1]; ++i) {
         double v = fac[1][i] * part * score2(stack_2[i]);
@@ -168,8 +177,8 @@ void init(vector<card> stack_1, vector<card> stack_2, vector<card> stack_3) {
     }
 
     for (int i = 0; i < Gem::normal; ++i) {
-        cout << "Gem-" << i << ": " << supply[i] << '\t' << sup1[i] << '\t'
-             << supply[i] - sup1[i] << '\n';
+        cout << "Gem-" << i << ": " << supply[i] << '\t' << sup1[i]
+             << '\t' << supply[i] - sup1[i] << '\n';
     }
 
     cout << "demand before:\n";
@@ -272,7 +281,9 @@ struct move player_move(struct move m) {
         }
     }
 
-    // formulate strategy
+    // compute value and step
+
+    // choose best move
 
     // assign the strategy
     m.type = 1;
