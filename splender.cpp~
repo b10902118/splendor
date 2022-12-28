@@ -1,3 +1,4 @@
+#include <cassert>
 #include <cstdio>
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wunused-variable"
@@ -14,21 +15,22 @@
 
 using namespace std;
 
-const int deckn = 3, goal = 15;
+constexpr int deckn = 3, goal = 15;
 
-const int depth[deckn]{15, 10, 7};
+constexpr int depth[deckn]{15, 10, 7};
+constexpr double rate[3]{0.96, 0.88, 0.7};
 
-const int FST = 0, TAKE = 1, BUY = 2, RES = 3;
+constexpr int FST = 0, TAKE = 1, BUY = 2, RES = 3;
 
 namespace Gem {
-const int all = 6, normal = 5, num = 4;
-const int hold_max = 10, res_max = 3;
+constexpr int all = 6, normal = 5, num = 4;
+constexpr int hold_max = 10, res_max = 3;
 int remain[Gem::all];
 }; // namespace Gem
 
 class Board {
   public:
-    static const int row = 4;
+    static constexpr int row = 4;
     card *operator[](int r) { return table[r]; }
 
   private:
@@ -87,17 +89,26 @@ enum CardStat { INF = numeric_limits<int>::max() };
 
 int stage;
 
-struct keycard : public card {};
-
 double supply[Gem::normal];
 double demand[Gem::normal];
 double value[deckn][table.row];
 
+double fac[deckn][depth[0]];
+void fac_init() {
+    assert(depth[0] >= depth[1] && depth[0] >= depth[2]);
+    for (int lv = 0; lv < deckn; ++lv) {
+        for (int i = 0; i <= table.row; ++i)
+            fac[lv][i] = 1; // first five
+        for (int i = table.row + 1; i < depth[lv]; ++i)
+            fac[lv][i] = fac[lv][i - 1] * rate[lv];
+    }
+}
+
 // cal_step
 
 double score1(const card &cd) {
-    static const double c[6] = {0,       1 * 1,    1.2 * 2,
-                                1.3 * 3, 1.45 * 4, 1.55 * 5};
+    static constexpr double c[6] = {0,       1 * 1,    1.2 * 2,
+                                    1.3 * 3, 1.45 * 4, 1.55 * 5};
     double score = 0;
     // cout << cd.gem << ": ";
     for (int i : cd.cost) {
@@ -109,7 +120,7 @@ double score1(const card &cd) {
 }
 
 double score2(const card &cd) {
-    static const double c1 = 1.2, c2 = 1.3; // c1*n - c2*pt
+    static constexpr double c1 = 1.2, c2 = 1.3; // c1*n - c2*pt
     double score = 0;
     // cout << cd.gem << ": ";
     for (int i : cd.cost) {
@@ -121,7 +132,7 @@ double score2(const card &cd) {
 }
 
 double score3(const card &cd) {
-    static const double c1 = 1.2, c2 = 1.3;
+    static constexpr double c1 = 1.2, c2 = 1.3;
     double score = 0;
     for (int i : cd.cost) {
         score += c1 * (i - 1);
@@ -132,6 +143,7 @@ double score3(const card &cd) {
 void init(vector<card> stack_1, vector<card> stack_2,
           vector<card> stack_3) {
     // init var
+
     my.init();
     op.init();
     stage = 1;
