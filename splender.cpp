@@ -51,8 +51,8 @@ class Deck {
     }
     card pop() {
         if (top_i >= static_cast<int>(deck.size())) {
-            cerr << "deck overpopped\n";
-            exit(1);
+            cerr << "deck empty\n";
+            return (card){0, {0, 0, 0, 0, 0}, 0, 0};
         }
         return deck[top_i++];
     }
@@ -77,7 +77,7 @@ struct ResCard {
 };
 
 struct profile {
-    int gem[Gem::all];
+    int gem[Gem::all], gem_sum;
     int bns[Gem::normal], bns_sum;
     int pts;
     int step[deckn][table.row];
@@ -91,9 +91,28 @@ struct profile {
         for (int i = 0; i < 3; ++i)
             for (int j = 0; j < 4; ++j) step[i][j] = 0;
     }
+    void buy(card c) {
+        for (int k = 0; k < Gem::normal; ++k) {
+            gem[k] -= c.cost[k];
+            Gem::remain[k] += min(c.cost[k], gem[k]);
+            gem_sum -= c.cost[k];
+            if (gem[k] < 0) {
+                gem[Gem::joker] += gem[k];
+                Gem::remain[Gem::joker] -= gem[k];
+                gem[k] = 0;
+            }
+        }
+        pts += c.score;
+        ++bns[c.gem];
+        ++bns_sum;
+    }
+    void resv(card c, int lv) {
+        res.push_back(ResCard(c, lv));
+        ++gem[Gem::joker];
+        ++gem_sum;
+    }
 };
 profile my, op;
-enum CardStat { INF = numeric_limits<int>::max() };
 
 int stage;
 
@@ -111,6 +130,59 @@ void fac_init() {
 }
 
 // cal_step
+struct Step {
+    int n;
+    int pick[Gem::normal];
+    int pickn;
+};
+
+Step cal_step(const card c, const profile &p) {
+    int diff[Gem::normal]{}, ncolor = 0, match = 0, color_match = 0;
+    Step ret = {0, {0, 0, 0, 0, 0}, 0};
+    if (my.gem_sum <= 7) ret.pickn = 3;
+    else if (my.gem_sum == 8) ret.pickn = 2;
+
+    for (int i = 0; i < Gem::normal; ++i) {
+        diff[i] = c.cost[i] - p.gem[i] - p.bns[i];
+        if (diff[i] > 0) {
+            ++ncolor;
+            int nmatch = min(diff[i], Gem::remain[i]);
+            if (ret.pickn == 2 && match < 2 && nmatch > match) {
+                ret.pick[color_match] = 0;
+                ret.pick[i] = min(2, nmatch);
+                color_match = i;
+            }
+            else if (ret.pickn == 3 && match < 3 && nmatch > 0) {
+                ++match;
+                color_match = i;
+                ++ret.pick[i];
+            }
+        }
+        else if (diff[i] < 0) diff[i] = 0;
+    }
+
+    if (ret.pickn == 3 && match == 1) {
+        if (diff[color_match] >= 2 && Gem::remain[color_match] >= 2) {
+            ret.pickn = 2;
+            ret.pick[color_match] = 2;
+        }
+    }
+    // estimate best case: three and then two
+    while (ncolor >= 2) {
+        for (int i = 0, cnt = 0; i < Gem::normal && cnt < 3; ++i) {
+            if (diff[i] > 0) {
+                if (--diff[i] == 0) --ncolor;
+                ++cnt;
+            }
+        }
+        ++ret.n;
+    }
+    if (ncolor == 1) {
+        for (int d : diff)
+            if (d > 0) ret.n += (d & 1) ? d / 2 + 1 : d / 2;
+    }
+    return ret;
+}
 
 double score1(const card &cd) {
     static constexpr double c[6] = {0,       1 * 1,    1.2 * 2,
@@ -238,92 +310,41 @@ void init(vector<card> stack_1, vector<card> stack_2,
     deck[2].init(stack_3);
 }
 
-void update(profile &p, const int cid, const int type) {
-    assert(type == BUY || type == RES);
-    if (type == BUY) {
-        for (auto it = p.res.begin(); it != p.res.end(); ++it) {
-            if (it->c.id == cid) {
-                for (int k = 0; k < Gem::normal; ++k) {
-                    p.gem[k] -= it->c.cost[k];
-                    if (p.gem[k] < 0) {
-                        p.gem[Gem::joker] += p.gem[k];
-                        p.gem[k] = 0;
-                    }
-                }
-                p.pts += it->c.score;
-                ++p.bns[it->c.gem];
-                ++p.bns_sum;
-                p.res.erase(it);
-                return;
-            }
-        }
-    }
+pair<int, int> get_index(int cid) {
     for (int i = 0; i < deckn; ++i) {
         for (int j = 0; j < table.row; ++j) {
             if (table[i][j].id == cid) {
-                if (type == BUY) {
-                    for (int k = 0; k < Gem::normal; ++k) {
-                        p.gem[k] -= table[i][j].cost[k];
-                        if (p.gem[k] < 0) {
-                            p.gem[Gem::joker] += p.gem[k];
-                            p.gem[k] = 0;
-                        }
-                    }
-                    p.pts += table[i][j].score;
-                    ++p.bns[table[i][j].gem];
-                    ++p.bns_sum;
-                    table[i][j] = deck[i].pop();
-                }
-                else { // type==RES
-                    p.res.push_back(ResCard(table[i][j], i));
-                    ++p.gem[Gem::joker];
-                    table[i][j] = deck[i].pop();
-                }
-                return;
+                return pair<int, int>(i, j);
             }
         }
     }
+    for (int i = 0; i < my.res.size(); ++i) {
+        if (my.res[i].c.id == cid) return pair<int, int>(reserved, i);
+    }
+    cerr << "cannot get index\n";
+    exit(1);
 }
 bool iscard(card c) { return c.gem; }
 
 void update(profile &p, pair<int, int> card_index, const int type) {
-    if (type == BUY && card_index.first == 3) { // buy reserved card
+    if (card_index.first == reserved) { // buy reserved card
+        assert(type == BUY);
         auto it = p.res.begin() + card_index.second;
-        for (int k = 0; k < Gem::normal; ++k) {
-            p.gem[k] -= it->c.cost[k];
-            if (p.gem[k] < 0) {
-                p.gem[Gem::joker] += p.gem[k];
-                p.gem[k] = 0;
-            }
-        }
-        p.pts += it->c.score;
-        ++p.bns[it->c.gem];
-        ++p.bns_sum;
-        p.res.erase(it);
-        return;
+        p.buy(it->c);
     }
     else {
         const int i = card_index.first, j = card_index.second;
         if (type == BUY) {
-            for (int k = 0; k < Gem::normal; ++k) {
-                p.gem[k] -= table[i][j].cost[k];
-                if (p.gem[k] < 0) {
-                    p.gem[Gem::joker] += p.gem[k];
-                    p.gem[k] = 0;
-                }
-            }
-            p.pts += table[i][j].score;
-            ++p.bns[table[i][j].gem];
-            ++p.bns_sum;
+            p.buy(table[i][j]);
             table[i][j] = deck[i].pop();
         }
         else { // type==RES
-            p.res.push_back(ResCard(table[i][j], i));
-            ++p.gem[Gem::joker];
+            p.resv(table[i][j], i);
             table[i][j] = deck[i].pop();
         }
     }
 }
+
 bool affordable(profile &p, card c) {
     for (int i = 0, jk = 0; i < Gem::normal; ++i) {
         if (c.cost[i] > p.gem[i]) {
@@ -335,7 +356,8 @@ bool affordable(profile &p, card c) {
 }
 
 bool reservable(profile &p) {
-    return p.res.size() < Gem::res_max && Gem::remain[Gem::joker] > 0;
+    return p.res.size() < Gem::res_max && p.gem_sum < 10 &&
+           Gem::remain[Gem::joker] > 0;
 }
 
 struct move buy(pair<int, int> card_index) {
@@ -384,10 +406,10 @@ struct move player_move(struct move m) {
             }
             break;
         case BUY:
-            update(op, m.card_id, BUY);
+            update(op, get_index(m.card_id), BUY);
             break;
         case RES:
-            update(op, m.card_id, RES);
+            update(op, get_index(m.card_id), RES);
             break;
         }
     }
@@ -449,7 +471,8 @@ struct move player_move(struct move m) {
             }
             else if (totake_set == false) {
                 // TODO if not too far "cal_step"
-                // totake=next_step() //need to compute available pick
+                // totake=next_step() //need to compute available
+                // pick
             }
         }
     }
