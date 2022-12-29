@@ -15,7 +15,7 @@
 
 using namespace std;
 
-constexpr int deckn = 3, goal = 15;
+constexpr int deckn = 3, reserved = 3, goal = 15;
 
 constexpr int depth[deckn]{15, 10, 7};
 constexpr double rate[3]{0.96, 0.88, 0.7};
@@ -70,12 +70,18 @@ class Deck {
 };
 Deck deck[3];
 
+struct ResCard {
+    card c;
+    int lv;
+    ResCard(card c, int lv) : c(c), lv(lv) {}
+};
+
 struct profile {
     int gem[Gem::all];
     int bns[Gem::normal], bns_sum;
     int pts;
     int step[deckn][table.row];
-    vector<card> res;
+    vector<ResCard> res;
     void init() {
         fill(gem, gem + Gem::all, 0);
         fill(bns, bns + Gem::normal, 0);
@@ -92,7 +98,6 @@ enum CardStat { INF = numeric_limits<int>::max() };
 int stage;
 
 double demand[Gem::normal];
-double value[deckn][table.row];
 
 double fac[deckn][depth[0]];
 void fac_init() {
@@ -235,6 +240,24 @@ void init(vector<card> stack_1, vector<card> stack_2,
 
 void update(profile &p, const int cid, const int type) {
     assert(type == BUY || type == RES);
+    if (type == BUY) {
+        for (auto it = p.res.begin(); it != p.res.end(); ++it) {
+            if (it->c.id == cid) {
+                for (int k = 0; k < Gem::normal; ++k) {
+                    p.gem[k] -= it->c.cost[k];
+                    if (p.gem[k] < 0) {
+                        p.gem[Gem::joker] += p.gem[k];
+                        p.gem[k] = 0;
+                    }
+                }
+                p.pts += it->c.score;
+                ++p.bns[it->c.gem];
+                ++p.bns_sum;
+                p.res.erase(it);
+                return;
+            }
+        }
+    }
     for (int i = 0; i < deckn; ++i) {
         for (int j = 0; j < table.row; ++j) {
             if (table[i][j].id == cid) {
@@ -252,7 +275,7 @@ void update(profile &p, const int cid, const int type) {
                     table[i][j] = deck[i].pop();
                 }
                 else { // type==RES
-                    p.res.push_back(table[i][j]);
+                    p.res.push_back(ResCard(table[i][j], i));
                     ++p.gem[Gem::joker];
                     table[i][j] = deck[i].pop();
                 }
@@ -261,26 +284,44 @@ void update(profile &p, const int cid, const int type) {
         }
     }
 }
+bool iscard(card c) { return c.gem; }
 
 void update(profile &p, pair<int, int> card_index, const int type) {
-    const int i = card_index.first, j = card_index.second;
-    if (type == BUY) {
+    if (type == BUY && card_index.first == 3) { // buy reserved card
+        auto it = p.res.begin() + card_index.second;
         for (int k = 0; k < Gem::normal; ++k) {
-            p.gem[k] -= table[i][j].cost[k];
+            p.gem[k] -= it->c.cost[k];
             if (p.gem[k] < 0) {
                 p.gem[Gem::joker] += p.gem[k];
                 p.gem[k] = 0;
             }
         }
-        p.pts += table[i][j].score;
-        ++p.bns[table[i][j].gem];
+        p.pts += it->c.score;
+        ++p.bns[it->c.gem];
         ++p.bns_sum;
-        table[i][j] = deck[i].pop();
+        p.res.erase(it);
+        return;
     }
-    else { // type==RES
-        p.res.push_back(table[i][j]);
-        ++p.gem[Gem::joker];
-        table[i][j] = deck[i].pop();
+    else {
+        const int i = card_index.first, j = card_index.second;
+        if (type == BUY) {
+            for (int k = 0; k < Gem::normal; ++k) {
+                p.gem[k] -= table[i][j].cost[k];
+                if (p.gem[k] < 0) {
+                    p.gem[Gem::joker] += p.gem[k];
+                    p.gem[k] = 0;
+                }
+            }
+            p.pts += table[i][j].score;
+            ++p.bns[table[i][j].gem];
+            ++p.bns_sum;
+            table[i][j] = deck[i].pop();
+        }
+        else { // type==RES
+            p.res.push_back(ResCard(table[i][j], i));
+            ++p.gem[Gem::joker];
+            table[i][j] = deck[i].pop();
+        }
     }
 }
 bool affordable(profile &p, card c) {
@@ -312,9 +353,9 @@ void print(profile &p) {
     cout << endl;
     cout << "points: " << p.pts << endl;
     cout << "card reserved:\n";
-    for (auto c : p.res) {
-        cout << "Gem: " << c.gem << " Cost: ";
-        for (auto i : c.cost) cout << i << ' ';
+    for (auto cd : p.res) {
+        cout << "Gem: " << cd.c.gem << " Cost: ";
+        for (auto i : cd.c.cost) cout << i << ' ';
         cout << endl;
     }
     cout << endl;
@@ -341,42 +382,51 @@ struct move player_move(struct move m) {
     print(op);
 
     // compute value and step
-    /*
-vector<pair<int, int>> card_index;
-for (int i = 0; i < table.row; ++i) {
-    if (table[0][i].gem) {
-        value[0][i] = score1(table[0][i]);
-        card_index.push_back(pair<int, int>(0, i));
+    vector<pair<int, int>> card_index;
+    // reserved cards
+    double value[deckn + 1][table.row]{};
+    for (int i = 0; i < my.res.size(); ++i) {
+        if (my.res[i].lv == 0)
+            value[reserved][i] = score1(my.res[i].c);
+        else if (my.res[i].lv == 1)
+            value[reserved][i] = score1(my.res[i].c);
+        else value[reserved][i] = score1(my.res[i].c);
     }
-    if (table[1][i].gem) {
-        value[1][i] = score2(table[1][i]);
-        card_index.push_back(pair<int, int>(1, i));
-    }
-    if (table[2][i].gem) {
-        value[2][i] = score3(table[2][i]);
-        card_index.push_back(pair<int, int>(2, i));
-    }
-}
-sort(card_index.begin(), card_index.end(),
-     [](pair<int, int> a, pair<int, int> b) -> bool {
-         return value[a.first][a.second] >
-                value[b.first][b.second];
-     });
 
-pair<int, int> bestres;
-int totake[5]{};
-for (auto it = card_index.begin();
-     it != card_index.end() &&
-     value[it->first][it->second] > buybase;
-     ++it) {
-    card c = table[it->first][it->second];
-    if (affordable(my, c)) return buy(*it);
-    else {
-        if (reservable(my)) {
+    // table cards
+    for (int i = 0; i < table.row; ++i) {
+        if (iscard(table[0][i])) {
+            value[0][i] = score1(table[0][i]);
+            card_index.push_back(pair<int, int>(0, i));
+        }
+        if (iscard(table[1][i])) {
+            value[1][i] = score2(table[1][i]);
+            card_index.push_back(pair<int, int>(1, i));
+        }
+        if (iscard(table[2][i])) {
+            value[2][i] = score3(table[2][i]);
+            card_index.push_back(pair<int, int>(2, i));
         }
     }
-}
-    */
+    sort(card_index.begin(), card_index.end(),
+         [value](pair<int, int> a, pair<int, int> b) -> bool {
+             return value[a.first][a.second] >
+                    value[b.first][b.second];
+         }); // capture not sure
+
+    pair<int, int> bestres;
+    int totake[5]{};
+    for (auto it = card_index.begin();
+         it != card_index.end() &&
+         value[it->first][it->second] > buybase;
+         ++it) {
+        card c = table[it->first][it->second];
+        if (affordable(my, c)) return buy(*it);
+        else {
+            if (reservable(my)) {
+            }
+        }
+    }
     // choose best move
 
     // assign the strategy
