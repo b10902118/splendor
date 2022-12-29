@@ -339,9 +339,21 @@ bool reservable(profile &p) {
 }
 
 struct move buy(pair<int, int> card_index) {
-    card c = table[card_index.first][card_index.second];
+    card c;
+    if (card_index.first < reserved) {
+        c = table[card_index.first][card_index.second];
+    }
+    else {
+        c = my.res[card_index.second].c;
+    }
     update(my, card_index, BUY);
     return (struct move){BUY, c.id, {0, 0, 0, 0, 0}};
+}
+
+struct move reserve(pair<int, int> card_index) {
+    card c = table[card_index.first][card_index.second];
+    update(my, card_index, RES);
+    return (struct move){RES, c.id, {0, 0, 0, 0, 0}};
 }
 
 void print(profile &p) {
@@ -414,22 +426,47 @@ struct move player_move(struct move m) {
                     value[b.first][b.second];
          }); // capture not sure
 
+    // choose best move
+
     pair<int, int> bestres;
     int totake[5]{};
-    for (auto it = card_index.begin();
-         it != card_index.end() &&
-         value[it->first][it->second] > buybase;
+    bool totake_set = false;
+    auto it = card_index.begin();
+    for (; it != card_index.end() &&
+           value[it->first][it->second] > buybase;
          ++it) {
-        card c = table[it->first][it->second];
+        card c;
+        if (it->first < reserved) {
+            c = table[it->first][it->second];
+        }
+        else {
+            c = my.res[it->second].c;
+        }
         if (affordable(my, c)) return buy(*it);
         else {
             if (reservable(my)) {
+                return reserve(*it);
+            }
+            else if (totake_set == false) {
+                // TODO if not too far "cal_step"
+                // totake=next_step() //need to compute available pick
             }
         }
     }
-    // choose best move
+    // if(can_pick)
 
-    // assign the strategy
+    for (; it != card_index.end(); ++it) { // assume not reservable
+        card c;
+        if (it->first < reserved) {
+            c = table[it->first][it->second];
+        }
+        else {
+            c = my.res[it->second].c;
+        }
+        if (affordable(my, c)) return buy(*it);
+    }
+
+    // no valid operation
     m.type = 1;
     m.gem[0] = 1;
     m.gem[1] = 1;
