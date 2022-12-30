@@ -1,2 +1,2 @@
 all:
-	g++ -std=c++17 -D SPLENDER_DEBUG -D SPLENDER_INTERACTIVE -Wall -Wno-unused-function -O2 splender.cpp -o splender
+	g++ -std=c++17 -D SPLENDER_DEBUG -Wall -Wno-unused-function -O2 splender.cpp -o splender
