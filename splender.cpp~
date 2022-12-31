@@ -1,5 +1,6 @@
 #include <cassert>
 #include <cstdio>
+#include <ios>
 #include <utility>
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wunused-variable"
@@ -265,8 +266,19 @@ double score3(const card &cd) {
 
 double (*scoref[])(const card &) = {score1, score2, score3};
 
+void print_top(vector<card> &st, int lv) {
+    for (int t = 0; t < Gem::normal; ++t) {
+        cout << t << ": ";
+        for (int i = 0; i < depth[lv]; ++i) {
+            if (st[i].gem == t) cout << i << ' ';
+        }
+        cout << endl;
+    }
+}
+
 void init(vector<card> stack_1, vector<card> stack_2,
           vector<card> stack_3) {
+    cout << setprecision(2) << fixed;
     // init var
     fac_init();
     my.init();
@@ -282,6 +294,10 @@ void init(vector<card> stack_1, vector<card> stack_2,
         // cout << stack_1[i].gem << " += " << score1(stack_1[i])
         //<< '\n';
     }
+
+    cout << "Lv 0" << endl;
+    print_top(stack_1, 0);
+
     double sup1[Gem::normal] = {supply[0], supply[1], supply[2],
                                 supply[3], supply[4]};
     // supply and demand 2
@@ -289,15 +305,18 @@ void init(vector<card> stack_1, vector<card> stack_2,
         double v = fac[1][i] * part * score2(stack_2[i]);
         supply[stack_2[i].gem] += v;
         for (int type = 0; type < Gem::normal; ++type) {
-            demand[type] += v * stack_2[i].cost[type];
+            if (stack_2[i].cost[type] > 3)
+                demand[type] += v * stack_2[i].cost[type];
         }
         // cout << stack_2[i].gem << " += " << score2(stack_2[i])
         //<< '\n';
     }
 
+    cout << "Supply:\n";
     for (int i = 0; i < Gem::normal; ++i) {
-        cout << "Gem-" << i << ": " << supply[i] << '\t' << sup1[i]
-             << '\t' << supply[i] - sup1[i] << '\n';
+        cout << i << "  Lv 0: " << sup1[i]
+             << "\tLv 1: " << supply[i] - sup1[i]
+             << "\tTotal: " << supply[i] << '\n';
     }
 
     cout << "demand before:\n";
@@ -307,8 +326,12 @@ void init(vector<card> stack_1, vector<card> stack_2,
     for (int i = 0; i < depth[2]; ++i) {
         double v = fac[2][i] * score3(stack_3[i]);
         for (int type = 0; type < Gem::normal; ++type) {
-            cout << v * stack_3[i].cost[type] << ' ';
-            demand[type] += v * stack_3[i].cost[type];
+            cout << v * (stack_3[i].cost[type] < 3
+                         ? 0
+                         : stack_3[i].cost[type] - 3)
+                 << ' ';
+            if (stack_3[i].cost[type] > 3)
+                demand[type] += v * (stack_3[i].cost[type] - 3);
         }
         cout << endl << endl;
     }
@@ -327,13 +350,11 @@ void init(vector<card> stack_1, vector<card> stack_2,
             major = i;
         }
     }
-    cout << major << endl;
+    cout << "Major: " << major << endl;
     for (int i = 0; i < Gem::normal; ++i) {
         if (i == major) demand[i] = majbuf;
         else demand[i] = 1;
-        cout << demand[i] << ' ';
     }
-    cout << endl;
 
     // set table and deck
     fill(Gem::remain, Gem::remain + Gem::all, 4);
@@ -629,7 +650,9 @@ else value[reserved][i] = score3(my.res[i].c);
                 if (Gem::remain[b] == 0) return true;
                 return dependency[a] > dependency[b];
             });
-            for (int i = 0; i < Gem::normal && filled_n < 3; ++i) {
+            for (int i = 0; i < Gem::normal && Gem::remain[i] > 0 &&
+                            filled_n < 3;
+                 ++i) {
                 if (totake[a[i]] == 0) {
                     totake[a[i]] = 1;
                     ++filled_n;
