@@ -1,6 +1,5 @@
 #include <cassert>
 #include <cstdio>
-#include <ostream>
 #include <utility>
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wunused-variable"
@@ -17,21 +16,23 @@
 
 using namespace std;
 
-constexpr int deckn = 3, reserved = 3, goal = 15;
+constexpr int deckn = 3, stage_n = 3, res_max = 3, reserved = 3,
+              goal = 15;
 
+// parameters
 constexpr int depth[deckn]{15, 10, 7};
-constexpr double rate[3]{0.96, 0.88, 0.7};
-constexpr double buybase = 50, part = 0.4; // for the second deck
-
-constexpr double stat_parm[3][4]{
-{1.1, 0.9, 1, 1}, {0.8, 1.1, 1, 1}, {0.5, 1, 1, 1.3}};
+constexpr double rate[deckn]{0.96, 0.88, 0.7};
+constexpr double buybase = 6, part = 0.4; // for the second deck
+constexpr double stat_parm[stage_n][3]{
+{1.1, 0.9, 1}, {0.8, 1.1, 1}, {0.5, 1, 1}};
+constexpr double res_parm[res_max]{0.75, 1, 1.25};
+constexpr double maj = 3, dec_ratio = 0.75;
 
 constexpr int TAKE = 1, BUY = 2, RES = 3;
-constexpr int NOCARD = 0;
 
 namespace Gem {
 constexpr int all = 6, normal = 5, num = 4, joker = 5;
-constexpr int hold_max = 10, res_max = 3;
+constexpr int hold_max = 10;
 int remain[Gem::all];
 }; // namespace Gem
 
@@ -122,6 +123,7 @@ profile my, op;
 
 int stage;
 
+int major;
 double demand[Gem::normal];
 vector<pair<int, int>> resource[Gem::normal];
 
@@ -196,44 +198,55 @@ Step cal_step(const card c,
     return ret;
 }
 
+bool iskeycard(card c) {
+    int m = 0;
+    for (int i = 1; i < Gem::normal; ++i) {
+        if (c.gem[i] > c.gem[m]) m = i;
+    }
+    if (m == major && c.gem[m] >= 6) return true;
+    return false;
+}
+
 double score1(const card &cd) {
     static constexpr double c[6] = {0,       1 * 1,    1.2 * 2,
                                     1.3 * 3, 1.45 * 4, 1.55 * 5};
-    double score = 0;
+    double deduction = 0;
     // cout << cd.gem << ": ";
     for (int i = 0; i < Gem::normal; ++i) {
         // cout << cd.cost[i] << ' ';
-        score += c[cd.cost[i] - my.bns[i]];
+        deduction += c[cd.cost[i] - my.bns[i]];
     }
     // cout << 10 - score << endl;
-    return 10 - score;
+    return 10 - deduction;
 }
 
 double score2(const card &cd) {
     static constexpr double c1 = 1.2, c2 = 1.3; // c1*n - c2*pt
-    double score = 0;
+    double deduction = 0;
     // cout << cd.gem << ": ";
     for (int i = 0; i < Gem::normal; ++i) {
         int cost = cd.cost[i] - my.bns[i];
         // cout << cost<< ' ';
-        if (cost > 0) score += c1 * cost;
+        if (cost > 0) deduction += c1 * cost;
     }
     // cout << score - c2 * cd.score << '\n';
-    return 10 - (score - c2 * cd.score);
+    return 10 - (deduction - c2 * cd.score);
 }
 
 double score3(const card &cd) {
     static constexpr double c1 = 1.2, c2 = 1.3;
-    double score = 0;
-    cout << cd.gem << ": ";
+    double deduction = 0;
+    // cout << cd.gem << ": ";
     for (int i = 0; i < Gem::normal; ++i) {
         int cost = cd.cost[i] - my.bns[i];
-        cout << cost << ' ';
-        if (cost > 0) score += c1 * (cost - 1);
+        // cout << cost << ' ';
+        if (cost > 0) deduction += c1 * (cost - 1);
     }
-    cout << score - c2 * cd.score << '\n';
-    return 10 - (score - c2 * cd.score);
+    // cout << deduction - c2 * cd.score << '\n';
+    return 10 - (deduction - c2 * cd.score);
 }
+
+double (*scoref[])(const card &) = {score1, score2, score3};
 
 void init(vector<card> stack_1, vector<card> stack_2,
           vector<card> stack_3) {
@@ -291,21 +304,15 @@ void init(vector<card> stack_1, vector<card> stack_2,
     for (double i : demand) cout << i << ' ';
     cout << endl;
     // decide major and minor by supply and demand
-    int fst = (demand[0] > demand[1]) ? 0 : 1, scd = 1 - fst;
-    for (int i = 2; i < Gem::normal; ++i) {
-        if (demand[i] > demand[fst]) {
-            scd = fst;
-            fst = i;
-        }
-        else if (demand[i] > demand[scd]) {
-            scd = i;
+    for (int i = 1; i < Gem::normal; ++i) {
+        if (demand[i] > demand[major]) {
+            major = i;
         }
     }
-    cout << fst << ' ' << scd << endl;
+    cout << major << endl;
     for (int i = 0; i < Gem::normal; ++i) {
-        if (i == fst) demand[i] = 10;
-        else if (i == scd) demand[i] = 5;
-        else demand[i] = 3;
+        if (i == major) demand[i] = maj;
+        else demand[i] = 1;
         cout << demand[i] << ' ';
     }
     cout << endl;
@@ -376,7 +383,7 @@ bool affordable(profile &p, card c) {
 }
 
 bool reservable(profile &p) {
-    return p.res.size() < Gem::res_max && p.gem_sum < 10 &&
+    return p.res.size() < res_max && p.gem_sum < 10 &&
            Gem::remain[Gem::joker] > 0;
 }
 
@@ -473,32 +480,42 @@ struct move player_move(struct move m) {
     // reserved cards
     double value[deckn + 1][table.row]{};
     for (int i = 0; i < my.res.size(); ++i) {
-        if (my.res[i].lv == 0)
-            value[reserved][i] = score1(my.res[i].c);
-        else if (my.res[i].lv == 1)
-            value[reserved][i] = score2(my.res[i].c);
-        else value[reserved][i] = score3(my.res[i].c);
+        value[reserved][i] = scoref[my.res[i].lv](my.res[i].c);
+        /*
+if (my.res[i].lv == 0)
+    value[reserved][i] = score1(my.res[i].c);
+else if (my.res[i].lv == 1)
+    value[reserved][i] = score2(my.res[i].c);
+else value[reserved][i] = score3(my.res[i].c);
+        */
         card_index.push_back(pair<int, int>(reserved, i));
     }
 
     for (int i = 0; i < Gem::normal; ++i) resource[i].clear();
 
     // table cards
-    for (int i = 0; i < table.row; ++i) {
-        if (iscard(table[0][i])) {
-            value[0][i] = score1(table[0][i]);
-            card_index.push_back(pair<int, int>(0, i));
-            resource[table[0][i].gem].push_back(pair<int, int>(0, i));
-        }
-        if (iscard(table[1][i])) {
-            value[1][i] = score2(table[1][i]);
-            card_index.push_back(pair<int, int>(1, i));
-            resource[table[1][i].gem].push_back(pair<int, int>(1, i));
-        }
-        if (iscard(table[2][i])) {
-            value[2][i] = score3(table[2][i]);
-            card_index.push_back(pair<int, int>(2, i));
-            resource[table[2][i].gem].push_back(pair<int, int>(2, i));
+    for (int lv = 0; lv < deckn; ++lv) {
+        for (int i = 0; i < table.row; ++i) {
+            if (iscard(table[lv][i])) {
+                value[lv][i] = scoref[lv](table[lv][i]);
+                card_index.push_back(pair<int, int>(lv, i));
+                resource[table[lv][i].gem].push_back(
+                pair<int, int>(lv, i));
+            }
+            /*
+if (iscard(table[1][i])) {
+    value[1][i] = score2(table[1][i]);
+    card_index.push_back(pair<int, int>(1, i));
+    resource[table[1][i].gem].push_back(
+    pair<int, int>(1, i));
+}
+if (iscard(table[2][i])) {
+    value[2][i] = score3(table[2][i]);
+    card_index.push_back(pair<int, int>(2, i));
+    resource[table[2][i].gem].push_back(
+    pair<int, int>(2, i));
+}
+            */
         }
     }
     for (int i = 0; i < Gem::normal; ++i) {
@@ -538,7 +555,6 @@ struct move player_move(struct move m) {
                 return reserve(*it);
             }
             else {
-                // TODO if not too far "cal_step"
                 Step step = cal_step(c, my);
                 cout << "step.toofar = "
                      << ((step.toofar) ? "true" : "false")
@@ -628,11 +644,7 @@ struct move player_move(struct move m) {
 
     // no valid operation
     cerr << "No valid operation\n";
-    m.type = 1;
-    m.gem[0] = 1;
-    m.gem[1] = 1;
-    m.gem[2] = 1;
-    m.gem[3] = 0;
-    m.gem[4] = 0;
+    m.type = 3;
+    m.card_id = 89;
     return m;
 }
