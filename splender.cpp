@@ -22,11 +22,12 @@ constexpr int deckn = 3, stage_n = 3, res_max = 3, reserved = 3,
 // parameters
 constexpr int depth[deckn]{15, 10, 7};
 constexpr double rate[deckn]{0.96, 0.88, 0.7};
-constexpr double buybase = 6, part = 0.4; // for the second deck
-constexpr double stat_parm[stage_n][3]{
+constexpr double buybase[stage_n] = {4, 5, 6},
+                 part = 0.4; // for the second deck
+constexpr double stage_parm[stage_n][3]{
 {1.1, 0.9, 1}, {0.8, 1.1, 1}, {0.5, 1, 1}};
 constexpr double res_parm[res_max]{0.75, 1, 1.25};
-constexpr double maj = 3, dec_ratio = 0.75;
+constexpr double majbuf = 3, dec_ratio = 0.75;
 
 constexpr int TAKE = 1, BUY = 2, RES = 3;
 
@@ -121,6 +122,7 @@ struct profile {
         res.push_back(ResCard(c, lv));
         ++gem[Gem::joker];
         ++gem_sum;
+        --Gem::remain[Gem::joker];
     }
 };
 profile my, op;
@@ -136,6 +138,11 @@ void fac_init() {
     }
 }
 
+bool reservable(profile &p) {
+    return p.res.size() < res_max && p.gem_sum < 10 &&
+           Gem::remain[Gem::joker] > 0;
+}
+
 // cal_step
 struct Step {
     bool toofar;
@@ -149,9 +156,17 @@ Step cal_step(const card c,
     Step ret;
     // check whether toofar
     for (int i = 0; i < Gem::normal; ++i) {
-        if ((c.gem == 5 && p.bns[i] < 1) ||
-            (c.gem == 6 && p.bns[i] < 2) ||
-            (c.gem == 7 && p.bns[i] < 3)) {
+        /*
+        if(c.cost[i]>=4){
+                int d=c.cost[i]-p.gem[i]-p.bns[i]-p.gem[Gem::joker];
+                if(d<=3)
+                if(d<=3&&Gem::remain>=d&&reservable(p))
+
+        }
+        */
+        if ((c.cost[i] == 5 && p.bns[i] < 1) ||
+            (c.cost[i] == 6 && p.bns[i] < 2) ||
+            (c.cost[i] == 7 && p.bns[i] < 3)) {
             ret.toofar = true;
             return ret;
         }
@@ -187,10 +202,13 @@ Step cal_step(const card c,
             ret.gem[color_match] = 2;
         }
     }
-    if (match == 0) {
+    else if (match == 0 ||
+             (ret.pickn == 2 && ret.gem[color_match] < 2)) {
         ret.pickn = 0;
-        for (int i = 0; i < Gem::normal; ++i)
-            ret.gem[i] = min(diff[i], 1);
+        /*
+for (int i = 0; i < Gem::normal; ++i)
+    ret.gem[i] = min(diff[i], 1);
+        */
     }
 
     return ret;
@@ -199,9 +217,9 @@ Step cal_step(const card c,
 bool iskeycard(card c) {
     int m = 0;
     for (int i = 1; i < Gem::normal; ++i) {
-        if (c.gem[i] > c.gem[m]) m = i;
+        if (c.cost[i] > c.cost[m]) m = i;
     }
-    if (m == major && c.gem[m] >= 6) return true;
+    if (m == major && c.cost[m] >= 6) return true;
     return false;
 }
 
@@ -212,7 +230,8 @@ double score1(const card &cd) {
     // cout << cd.gem << ": ";
     for (int i = 0; i < Gem::normal; ++i) {
         // cout << cd.cost[i] << ' ';
-        deduction += c[cd.cost[i] - my.bns[i]];
+        int cost = cd.cost[i] > my.bns[i];
+        if (cost > 0) deduction += c[cost];
     }
     // cout << 10 - score << endl;
     return 10 - deduction;
@@ -302,6 +321,7 @@ void init(vector<card> stack_1, vector<card> stack_2,
     for (double i : demand) cout << i << ' ';
     cout << endl;
     // decide major and minor by supply and demand
+    major = 0;
     for (int i = 1; i < Gem::normal; ++i) {
         if (demand[i] > demand[major]) {
             major = i;
@@ -309,7 +329,7 @@ void init(vector<card> stack_1, vector<card> stack_2,
     }
     cout << major << endl;
     for (int i = 0; i < Gem::normal; ++i) {
-        if (i == major) demand[i] = maj;
+        if (i == major) demand[i] = majbuf;
         else demand[i] = 1;
         cout << demand[i] << ' ';
     }
@@ -378,11 +398,6 @@ bool affordable(profile &p, card c) {
         }
     }
     return true;
-}
-
-bool reservable(profile &p) {
-    return p.res.size() < res_max && p.gem_sum < 10 &&
-           Gem::remain[Gem::joker] > 0;
 }
 
 struct move buy(pair<int, int> card_index) {
@@ -475,10 +490,21 @@ struct move player_move(struct move m) {
 
     // compute value and step
     vector<pair<int, int>> card_index;
+
+    // change stage
+    if (stage == 0 && my.bns[major] >= 3) stage = 1;
+    else if (my.pts > 8) stage = 2;
+
     // reserved cards
     double value[deckn + 1][table.row]{};
     for (int i = 0; i < my.res.size(); ++i) {
-        value[reserved][i] = scoref[my.res[i].lv](my.res[i].c);
+        value[reserved][i] = scoref[my.res[i].lv](my.res[i].c) *
+                             stage_parm[stage][my.res[i].lv] *
+                             res_parm[my.res.size() - 1];
+        if (my.res[i].lv == 2 && iskeycard(my.res[i].c))
+            value[reserved][i] *= 3;
+        else if (my.res[i].lv <= 1)
+            value[reserved][i] *= demand[my.res[i].c.gem];
         /*
 if (my.res[i].lv == 0)
     value[reserved][i] = score1(my.res[i].c);
@@ -492,28 +518,26 @@ else value[reserved][i] = score3(my.res[i].c);
     for (int i = 0; i < Gem::normal; ++i) resource[i].clear();
 
     // table cards
-    for (int lv = 0; lv < deckn; ++lv) {
+    for (int lv = 0; lv < 2; ++lv) {
         for (int i = 0; i < table.row; ++i) {
             if (iscard(table[lv][i])) {
-                value[lv][i] = scoref[lv](table[lv][i]);
+                value[lv][i] = scoref[lv](table[lv][i]) *
+                               stage_parm[stage][lv] *
+                               demand[table[lv][i].gem];
                 card_index.push_back(pair<int, int>(lv, i));
                 resource[table[lv][i].gem].push_back(
                 pair<int, int>(lv, i));
             }
-            /*
-if (iscard(table[1][i])) {
-    value[1][i] = score2(table[1][i]);
-    card_index.push_back(pair<int, int>(1, i));
-    resource[table[1][i].gem].push_back(
-    pair<int, int>(1, i));
-}
-if (iscard(table[2][i])) {
-    value[2][i] = score3(table[2][i]);
-    card_index.push_back(pair<int, int>(2, i));
-    resource[table[2][i].gem].push_back(
-    pair<int, int>(2, i));
-}
-            */
+        }
+    }
+    // lv = 2
+    for (int i = 0; i < table.row; ++i) {
+        if (iscard(table[2][i])) {
+            value[2][i] = scoref[2](table[2][i]) *
+                          stage_parm[stage][2] *
+                          (iskeycard(table[2][i]) ? 3 : 1);
+            card_index.push_back(pair<int, int>(2, i));
+            resource[table[2][i].gem].push_back(pair<int, int>(2, i));
         }
     }
     for (int i = 0; i < Gem::normal; ++i) {
@@ -531,13 +555,14 @@ if (iscard(table[2][i])) {
 
     // choose best move
 
-    pair<int, int> bestres;
+    // pair<int, int> bestres;
     int totake[5]{};
     int totake_n = 0, filled_n = 0;
-    int dependency[5]{};
+    double dependency[5]{};
     auto it = card_index.begin();
-    for (; it != card_index.end() &&
-           value[it->first][it->second] > buybase;
+    for (double dep_set_n = 0;
+         it != card_index.end() &&
+         value[it->first][it->second] > buybase[stage];
          ++it) {
         card c;
         if (it->first < reserved) {
@@ -548,8 +573,7 @@ if (iscard(table[2][i])) {
         }
         if (affordable(my, c)) return buy(*it);
         else {
-            if (reservable(my) &&
-                value[it->first][it->second] > buybase + 10) {
+            if (reservable(my) && it->first != reserved) {
                 return reserve(*it);
             }
             else {
@@ -572,7 +596,8 @@ if (iscard(table[2][i])) {
                     }
                     else {
                         for (int i = 0; i < Gem::normal; ++i) {
-                            dependency[i] += step.gem[i];
+                            dependency[i] +=
+                            (double)step.gem[i] / (dep_set_n++);
                         }
                     }
                 }
@@ -604,11 +629,17 @@ if (iscard(table[2][i])) {
                 if (Gem::remain[b] == 0) return true;
                 return dependency[a] > dependency[b];
             });
-            if (Gem::remain[a[2]] != 0) {
-                for (int i = 0; i < 3; ++i) totake[a[i]] = 1;
-                return take(totake);
+            for (int i = 0; i < Gem::normal && Gem::remain[i] > 0 &&
+                            filled_n < 3;
+                 ++i) {
+                if (totake[a[i]] == 0) {
+                    totake[a[i]] = 1;
+                    ++filled_n;
+                }
             }
+            if (filled_n == 3) return take(totake);
             else {
+                fill(totake, totake + Gem::normal, 0);
                 for (int i = 0; i < 2; ++i) {
                     if (Gem::remain[a[i]] >= 2) {
                         totake[a[i]] = 2;

@@ -282,11 +282,11 @@ struct move server_move(struct move m) {
 #ifdef SPLENDER_INTERACTIVE
     struct move ret;
     do {
-        int tmp = input_int("You want to take tokens, purchase or "
-                            "reserve? (type 1 for take tokens, 2 for "
-                            "purchase a development card, 3 for "
-                            "reserve a development card) ",
-                            1, 3);
+        int tmp = input_int(
+        "You want to take tokens, purchase or reserve? (type 1 for "
+        "take tokens, 2 for purchase a development card, 3 for "
+        "reserve a development card) ",
+        1, 3);
         ret.type = tmp;
         switch (tmp) {
         case 1:
@@ -512,8 +512,7 @@ int main(int argc, char *argv[]) {
 #ifdef SPLENDER_INTERACTIVE
     cout << "Playing interactively!" << endl;
 #else
-    MODE = input_int("Which test group you want to test?\n", 0,
-                     7); // added \n
+    MODE = input_int("Which test group you want to test? ", 0, 7);
 #endif
 
     Send(to_string(MODE));
