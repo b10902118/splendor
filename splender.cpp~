@@ -231,7 +231,7 @@ double score1(const card &cd) {
     // cout << cd.gem << ": ";
     for (int i = 0; i < Gem::normal; ++i) {
         // cout << cd.cost[i] << ' ';
-        int cost = cd.cost[i] > my.bns[i];
+        int cost = cd.cost[i] - my.bns[i];
         if (cost > 0) deduction += c[cost];
     }
     // cout << 10 - score << endl;
@@ -404,21 +404,21 @@ void update(profile &p, pair<int, int> card_index, const int type) {
     }
 }
 
-bool affordable(profile &p, card c) {
+int lack(profile &p, card c, int joker_max) {
     cout << "[";
     for (int i = 0; i < Gem::normal; ++i) cout << c.cost[i] << ' ';
     cout << "]\n";
-    for (int i = 0, jk = 0; i < Gem::normal; ++i) {
+    int jk = 0;
+    for (int i = 0; i < Gem::normal; ++i) {
         if (c.cost[i] > p.gem[i] + p.bns[i]) {
             jk += c.cost[i] - p.gem[i] - p.bns[i];
-            cout << jk << ' ';
-            if (jk > p.gem[Gem::joker]) {
-                cout << "cannot afford\n";
-                return false;
-            }
         }
     }
-    return true;
+    if (jk > joker_max) {
+        cout << "cannot afford\n";
+        return jk - joker_max;
+    }
+    return 0;
 }
 
 struct move buy(pair<int, int> card_index) {
@@ -484,6 +484,12 @@ void print_table() {
     cout << endl;
 }
 
+bool allzero(int a[]) {
+    for (int i = 0; i < Gem::normal; ++i)
+        if (a[i] != 0) return false;
+    return true;
+}
+
 struct move player_move(struct move m) {
     // record opponent's move
     if (m.type != 0) { // eupdate board
@@ -518,6 +524,7 @@ struct move player_move(struct move m) {
 
     // reserved cards
     double value[deckn + 1][table.row]{};
+
     for (int i = 0; i < my.res.size(); ++i) {
         value[reserved][i] = scoref[my.res[i].lv](my.res[i].c) *
                              stage_parm[stage][my.res[i].lv] *
@@ -580,6 +587,7 @@ else value[reserved][i] = score3(my.res[i].c);
     int totake[5]{};
     int totake_n = 0, filled_n = 0;
     double dependency[5]{};
+    int jkcnt[deckn + 1][table.row]{};
     auto it = card_index.begin();
     for (double dep_set_n = 0;
          it != card_index.end() &&
@@ -592,7 +600,9 @@ else value[reserved][i] = score3(my.res[i].c);
         else {
             c = my.res[it->second].c;
         }
-        if (affordable(my, c)) return buy(*it);
+        int d;
+        if ((d = lack(my, c, jkcnt[it->first][it->second])) == 0)
+            return buy(*it);
         else {
             if (reservable(my) && it->first != reserved) {
                 return reserve(*it);
@@ -615,11 +625,12 @@ else value[reserved][i] = score3(my.res[i].c);
                             }
                         }
                     }
-                    else {
+                    else if (!allzero(step.gem)) {
                         for (int i = 0; i < Gem::normal; ++i) {
                             dependency[i] +=
-                            (double)step.gem[i] / (dep_set_n++);
+                            (double)step.gem[i] / dep_set_n;
                         }
+                        ++dep_set_n;
                     }
                 }
                 // totake=next_step() //need to compute available
@@ -681,7 +692,8 @@ else value[reserved][i] = score3(my.res[i].c);
         else {
             c = my.res[iter->second].c;
         }
-        if (affordable(my, c)) return buy(*iter);
+        if (lack(my, c, jkcnt[it->first][it->second]) == 0)
+            return buy(*iter);
     }
     // cannot buy anything try reserve
     if (reservable(my)) {
