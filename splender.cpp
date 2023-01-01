@@ -24,9 +24,10 @@ constexpr int deckn = 3, stage_n = 3, res_max = 3, reserved = 3,
 constexpr int depth[deckn]{15, 10, 7};
 constexpr double rate[deckn]{0.96, 0.88, 0.7};
 constexpr double buybase[stage_n] = {4, 5, 6},
-                 part = 0.4; // for the second deck
+                 resbase[stage_n] = {6, 7, 8}, part = 0.4,
+                 dec_jk = 0.7; // for the second deck
 constexpr double stage_parm[stage_n][3]{
-{1.1, 0.9, 1}, {0.8, 1.1, 1}, {0.5, 1, 1}};
+{1.2, 0.4, 0.9}, {0.8, 1.1, 1}, {0.5, 1, 1}};
 constexpr double res_parm[res_max]{0.75, 1, 1.25};
 constexpr double majbuf = 3, dec_ratio = 0.75;
 
@@ -490,6 +491,13 @@ bool allzero(int a[]) {
     return true;
 }
 
+void print_step(Step step) {
+    cout << "step.toofar = " << ((step.toofar) ? "true" : "false")
+         << " step.pickn = " << step.pickn << endl;
+    for (int i = 0; i < Gem::normal; ++i) cout << step.gem[i] << ' ';
+    cout << endl;
+}
+
 struct move player_move(struct move m) {
     // record opponent's move
     if (m.type != 0) { // eupdate board
@@ -568,18 +576,15 @@ else value[reserved][i] = score3(my.res[i].c);
             resource[table[2][i].gem].push_back(pair<int, int>(2, i));
         }
     }
+    auto cmp = [value](pair<int, int> a, pair<int, int> b) -> bool {
+        return value[a.first][a.second] > value[b.first][b.second];
+    };
     for (int i = 0; i < Gem::normal; ++i) {
         sort(resource[i].begin(), resource[i].end(),
-             [value](pair<int, int> a, pair<int, int> b) -> bool {
-                 return value[a.first][a.second] >
-                        value[b.first][b.second];
-             }); // capture not sure
+             cmp); // capture not sure
     }
     sort(card_index.begin(), card_index.end(),
-         [value](pair<int, int> a, pair<int, int> b) -> bool {
-             return value[a.first][a.second] >
-                    value[b.first][b.second];
-         }); // capture not sure
+         cmp); // capture not sure
 
     // choose best move
 
@@ -589,32 +594,25 @@ else value[reserved][i] = score3(my.res[i].c);
     double dependency[5]{};
     int jkcnt[deckn + 1][table.row]{};
     auto it = card_index.begin();
-    for (double dep_set_n = 0;
+    for (double dep_set_n = 0, val;
          it != card_index.end() &&
          value[it->first][it->second] > buybase[stage];
          ++it) {
-        card c;
-        if (it->first < reserved) {
-            c = table[it->first][it->second];
-        }
+        val = value[it->first][it->second];
+        card c = (it->first == reserved)
+                 ? my.res[it->second].c
+                 : table[it->first][it->second];
+        int dgem = lack(my, c, jkcnt[it->first][it->second]);
+        if (dgem == 0) return buy(*it);
         else {
-            c = my.res[it->second].c;
-        }
-        int d;
-        if ((d = lack(my, c, jkcnt[it->first][it->second])) == 0)
-            return buy(*it);
-        else {
-            if (reservable(my) && it->first != reserved) {
+            if (it->first != reserved && reservable(my) &&
+                val > resbase[stage]) {
                 return reserve(*it);
             }
             else {
                 Step step = cal_step(c, my);
-                cout << "step.toofar = "
-                     << ((step.toofar) ? "true" : "false")
-                     << " step.pickn = " << step.pickn << endl;
-                for (int i = 0; i < Gem::normal; ++i)
-                    cout << step.gem[i] << ' ';
-                cout << endl;
+                print_step(step);
+
                 if (!step.toofar) {
                     if (totake_n == 0 && step.pickn != 0) {
                         totake_n = step.pickn;
@@ -632,9 +630,18 @@ else value[reserved][i] = score3(my.res[i].c);
                         }
                         ++dep_set_n;
                     }
+
+                    if (jkcnt[it->first][it->second] <
+                        my.gem[Gem::joker]) {
+                        // reshuffle by value
+                        ++jkcnt[it->first][it->second];
+                        value[it->first][it->first] -= dec_jk;
+                        auto pos =
+                        lower_bound(card_index.begin(),
+                                    card_index.end(), *it, cmp);
+                        card_index.insert(pos, *it);
+                    }
                 }
-                // totake=next_step() //need to compute available
-                // pick
             }
         }
     }
