@@ -275,8 +275,8 @@ void print_top(vector<card> &st, int lv) {
 }
 
 void init(vector<card> stack_1, vector<card> stack_2, vector<card> stack_3) {
-    cout << setprecision(2) << fixed;
-    // init var
+    // cout << setprecision(2) << fixed;
+    //  init var
     fac_init();
     my.init();
     op.init();
@@ -292,8 +292,8 @@ void init(vector<card> stack_1, vector<card> stack_2, vector<card> stack_3) {
         //<< '\n';
     }
 
-    cout << "Lv 0" << endl;
-    print_top(stack_1, 0);
+    // cout << "Lv 0" << endl;
+    // print_top(stack_1, 0);
 
     double sup1[Gem::normal] = {supply[0], supply[1], supply[2], supply[3],
                                 supply[4]};
@@ -309,43 +309,47 @@ void init(vector<card> stack_1, vector<card> stack_2, vector<card> stack_3) {
         //<< '\n';
     }
 
-    cout << "Supply:\n";
-    for (int i = 0; i < Gem::normal; ++i) {
-        cout << i << "  Lv 0: " << sup1[i] << "\tLv 1: " << supply[i] - sup1[i]
-             << "\tTotal: " << supply[i] << '\n';
-    }
+    /*
+cout << "Supply:\n";
+for (int i = 0; i < Gem::normal; ++i) {
+    cout << i << "  Lv 0: " << sup1[i] << "\tLv 1: " << supply[i] - sup1[i]
+         << "\tTotal: " << supply[i] << '\n';
+}
 
-    cout << "demand before:\n";
-    for (double i : demand) cout << i << ' ';
-    cout << endl;
+cout << "demand before:\n";
+for (double i : demand) cout << i << ' ';
+cout << endl;
+    */
     // demand 3
     for (int i = 0; i < depth[2]; ++i) {
         double v = fac[2][i] * score3(stack_3[i]);
         for (int type = 0; type < Gem::normal; ++type) {
-            cout << v *
-                    (stack_3[i].cost[type] < 3 ? 0 : stack_3[i].cost[type] - 3)
-                 << ' ';
+            /*
+cout << v *
+        (stack_3[i].cost[type] < 3 ? 0 : stack_3[i].cost[type] - 3)
+     << ' ';
+                     */
             if (stack_3[i].cost[type] > 3)
                 demand[type] += v * (stack_3[i].cost[type] - 3);
         }
-        cout << endl << endl;
+        // cout << endl << endl;
     }
-    cout << "demand after:\n";
-    for (double i : demand) cout << i << ' ';
-    cout << endl;
+    // cout << "demand after:\n";
+    // for (double i : demand) cout << i << ' ';
+    // cout << endl;
 
-    for (int i = 0; i < Gem::normal; ++i) demand[i] *= supply[i];
-    cout << "demand times supply:\n";
-    for (double i : demand) cout << i << ' ';
-    cout << endl;
-    // decide major and minor by supply and demand
+    // for (int i = 0; i < Gem::normal; ++i) demand[i] *= supply[i];
+    // cout << "demand times supply:\n";
+    // for (double i : demand) cout << i << ' ';
+    // cout << endl;
+    //  decide major and minor by supply and demand
     major = 0;
     for (int i = 1; i < Gem::normal; ++i) {
         if (demand[i] > demand[major]) {
             major = i;
         }
     }
-    cout << "Major: " << major << endl;
+    // cout << "Major: " << major << endl;
     for (int i = 0; i < Gem::normal; ++i) {
         if (i == major) demand[i] = majbuf;
         else demand[i] = 1;
@@ -400,9 +404,9 @@ void update(profile &p, pair<int, int> card_index, const int type) {
 }
 
 int lack(profile &p, card c, int joker_max) {
-    cout << "[";
-    for (int i = 0; i < Gem::normal; ++i) cout << c.cost[i] << ' ';
-    cout << "]\n";
+    // cout << "[";
+    // for (int i = 0; i < Gem::normal; ++i) cout << c.cost[i] << ' ';
+    // cout << "]\n";
     int jk = 0;
     for (int i = 0; i < Gem::normal; ++i) {
         if (c.cost[i] > p.gem[i] + p.bns[i]) {
@@ -410,7 +414,7 @@ int lack(profile &p, card c, int joker_max) {
         }
     }
     if (jk > joker_max) {
-        cout << "cannot afford\n";
+        // cout << "cannot afford\n";
         return jk - joker_max;
     }
     return 0;
@@ -510,12 +514,12 @@ struct move player_move(struct move m) {
             break;
         }
     }
-    cout << "Opponent's:\n";
-    print(op);
+    // cout << "Opponent's:\n";
+    // print(op);
 
-    cout << "Mine:\n";
-    print(my);
-    print_table();
+    // cout << "Mine:\n";
+    // print(my);
+    // print_table();
 
     // compute value and step
     vector<pair<int, int>> card_index;
