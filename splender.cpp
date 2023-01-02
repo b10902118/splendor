@@ -20,8 +20,9 @@ constexpr int deckn = 3, stage_n = 3, res_max = 3, reserved = 3, goal = 15;
 // parameters
 constexpr int depth[deckn]{20, 10, 7};
 constexpr double rate[deckn]{0.97, 0.88, 0.75};
-constexpr double buybase[stage_n] = {5, 6, 7}, resbase[stage_n] = {6, 7, 8},
-                 part = 0.4, dec_jk = 0.7;
+constexpr double buybase[stage_n] = {5, 6, 7},
+                 resbase[stage_n] = {8, 8.5, 9}, // need fix
+part = 0.4, dec_jk[3] = {1.4, 0.5, 0.25};
 
 constexpr double stage_parm[stage_n][3]{
 {1.2, 0.4, 0.9}, {0.8, 1.1, 1}, {0.5, 1, 1}};
@@ -593,8 +594,16 @@ else value[reserved][i] = score3(my.res[i].c);
          ++cur) {
         auto it = card_index.begin() + cur;
         val = value[it->first][it->second];
-        card c = (it->first == reserved) ? my.res[it->second].c
-                                         : table[it->first][it->second];
+        int level;
+        card c;
+        if (it->first == reserved) {
+            level = my.res[it->second].lv;
+            c = my.res[it->second].c;
+        }
+        else {
+            level = it->first;
+            c = table[it->first][it->second];
+        }
         cout << "value = " << val << ' ';
         int dgem = lack(my, c, jkcnt[it->first][it->second]);
         if (dgem == 0) return buy(*it);
@@ -627,7 +636,7 @@ else value[reserved][i] = score3(my.res[i].c);
                     if (jkcnt[it->first][it->second] < my.gem[Gem::joker]) {
                         // reshuffle by value
                         ++jkcnt[it->first][it->second];
-                        value[it->first][it->second] -= dec_jk;
+                        value[it->first][it->second] -= dec_jk[level];
                         auto pos = lower_bound(card_index.begin(),
                                                card_index.end(), *it, cmp);
                         card_index.insert(pos, *it);
