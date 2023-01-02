@@ -62,7 +62,9 @@ class Deck {
     }
     card pop() {
         if (top_i >= static_cast<int>(deck.size())) {
+#ifdef SPLENDER_DEBUG
             cerr << "deck empty\n";
+#endif
             return (card){0, {0, 0, 0, 0, 0}, -1, 0};
         }
         return deck[top_i++];
@@ -70,7 +72,9 @@ class Deck {
     card operator[](int i) { // 0 for top, not vector's 0
         i += top_i;
         if (i >= static_cast<int>(deck.size()) || i < top_i) {
+#ifdef SPLENDER_DEBUG
             cerr << "invalid index\n";
+#endif
             exit(1);
         }
         return deck[i];
@@ -203,10 +207,6 @@ Step cal_step(const card c,
     }
     else if (match == 0 || (ret.pickn == 2 && ret.gem[color_match] < 2)) {
         ret.pickn = 0;
-        /*
-for (int i = 0; i < Gem::normal; ++i)
-    ret.gem[i] = min(diff[i], 1);
-        */
     }
 
     return ret;
@@ -225,26 +225,26 @@ double score1(const card &cd) {
     static constexpr double c[6] = {0,       1 * 1,    1.2 * 2,
                                     1.3 * 3, 1.45 * 4, 1.55 * 5};
     double deduction = 0;
-    // cout << cd.gem << ": ";
     for (int i = 0; i < Gem::normal; ++i) {
-        // cout << cd.cost[i] << ' ';
         int cost = cd.cost[i] - my.bns[i];
         if (cost > 0) deduction += c[cost];
     }
-    // cout << 10 - score << endl;
+#ifdef SPLENDER_DEBUG
+    // cout << 10 - deduction << endl;
+#endif
     return 10 - deduction;
 }
 
 double score2(const card &cd) {
     static constexpr double c1 = 1.2, c2 = 1.3; // c1*n - c2*pt
     double deduction = 0;
-    // cout << cd.gem << ": ";
     for (int i = 0; i < Gem::normal; ++i) {
         int cost = cd.cost[i] - my.bns[i];
-        // cout << cost<< ' ';
         if (cost > 0) deduction += c1 * cost;
     }
+#ifdef SPLENDER_DEBUG
     // cout << score - c2 * cd.score << '\n';
+#endif
     return 10 - (deduction - c2 * cd.score);
 }
 
@@ -257,12 +257,15 @@ double score3(const card &cd) {
         // cout << cost << ' ';
         if (cost > 0) deduction += c1 * (cost - 1);
     }
+#ifdef SPLENDER_DEBUG
     // cout << deduction - c2 * cd.score << '\n';
+#endif
     return 10 - (deduction - c2 * cd.score);
 }
 
 double (*scoref[])(const card &) = {score1, score2, score3};
 
+#ifdef SPLENDER_DEBUG
 void print_top(vector<card> &st, int lv) {
     for (int t = 0; t < Gem::normal; ++t) {
         cout << t << ": ";
@@ -272,9 +275,12 @@ void print_top(vector<card> &st, int lv) {
         cout << endl;
     }
 }
+#endif
 
 void init(vector<card> stack_1, vector<card> stack_2, vector<card> stack_3) {
+#ifdef SPLENDER_DEBUG
     cout << setprecision(2) << fixed;
+#endif
     // init var
     fac_init();
     my.init();
@@ -291,11 +297,12 @@ void init(vector<card> stack_1, vector<card> stack_2, vector<card> stack_3) {
         //<< '\n';
     }
 
+#ifdef SPLENDER_DEBUG
     cout << "Lv 0" << endl;
     print_top(stack_1, 0);
-
     double sup1[Gem::normal] = {supply[0], supply[1], supply[2], supply[3],
                                 supply[4]};
+#endif
     // supply and demand 2
     for (int i = 0; i < depth[1]; ++i) {
         double v = fac[1][i] * part * score2(stack_2[i]);
@@ -308,6 +315,7 @@ void init(vector<card> stack_1, vector<card> stack_2, vector<card> stack_3) {
         //<< '\n';
     }
 
+#ifdef SPLENDER_DEBUG
     cout << "Supply:\n";
     for (int i = 0; i < Gem::normal; ++i) {
         cout << i << "  Lv 0: " << sup1[i] << "\tLv 1: " << supply[i] - sup1[i]
@@ -317,26 +325,34 @@ void init(vector<card> stack_1, vector<card> stack_2, vector<card> stack_3) {
     cout << "demand before:\n";
     for (double i : demand) cout << i << ' ';
     cout << endl;
+#endif
     // demand 3
     for (int i = 0; i < depth[2]; ++i) {
         double v = fac[2][i] * score3(stack_3[i]);
         for (int type = 0; type < Gem::normal; ++type) {
+#ifdef SPLENDER_DEBUG
             cout << v *
                     (stack_3[i].cost[type] < 3 ? 0 : stack_3[i].cost[type] - 3)
                  << ' ';
+#endif
             if (stack_3[i].cost[type] > 3)
                 demand[type] += v * (stack_3[i].cost[type] - 3);
         }
+#ifdef SPLENDER_DEBUG
         cout << endl << endl;
+#endif
     }
+#ifdef SPLENDER_DEBUG
     cout << "demand after:\n";
     for (double i : demand) cout << i << ' ';
     cout << endl;
-
+#endif
     for (int i = 0; i < Gem::normal; ++i) demand[i] *= supply[i];
+#ifdef SPLENDER_DEBUG
     cout << "demand times supply:\n";
     for (double i : demand) cout << i << ' ';
     cout << endl;
+#endif
     // decide major and minor by supply and demand
     major = 0;
     for (int i = 1; i < Gem::normal; ++i) {
@@ -344,7 +360,9 @@ void init(vector<card> stack_1, vector<card> stack_2, vector<card> stack_3) {
             major = i;
         }
     }
+#ifdef SPLENDER_DEBUG
     cout << "Major: " << major << endl;
+#endif
     for (int i = 0; i < Gem::normal; ++i) {
         if (i == major) demand[i] = majbuf;
         else demand[i] = 1;
@@ -373,7 +391,9 @@ pair<int, int> get_index(profile &p, int cid) {
     for (int i = 0; i < p.res.size(); ++i) {
         if (p.res[i].c.id == cid) return pair<int, int>(reserved, i);
     }
+#ifdef SPLENDER_DEBUG
     cerr << "cannot get index\n";
+#endif
     exit(1);
 }
 bool iscard(card c) { return c.gem != -1; }
@@ -399,12 +419,14 @@ void update(profile &p, pair<int, int> card_index, const int type) {
 }
 
 int lack(profile &p, card c, int joker_max) {
+#ifdef SPLENDER_DEBUG
     cout << "[";
     for (int i = 0; i < Gem::normal; ++i) {
         cout << c.cost[i];
         if (i != Gem::normal - 1) cout << ' ';
     }
     cout << "]\n";
+#endif
     int jk = 0;
     for (int i = 0; i < Gem::normal; ++i) {
         if (c.cost[i] > p.gem[i] + p.bns[i]) {
@@ -412,7 +434,9 @@ int lack(profile &p, card c, int joker_max) {
         }
     }
     if (jk > joker_max) {
+#ifdef SPLENDER_DEBUG
         cout << "joker_max = " << joker_max << " cannot afford\n";
+#endif
         return jk - joker_max;
     }
     return 0;
@@ -448,6 +472,7 @@ struct move take(int g[]) {
     return {TAKE, 0, {g[0], g[1], g[2], g[3], g[4]}};
 }
 
+#ifdef SPLENDER_DEBUG
 void print(profile &p) {
     cout << "gem: ";
     for (int i = 0; i < Gem::all; ++i) cout << p.gem[i] << ' ';
@@ -481,17 +506,18 @@ void print_table() {
     cout << endl;
 }
 
-bool allzero(int a[]) {
-    for (int i = 0; i < Gem::normal; ++i)
-        if (a[i] != 0) return false;
-    return true;
-}
-
 void print_step(Step step) {
     cout << "step.toofar = " << ((step.toofar) ? "true" : "false")
          << " step.pickn = " << step.pickn << endl;
     // for (int i = 0; i < Gem::normal; ++i) cout << step.gem[i] << ' ';
     cout << endl;
+}
+#endif
+
+bool allzero(int a[]) {
+    for (int i = 0; i < Gem::normal; ++i)
+        if (a[i] != 0) return false;
+    return true;
 }
 
 struct move player_move(struct move m) {
@@ -512,13 +538,14 @@ struct move player_move(struct move m) {
             break;
         }
     }
+#ifdef SPLENDER_DEBUG
     cout << "Opponent's:\n";
     print(op);
 
     cout << "Mine:\n";
     print(my);
     print_table();
-
+#endif
     // compute value and step
     vector<pair<int, int>> card_index;
 
@@ -604,7 +631,9 @@ else value[reserved][i] = score3(my.res[i].c);
             level = it->first;
             c = table[it->first][it->second];
         }
+#ifdef SPLENDER_DEBUG
         cout << "value = " << val << ' ';
+#endif
         int dgem = lack(my, c, jkcnt[it->first][it->second]);
         if (dgem == 0) return buy(*it);
         else {
@@ -614,7 +643,9 @@ else value[reserved][i] = score3(my.res[i].c);
             }
             else {
                 Step step = cal_step(c, my);
+#ifdef SPLENDER_DEBUG
                 print_step(step);
+#endif
 
                 if (!step.toofar) {
                     if (totake_n == 0 && step.pickn != 0) {
@@ -713,7 +744,9 @@ else value[reserved][i] = score3(my.res[i].c);
     }
 
     // no valid operation
+#ifdef SPLENDER_DEBUG
     cerr << "No valid operation\n";
+#endif
     m.type = 3;
     m.card_id = 89;
     return m;
