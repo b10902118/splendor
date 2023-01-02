@@ -1,6 +1,5 @@
 #include <cassert>
 #include <cstdio>
-#include <ios>
 #include <utility>
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wunused-variable"
@@ -12,7 +11,6 @@
 #include <iterator>
 #include <limits>
 #include <numeric>
-#include <random>
 #include <vector>
 
 using namespace std;
@@ -20,15 +18,15 @@ using namespace std;
 constexpr int deckn = 3, stage_n = 3, res_max = 3, reserved = 3, goal = 15;
 
 // parameters
-constexpr int depth[deckn]{15, 10, 7};
-constexpr double rate[deckn]{0.96, 0.88, 0.7};
-constexpr double buybase[stage_n] = {4, 5, 6}, resbase[stage_n] = {6, 7, 8},
-                 part = 0.4,
-                 dec_jk = 0.7; // for the second deck
+constexpr int depth[deckn]{20, 10, 7};
+constexpr double rate[deckn]{0.97, 0.88, 0.75};
+constexpr double buybase[stage_n] = {5, 6, 7}, resbase[stage_n] = {6, 7, 8},
+                 part = 0.4, dec_jk = 0.7;
+
 constexpr double stage_parm[stage_n][3]{
 {1.2, 0.4, 0.9}, {0.8, 1.1, 1}, {0.5, 1, 1}};
 constexpr double res_parm[res_max]{0.75, 1, 1.25};
-constexpr double majbuf = 3, dec_ratio = 0.75;
+constexpr double majbuf = 1.7, dec_ratio = 0.86;
 
 constexpr int TAKE = 1, BUY = 2, RES = 3;
 
@@ -401,7 +399,10 @@ void update(profile &p, pair<int, int> card_index, const int type) {
 
 int lack(profile &p, card c, int joker_max) {
     cout << "[";
-    for (int i = 0; i < Gem::normal; ++i) cout << c.cost[i] << ' ';
+    for (int i = 0; i < Gem::normal; ++i) {
+        cout << c.cost[i];
+        if (i != Gem::normal - 1) cout << ' ';
+    }
     cout << "]\n";
     int jk = 0;
     for (int i = 0; i < Gem::normal; ++i) {
@@ -410,7 +411,7 @@ int lack(profile &p, card c, int joker_max) {
         }
     }
     if (jk > joker_max) {
-        cout << "cannot afford\n";
+        cout << "joker_max = " << joker_max << " cannot afford\n";
         return jk - joker_max;
     }
     return 0;
@@ -488,7 +489,7 @@ bool allzero(int a[]) {
 void print_step(Step step) {
     cout << "step.toofar = " << ((step.toofar) ? "true" : "false")
          << " step.pickn = " << step.pickn << endl;
-    for (int i = 0; i < Gem::normal; ++i) cout << step.gem[i] << ' ';
+    // for (int i = 0; i < Gem::normal; ++i) cout << step.gem[i] << ' ';
     cout << endl;
 }
 
@@ -594,6 +595,7 @@ else value[reserved][i] = score3(my.res[i].c);
         val = value[it->first][it->second];
         card c = (it->first == reserved) ? my.res[it->second].c
                                          : table[it->first][it->second];
+        cout << "value = " << val << ' ';
         int dgem = lack(my, c, jkcnt[it->first][it->second]);
         if (dgem == 0) return buy(*it);
         else {
@@ -625,7 +627,7 @@ else value[reserved][i] = score3(my.res[i].c);
                     if (jkcnt[it->first][it->second] < my.gem[Gem::joker]) {
                         // reshuffle by value
                         ++jkcnt[it->first][it->second];
-                        value[it->first][it->first] -= dec_jk;
+                        value[it->first][it->second] -= dec_jk;
                         auto pos = lower_bound(card_index.begin(),
                                                card_index.end(), *it, cmp);
                         card_index.insert(pos, *it);
