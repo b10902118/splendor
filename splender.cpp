@@ -18,16 +18,19 @@ using namespace std;
 constexpr int deckn = 3, stage_n = 3, res_max = 3, reserved = 3, goal = 15;
 
 // parameters
-constexpr int depth[deckn]{20, 10, 7};
-constexpr double rate[deckn]{0.97, 0.88, 0.75};
-constexpr double buybase[stage_n] = {5, 6, 7},
-                 resbase[stage_n] = {8, 8.5, 9}, // need fix
-part = 0.4, dec_jk[3] = {3, 0.5, 0.25};
+constexpr int depth[deckn]{16, 9, 7};
+constexpr double rate[deckn]{0.96, 0.88, 0.75};
+constexpr double buybase[stage_n] = {5.5, 6.5, 7.5};
+// double resbase[stage_n] = {8, 8.5, 9}; // need fix
+double resbase = 7;
+const double inc_res = 0.3, resbase_max = 8.5, resbase_fac = 0.6;
+const double part = 0.4;
+const double dec_jk[3][4] = {
+{1, 1.8, 2.2, 2.5}, {0.4, 0.7, 1, 1.3}, {0.3, 0.6, 0.9, 1.2}};
 
-constexpr double stage_parm[stage_n][3]{
-{1.2, 0.4, 0.9}, {0.8, 1.1, 1}, {0.5, 1, 1}};
-constexpr double res_parm[res_max]{0.75, 0.9, 1};
-constexpr double majbuf = 1.7, dec_ratio = 0.86;
+constexpr double stage_parm[stage_n][3]{{1, 0.9, 1}, {0.75, 1, 1}, {0.7, 1, 1}};
+constexpr double res_parm[res_max]{0.65, 0.8, 0.9};
+constexpr double majbuf = 1.6, norbuf = 1.1, dec_ratio = 0.88;
 
 constexpr int TAKE = 1, BUY = 2, RES = 3;
 
@@ -121,6 +124,8 @@ struct profile {
         pts += c.score;
         ++bns[c.gem];
         ++bns_sum;
+        resbase += inc_res;
+        if (resbase > resbase_max) resbase = resbase_max;
     }
     void resv(card c, int lv) {
         res.push_back(ResCard(c, lv));
@@ -218,6 +223,7 @@ bool iskeycard(card c) {
         if (c.cost[i] > c.cost[m]) m = i;
     }
     if (m == major && c.cost[m] >= 6) return true;
+    // if (m == major) return true;
     return false;
 }
 
@@ -255,7 +261,7 @@ double score3(const card &cd) {
     for (int i = 0; i < Gem::normal; ++i) {
         int cost = cd.cost[i] - my.bns[i];
         // cout << cost << ' ';
-        if (cost > 0) deduction += c1 * (cost - 1);
+        if (cost > 0) deduction += c1 * (cost - 1); // not reasonable
     }
 #ifdef SPLENDER_DEBUG
     // cout << deduction - c2 * cd.score << '\n';
@@ -365,7 +371,7 @@ void init(vector<card> stack_1, vector<card> stack_2, vector<card> stack_3) {
 #endif
     for (int i = 0; i < Gem::normal; ++i) {
         if (i == major) demand[i] = majbuf;
-        else demand[i] = 1;
+        else demand[i] = 1.2;
     }
 
     // set table and deck
@@ -452,6 +458,7 @@ struct move buy(pair<int, int> card_index) {
     }
     update(my, card_index, BUY);
     demand[c.gem] *= dec_ratio;
+    if (demand[c.gem] < 1) demand[c.gem] = 1;
     return (struct move){BUY, c.id, {0, 0, 0, 0, 0}};
 }
 
@@ -539,7 +546,7 @@ struct move player_move(struct move m) {
             break;
         }
     }
-#ifdef SPLENDER_DEBUG
+#ifdef SHOW_RECORD
     cout << "Opponent's:\n";
     print(op);
 
@@ -562,7 +569,7 @@ struct move player_move(struct move m) {
                              stage_parm[stage][my.res[i].lv] *
                              res_parm[my.res.size() - 1];
         if (my.res[i].lv == 2 && iskeycard(my.res[i].c))
-            value[reserved][i] *= 3;
+            value[reserved][i] *= majbuf;
         else if (my.res[i].lv <= 1)
             value[reserved][i] *= demand[my.res[i].c.gem];
         /*
@@ -592,7 +599,7 @@ else value[reserved][i] = score3(my.res[i].c);
     for (int i = 0; i < table.row; ++i) {
         if (iscard(table[2][i])) {
             value[2][i] = scoref[2](table[2][i]) * stage_parm[stage][2] *
-                          (iskeycard(table[2][i]) ? 3 : 1);
+                          (iskeycard(table[2][i]) ? majbuf : 1);
             card_index.push_back(pair<int, int>(2, i));
             resource[table[2][i].gem].push_back(pair<int, int>(2, i));
         }
@@ -614,12 +621,13 @@ else value[reserved][i] = score3(my.res[i].c);
     int totake_n = 0, filled_n = 0;
     double dependency[5]{};
     int jkcnt[deckn + 1][table.row]{};
+    bool wantres = true;
     // auto it = card_index.begin(); //fail after insert
-    // vector<pair<int,int>>::iterator
     auto reshuffle = [&jkcnt, &value, &card_index,
                       &cmp](vector<pair<int, int>>::iterator it, int level) {
+        value[it->first][it->second] -=
+        dec_jk[level][jkcnt[it->first][it->second]];
         ++jkcnt[it->first][it->second];
-        value[it->first][it->second] -= dec_jk[level];
         auto pos = it + 1;
         for (; pos != card_index.end() && cmp(*pos, *it); ++pos)
             ;
@@ -648,8 +656,12 @@ else value[reserved][i] = score3(my.res[i].c);
         int dgem = lack(my, c, jkcnt[it->first][it->second]);
         if (dgem == 0) return buy(*it);
         else {
+            if (wantres)
+                wantres =
+                val > resbase + resbase_fac * my.res.size() && level != 0;
+
             if (it->first != reserved && reservable(my) &&
-                val > resbase[stage]) {
+                val > resbase + resbase_fac * my.res.size() && wantres) {
                 return reserve(*it);
             }
             else {
@@ -657,7 +669,6 @@ else value[reserved][i] = score3(my.res[i].c);
 #ifdef SPLENDER_DEBUG
                 print_step(step);
 #endif
-
                 if (!step.toofar) {
                     if (totake_n == 0 && step.pickn != 0) {
                         totake_n = step.pickn;
@@ -747,8 +758,7 @@ else value[reserved][i] = score3(my.res[i].c);
     }
     // cannot buy anything try reserve
     if (reservable(my)) {
-        for (auto iter = card_index.begin() + cur; iter != card_index.end();
-             ++iter) {
+        for (auto iter = card_index.begin(); iter != card_index.end(); ++iter) {
             if (iter->first != reserved) {
                 return reserve(*iter);
             }

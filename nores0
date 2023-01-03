@@ -1,0 +1,1781 @@
+Which test group you want to test? Lv 0
+0: 3 9 
+1: 4 12 13 
+2: 0 6 14 15 
+3: 2 5 8 10 11 
+4: 1 7 
+Supply:
+0  Lv 0: 10.35	Lv 1: 0.00	Total: 10.35
+1  Lv 0: 12.66	Lv 1: 3.18	Total: 15.84
+2  Lv 0: 15.66	Lv 1: 3.26	Total: 18.92
+3  Lv 0: 21.90	Lv 1: 1.88	Total: 23.78
+4  Lv 0: 10.23	Lv 1: 1.90	Total: 12.13
+demand before:
+5.20 6.00 0.00 14.64 10.81 
+0.00 0.00 0.00 0.00 32.00 
+
+0.00 0.00 0.00 27.60 0.00 
+
+0.00 27.60 0.00 0.00 0.00 
+
+32.00 0.00 0.00 0.00 0.00 
+
+0.00 3.80 0.00 0.00 0.00 
+
+0.00 0.00 0.00 0.00 20.70 
+
+0.00 0.00 7.42 0.00 0.00 
+
+demand after:
+37.20 37.40 7.42 42.24 63.51 
+demand times supply:
+385.09 592.33 140.47 1004.52 770.16 
+Major: 3
+==============================================
+Player 0's gem:   0 0 0 0 0 0 
+Player 0's bonus: 0 0 0 0 0 
+Player 0's reserve: 
+----------------------------------------------
+Remained Gem Tokens: 4 4 4 4 4 4 
+ 0 [0 2 0 0 1][4 0]  1 [1 0 0 0 2][3 0] 10 [0 1 0 1 3][2 0] 25 [1 0 0 2 0][0 0] 
+44 [0 1 2 4 0][2 2] 45 [2 0 0 3 3][1 1] 66 [0 2 1 0 4][1 2] 67 [0 5 3 0 0][3 2] 
+73 [0 0 0 0 7][3 4] 76 [0 0 3 7 0][1 5] 85 [0 7 0 0 3][0 5] 86 [7 0 0 0 0][2 4] 
+Score: 0 VS 0
+----------------------------------------------
+Player 1's gem:   0 0 0 0 0 0 
+Player 1's bonus: 0 0 0 0 0 
+Player 1's reserve: 
+==============================================
+Opponent's:
+gem: 0 0 0 0 0 0 
+bonus: 0 0 0 0 0 
+points: 0
+card reserved:
+
+Mine:
+gem: 0 0 0 0 0 0 
+bonus: 0 0 0 0 0 
+points: 0
+card reserved:
+
+10 [0 1 0 1 3][2 0] 0 [0 2 0 0 1][4 0] 1 [1 0 0 0 2][3 0] 25 [1 0 0 2 0][0 0] 
+44 [0 1 2 4 0][2 2] 45 [2 0 0 3 3][1 1] 67 [0 5 3 0 0][3 2] 66 [0 2 1 0 4][1 2] 
+73 [0 0 0 0 7][3 4] 76 [0 0 3 7 0][1 5] 85 [0 7 0 0 3][0 5] 86 [7 0 0 0 0][2 4] 
+
+value = 11.04 [0 0 3 7 0]
+joker_max = 0 cannot afford
+player 0's move... 
+reserve 76
+==============================================
+Player 0's gem:   0 0 0 0 0 1 
+Player 0's bonus: 0 0 0 0 0 
+Player 0's reserve: 76 [0 0 3 7 0][1 5] 
+----------------------------------------------
+Remained Gem Tokens: 4 4 4 4 4 3 
+ 0 [0 2 0 0 1][4 0]  1 [1 0 0 0 2][3 0] 10 [0 1 0 1 3][2 0] 25 [1 0 0 2 0][0 0] 
+44 [0 1 2 4 0][2 2] 45 [2 0 0 3 3][1 1] 66 [0 2 1 0 4][1 2] 67 [0 5 3 0 0][3 2] 
+73 [0 0 0 0 7][3 4] 85 [0 7 0 0 3][0 5] 86 [7 0 0 0 0][2 4] 89 [3 5 3 3 0][0 3] 
+Score: 0 VS 0
+----------------------------------------------
+Player 1's gem:   0 0 0 0 0 0 
+Player 1's bonus: 0 0 0 0 0 
+Player 1's reserve: 
+==============================================
+player 1's move... 
+take 1 1 0 0 1 
+max = 1 min = 0 sum = 3
+m.gem[i] = 1 gem[i] = 4
+m.gem[i] = 1 gem[i] = 4
+m.gem[i] = 0 gem[i] = 4
+m.gem[i] = 0 gem[i] = 4
+m.gem[i] = 1 gem[i] = 4
+Total number of gem = 3
+==============================================
+Player 0's gem:   0 0 0 0 0 1 
+Player 0's bonus: 0 0 0 0 0 
+Player 0's reserve: 76 [0 0 3 7 0][1 5] 
+----------------------------------------------
+Remained Gem Tokens: 3 3 4 4 3 3 
+ 0 [0 2 0 0 1][4 0]  1 [1 0 0 0 2][3 0] 10 [0 1 0 1 3][2 0] 25 [1 0 0 2 0][0 0] 
+44 [0 1 2 4 0][2 2] 45 [2 0 0 3 3][1 1] 66 [0 2 1 0 4][1 2] 67 [0 5 3 0 0][3 2] 
+73 [0 0 0 0 7][3 4] 85 [0 7 0 0 3][0 5] 86 [7 0 0 0 0][2 4] 89 [3 5 3 3 0][0 3] 
+Score: 0 VS 0
+----------------------------------------------
+Player 1's gem:   1 1 0 0 1 0 
+Player 1's bonus: 0 0 0 0 0 
+Player 1's reserve: 
+==============================================
+Opponent's:
+gem: 1 1 0 0 1 0 
+bonus: 0 0 0 0 0 
+points: 0
+card reserved:
+
+Mine:
+gem: 0 0 0 0 0 1 
+bonus: 0 0 0 0 0 
+points: 0
+card reserved:
+Gem: 1 Cost: 0 0 3 7 0 
+
+10 [0 1 0 1 3][2 0] 0 [0 2 0 0 1][4 0] 1 [1 0 0 0 2][3 0] 25 [1 0 0 2 0][0 0] 
+44 [0 1 2 4 0][2 2] 45 [2 0 0 3 3][1 1] 67 [0 5 3 0 0][3 2] 66 [0 2 1 0 4][1 2] 
+73 [0 0 0 0 7][3 4] 89 [3 5 3 3 0][0 3] 85 [0 7 0 0 3][0 5] 86 [7 0 0 0 0][2 4] 
+
+value = 10.56 [1 0 0 0 2]
+joker_max = 0 cannot afford
+step.toofar = false step.pickn = 3
+
+value = 9.86 [1 0 0 0 2]
+joker_max = 1 cannot afford
+step.toofar = false step.pickn = 3
+
+value = 8.00 [0 0 0 0 7]
+joker_max = 0 cannot afford
+player 0's move... 
+reserve 73
+==============================================
+Player 0's gem:   0 0 0 0 0 2 
+Player 0's bonus: 0 0 0 0 0 
+Player 0's reserve: 73 [0 0 0 0 7][3 4] 76 [0 0 3 7 0][1 5] 
+----------------------------------------------
+Remained Gem Tokens: 3 3 4 4 3 2 
+ 0 [0 2 0 0 1][4 0]  1 [1 0 0 0 2][3 0] 10 [0 1 0 1 3][2 0] 25 [1 0 0 2 0][0 0] 
+44 [0 1 2 4 0][2 2] 45 [2 0 0 3 3][1 1] 66 [0 2 1 0 4][1 2] 67 [0 5 3 0 0][3 2] 
+81 [0 3 0 0 7][3 5] 85 [0 7 0 0 3][0 5] 86 [7 0 0 0 0][2 4] 89 [3 5 3 3 0][0 3] 
+Score: 0 VS 0
+----------------------------------------------
+Player 1's gem:   1 1 0 0 1 0 
+Player 1's bonus: 0 0 0 0 0 
+Player 1's reserve: 
+==============================================
+player 1's move... 
+take 1 0 1 0 1 
+max = 1 min = 0 sum = 3
+m.gem[i] = 1 gem[i] = 3
+m.gem[i] = 0 gem[i] = 3
+m.gem[i] = 1 gem[i] = 4
+m.gem[i] = 0 gem[i] = 4
+m.gem[i] = 1 gem[i] = 3
+Total number of gem = 6
+==============================================
+Player 0's gem:   0 0 0 0 0 2 
+Player 0's bonus: 0 0 0 0 0 
+Player 0's reserve: 73 [0 0 0 0 7][3 4] 76 [0 0 3 7 0][1 5] 
+----------------------------------------------
+Remained Gem Tokens: 2 3 3 4 2 2 
+ 0 [0 2 0 0 1][4 0]  1 [1 0 0 0 2][3 0] 10 [0 1 0 1 3][2 0] 25 [1 0 0 2 0][0 0] 
+44 [0 1 2 4 0][2 2] 45 [2 0 0 3 3][1 1] 66 [0 2 1 0 4][1 2] 67 [0 5 3 0 0][3 2] 
+81 [0 3 0 0 7][3 5] 85 [0 7 0 0 3][0 5] 86 [7 0 0 0 0][2 4] 89 [3 5 3 3 0][0 3] 
+Score: 0 VS 0
+----------------------------------------------
+Player 1's gem:   2 1 1 0 2 0 
+Player 1's bonus: 0 0 0 0 0 
+Player 1's reserve: 
+==============================================
+Opponent's:
+gem: 2 1 1 0 2 0 
+bonus: 0 0 0 0 0 
+points: 0
+card reserved:
+
+Mine:
+gem: 0 0 0 0 0 2 
+bonus: 0 0 0 0 0 
+points: 0
+card reserved:
+Gem: 1 Cost: 0 0 3 7 0 
+Gem: 3 Cost: 0 0 0 0 7 
+
+10 [0 1 0 1 3][2 0] 0 [0 2 0 0 1][4 0] 1 [1 0 0 0 2][3 0] 25 [1 0 0 2 0][0 0] 
+44 [0 1 2 4 0][2 2] 45 [2 0 0 3 3][1 1] 67 [0 5 3 0 0][3 2] 66 [0 2 1 0 4][1 2] 
+81 [0 3 0 0 7][3 5] 89 [3 5 3 3 0][0 3] 85 [0 7 0 0 3][0 5] 86 [7 0 0 0 0][2 4] 
+
+value = 10.56 [1 0 0 0 2]
+joker_max = 0 cannot afford
+step.toofar = false step.pickn = 3
+
+value = 9.86 [1 0 0 0 2]
+joker_max = 1 cannot afford
+step.toofar = false step.pickn = 3
+
+value = 8.83 [0 0 3 7 0]
+joker_max = 0 cannot afford
+step.toofar = true step.pickn = 0
+
+value = 8.16 [1 0 0 0 2]
+joker_max = 2 cannot afford
+step.toofar = false step.pickn = 3
+
+value = 8.00 [7 0 0 0 0]
+joker_max = 0 cannot afford
+player 0's move... 
+reserve 86
+==============================================
+Player 0's gem:   0 0 0 0 0 3 
+Player 0's bonus: 0 0 0 0 0 
+Player 0's reserve: 73 [0 0 0 0 7][3 4] 76 [0 0 3 7 0][1 5] 86 [7 0 0 0 0][2 4] 
+----------------------------------------------
+Remained Gem Tokens: 2 3 3 4 2 1 
+ 0 [0 2 0 0 1][4 0]  1 [1 0 0 0 2][3 0] 10 [0 1 0 1 3][2 0] 25 [1 0 0 2 0][0 0] 
+44 [0 1 2 4 0][2 2] 45 [2 0 0 3 3][1 1] 66 [0 2 1 0 4][1 2] 67 [0 5 3 0 0][3 2] 
+79 [0 3 6 0 3][4 4] 81 [0 3 0 0 7][3 5] 85 [0 7 0 0 3][0 5] 89 [3 5 3 3 0][0 3] 
+Score: 0 VS 0
+----------------------------------------------
+Player 1's gem:   2 1 1 0 2 0 
+Player 1's bonus: 0 0 0 0 0 
+Player 1's reserve: 
+==============================================
+player 1's move... 
+take 1 1 0 0 1 
+max = 1 min = 0 sum = 3
+m.gem[i] = 1 gem[i] = 2
+m.gem[i] = 1 gem[i] = 3
+m.gem[i] = 0 gem[i] = 3
+m.gem[i] = 0 gem[i] = 4
+m.gem[i] = 1 gem[i] = 2
+Total number of gem = 9
+==============================================
+Player 0's gem:   0 0 0 0 0 3 
+Player 0's bonus: 0 0 0 0 0 
+Player 0's reserve: 73 [0 0 0 0 7][3 4] 76 [0 0 3 7 0][1 5] 86 [7 0 0 0 0][2 4] 
+----------------------------------------------
+Remained Gem Tokens: 1 2 3 4 1 1 
+ 0 [0 2 0 0 1][4 0]  1 [1 0 0 0 2][3 0] 10 [0 1 0 1 3][2 0] 25 [1 0 0 2 0][0 0] 
+44 [0 1 2 4 0][2 2] 45 [2 0 0 3 3][1 1] 66 [0 2 1 0 4][1 2] 67 [0 5 3 0 0][3 2] 
+79 [0 3 6 0 3][4 4] 81 [0 3 0 0 7][3 5] 85 [0 7 0 0 3][0 5] 89 [3 5 3 3 0][0 3] 
+Score: 0 VS 0
+----------------------------------------------
+Player 1's gem:   3 2 1 0 3 0 
+Player 1's bonus: 0 0 0 0 0 
+Player 1's reserve: 
+==============================================
+Opponent's:
+gem: 3 2 1 0 3 0 
+bonus: 0 0 0 0 0 
+points: 0
+card reserved:
+
+Mine:
+gem: 0 0 0 0 0 3 
+bonus: 0 0 0 0 0 
+points: 0
+card reserved:
+Gem: 1 Cost: 0 0 3 7 0 
+Gem: 3 Cost: 0 0 0 0 7 
+Gem: 2 Cost: 7 0 0 0 0 
+
+10 [0 1 0 1 3][2 0] 0 [0 2 0 0 1][4 0] 1 [1 0 0 0 2][3 0] 25 [1 0 0 2 0][0 0] 
+44 [0 1 2 4 0][2 2] 45 [2 0 0 3 3][1 1] 67 [0 5 3 0 0][3 2] 66 [0 2 1 0 4][1 2] 
+81 [0 3 0 0 7][3 5] 89 [3 5 3 3 0][0 3] 85 [0 7 0 0 3][0 5] 79 [0 3 6 0 3][4 4] 
+
+value = 10.56 [1 0 0 0 2]
+joker_max = 0 cannot afford
+step.toofar = false step.pickn = 3
+
+value = 9.94 [0 0 3 7 0]
+joker_max = 0 cannot afford
+step.toofar = true step.pickn = 0
+
+value = 9.86 [1 0 0 0 2]
+joker_max = 1 cannot afford
+step.toofar = false step.pickn = 3
+
+value = 8.16 [1 0 0 0 2]
+joker_max = 2 cannot afford
+step.toofar = false step.pickn = 3
+
+value = 7.92 [0 2 0 0 1]
+joker_max = 0 cannot afford
+step.toofar = false step.pickn = 3
+
+value = 7.92 [1 0 0 2 0]
+joker_max = 0 cannot afford
+step.toofar = false step.pickn = 3
+
+value = 7.22 [1 0 0 2 0]
+joker_max = 1 cannot afford
+step.toofar = false step.pickn = 3
+
+value = 7.22 [0 2 0 0 1]
+joker_max = 1 cannot afford
+step.toofar = false step.pickn = 3
+
+value = 7.20 [0 0 0 0 7]
+joker_max = 0 cannot afford
+step.toofar = true step.pickn = 0
+
+value = 7.20 [7 0 0 0 0]
+joker_max = 0 cannot afford
+step.toofar = true step.pickn = 0
+
+value = 6.90 [0 3 0 0 7]
+joker_max = 0 cannot afford
+step.toofar = true step.pickn = 0
+
+value = 6.90 [0 7 0 0 3]
+joker_max = 0 cannot afford
+step.toofar = true step.pickn = 0
+
+value = 6.06 [1 0 0 0 2]
+player 0's move... 
+buy 1
+==============================================
+Player 0's gem:   0 0 0 0 0 0 
+Player 0's bonus: 0 0 0 1 0 
+Player 0's reserve: 73 [0 0 0 0 7][3 4] 76 [0 0 3 7 0][1 5] 86 [7 0 0 0 0][2 4] 
+----------------------------------------------
+Remained Gem Tokens: 1 2 3 4 1 4 
+ 0 [0 2 0 0 1][4 0]  3 [1 1 1 0 1][1 0] 10 [0 1 0 1 3][2 0] 25 [1 0 0 2 0][0 0] 
+44 [0 1 2 4 0][2 2] 45 [2 0 0 3 3][1 1] 66 [0 2 1 0 4][1 2] 67 [0 5 3 0 0][3 2] 
+79 [0 3 6 0 3][4 4] 81 [0 3 0 0 7][3 5] 85 [0 7 0 0 3][0 5] 89 [3 5 3 3 0][0 3] 
+Score: 0 VS 0
+----------------------------------------------
+Player 1's gem:   3 2 1 0 3 0 
+Player 1's bonus: 0 0 0 0 0 
+Player 1's reserve: 
+==============================================
+player 1's move... 
+buy 3
+==============================================
+Player 0's gem:   0 0 0 0 0 0 
+Player 0's bonus: 0 0 0 1 0 
+Player 0's reserve: 73 [0 0 0 0 7][3 4] 76 [0 0 3 7 0][1 5] 86 [7 0 0 0 0][2 4] 
+----------------------------------------------
+Remained Gem Tokens: 2 3 4 4 2 4 
+ 0 [0 2 0 0 1][4 0] 10 [0 1 0 1 3][2 0] 21 [0 0 2 0 2][3 0] 25 [1 0 0 2 0][0 0] 
+44 [0 1 2 4 0][2 2] 45 [2 0 0 3 3][1 1] 66 [0 2 1 0 4][1 2] 67 [0 5 3 0 0][3 2] 
+79 [0 3 6 0 3][4 4] 81 [0 3 0 0 7][3 5] 85 [0 7 0 0 3][0 5] 89 [3 5 3 3 0][0 3] 
+Score: 0 VS 0
+----------------------------------------------
+Player 1's gem:   2 1 0 0 2 0 
+Player 1's bonus: 0 1 0 0 0 
+Player 1's reserve: 
+==============================================
+Opponent's:
+gem: 2 1 0 0 2 0 
+bonus: 0 1 0 0 0 
+points: 0
+card reserved:
+
+Mine:
+gem: 0 0 0 0 0 0 
+bonus: 0 0 0 1 0 
+points: 0
+card reserved:
+Gem: 1 Cost: 0 0 3 7 0 
+Gem: 3 Cost: 0 0 0 0 7 
+Gem: 2 Cost: 7 0 0 0 0 
+
+10 [0 1 0 1 3][2 0] 0 [0 2 0 0 1][4 0] 21 [0 0 2 0 2][3 0] 25 [1 0 0 2 0][0 0] 
+44 [0 1 2 4 0][2 2] 45 [2 0 0 3 3][1 1] 67 [0 5 3 0 0][3 2] 66 [0 2 1 0 4][1 2] 
+81 [0 3 0 0 7][3 5] 89 [3 5 3 3 0][0 3] 85 [0 7 0 0 3][0 5] 79 [0 3 6 0 3][4 4] 
+
+value = 11.66 [0 0 3 7 0]
+joker_max = 0 cannot afford
+step.toofar = true step.pickn = 0
+
+value = 9.60 [1 0 0 2 0]
+joker_max = 0 cannot afford
+step.toofar = false step.pickn = 3
+
+value = 7.92 [0 2 0 0 1]
+joker_max = 0 cannot afford
+step.toofar = false step.pickn = 3
+
+value = 7.32 [0 0 2 0 2]
+joker_max = 0 cannot afford
+step.toofar = false step.pickn = 3
+
+value = 7.20 [0 0 0 0 7]
+joker_max = 0 cannot afford
+step.toofar = true step.pickn = 0
+
+value = 7.20 [7 0 0 0 0]
+joker_max = 0 cannot afford
+step.toofar = true step.pickn = 0
+
+value = 6.90 [0 3 0 0 7]
+joker_max = 0 cannot afford
+step.toofar = true step.pickn = 0
+
+value = 6.90 [0 7 0 0 3]
+joker_max = 0 cannot afford
+step.toofar = true step.pickn = 0
+
+value = 6.12 [0 1 0 1 3]
+joker_max = 0 cannot afford
+step.toofar = false step.pickn = 3
+
+value = 5.83 [0 1 2 4 0]
+joker_max = 0 cannot afford
+step.toofar = false step.pickn = 3
+
+player 0's move... 
+take 1 1 0 1 0 
+max = 1 min = 0 sum = 3
+m.gem[i] = 1 gem[i] = 2
+m.gem[i] = 1 gem[i] = 3
+m.gem[i] = 0 gem[i] = 4
+m.gem[i] = 1 gem[i] = 4
+m.gem[i] = 0 gem[i] = 2
+Total number of gem = 3
+==============================================
+Player 0's gem:   1 1 0 1 0 0 
+Player 0's bonus: 0 0 0 1 0 
+Player 0's reserve: 73 [0 0 0 0 7][3 4] 76 [0 0 3 7 0][1 5] 86 [7 0 0 0 0][2 4] 
+----------------------------------------------
+Remained Gem Tokens: 1 2 4 3 2 4 
+ 0 [0 2 0 0 1][4 0] 10 [0 1 0 1 3][2 0] 21 [0 0 2 0 2][3 0] 25 [1 0 0 2 0][0 0] 
+44 [0 1 2 4 0][2 2] 45 [2 0 0 3 3][1 1] 66 [0 2 1 0 4][1 2] 67 [0 5 3 0 0][3 2] 
+79 [0 3 6 0 3][4 4] 81 [0 3 0 0 7][3 5] 85 [0 7 0 0 3][0 5] 89 [3 5 3 3 0][0 3] 
+Score: 0 VS 0
+----------------------------------------------
+Player 1's gem:   2 1 0 0 2 0 
+Player 1's bonus: 0 1 0 0 0 
+Player 1's reserve: 
+==============================================
+player 1's move... 
+buy 0
+==============================================
+Player 0's gem:   1 1 0 1 0 0 
+Player 0's bonus: 0 0 0 1 0 
+Player 0's reserve: 73 [0 0 0 0 7][3 4] 76 [0 0 3 7 0][1 5] 86 [7 0 0 0 0][2 4] 
+----------------------------------------------
+Remained Gem Tokens: 1 3 4 3 3 4 
+10 [0 1 0 1 3][2 0] 21 [0 0 2 0 2][3 0] 23 [1 0 0 0 2][2 0] 25 [1 0 0 2 0][0 0] 
+44 [0 1 2 4 0][2 2] 45 [2 0 0 3 3][1 1] 66 [0 2 1 0 4][1 2] 67 [0 5 3 0 0][3 2] 
+79 [0 3 6 0 3][4 4] 81 [0 3 0 0 7][3 5] 85 [0 7 0 0 3][0 5] 89 [3 5 3 3 0][0 3] 
+Score: 0 VS 0
+----------------------------------------------
+Player 1's gem:   2 0 0 0 1 0 
+Player 1's bonus: 0 1 0 0 1 
+Player 1's reserve: 
+==============================================
+Opponent's:
+gem: 2 0 0 0 1 0 
+bonus: 0 1 0 0 1 
+points: 0
+card reserved:
+
+Mine:
+gem: 1 1 0 1 0 0 
+bonus: 0 0 0 1 0 
+points: 0
+card reserved:
+Gem: 1 Cost: 0 0 3 7 0 
+Gem: 3 Cost: 0 0 0 0 7 
+Gem: 2 Cost: 7 0 0 0 0 
+
+10 [0 1 0 1 3][2 0] 23 [1 0 0 0 2][2 0] 21 [0 0 2 0 2][3 0] 25 [1 0 0 2 0][0 0] 
+44 [0 1 2 4 0][2 2] 45 [2 0 0 3 3][1 1] 67 [0 5 3 0 0][3 2] 66 [0 2 1 0 4][1 2] 
+81 [0 3 0 0 7][3 5] 89 [3 5 3 3 0][0 3] 85 [0 7 0 0 3][0 5] 79 [0 3 6 0 3][4 4] 
+
+value = 11.66 [0 0 3 7 0]
+joker_max = 0 cannot afford
+step.toofar = true step.pickn = 0
+
+value = 9.60 [1 0 0 2 0]
+player 0's move... 
+buy 25
+==============================================
+Player 0's gem:   0 1 0 0 0 0 
+Player 0's bonus: 1 0 0 1 0 
+Player 0's reserve: 73 [0 0 0 0 7][3 4] 76 [0 0 3 7 0][1 5] 86 [7 0 0 0 0][2 4] 
+----------------------------------------------
+Remained Gem Tokens: 2 3 4 4 3 4 
+10 [0 1 0 1 3][2 0] 13 [1 3 0 1 0][4 0] 21 [0 0 2 0 2][3 0] 23 [1 0 0 0 2][2 0] 
+44 [0 1 2 4 0][2 2] 45 [2 0 0 3 3][1 1] 66 [0 2 1 0 4][1 2] 67 [0 5 3 0 0][3 2] 
+79 [0 3 6 0 3][4 4] 81 [0 3 0 0 7][3 5] 85 [0 7 0 0 3][0 5] 89 [3 5 3 3 0][0 3] 
+Score: 0 VS 0
+----------------------------------------------
+Player 1's gem:   2 0 0 0 1 0 
+Player 1's bonus: 0 1 0 0 1 
+Player 1's reserve: 
+==============================================
+player 1's move... 
+buy 23
+==============================================
+Player 0's gem:   0 1 0 0 0 0 
+Player 0's bonus: 1 0 0 1 0 
+Player 0's reserve: 73 [0 0 0 0 7][3 4] 76 [0 0 3 7 0][1 5] 86 [7 0 0 0 0][2 4] 
+----------------------------------------------
+Remained Gem Tokens: 3 3 4 4 4 4 
+ 9 [2 0 2 1 0][3 0] 10 [0 1 0 1 3][2 0] 13 [1 3 0 1 0][4 0] 21 [0 0 2 0 2][3 0] 
+44 [0 1 2 4 0][2 2] 45 [2 0 0 3 3][1 1] 66 [0 2 1 0 4][1 2] 67 [0 5 3 0 0][3 2] 
+79 [0 3 6 0 3][4 4] 81 [0 3 0 0 7][3 5] 85 [0 7 0 0 3][0 5] 89 [3 5 3 3 0][0 3] 
+Score: 0 VS 0
+----------------------------------------------
+Player 1's gem:   1 0 0 0 0 0 
+Player 1's bonus: 0 1 1 0 1 
+Player 1's reserve: 
+==============================================
+Opponent's:
+gem: 1 0 0 0 0 0 
+bonus: 0 1 1 0 1 
+points: 0
+card reserved:
+
+Mine:
+gem: 0 1 0 0 0 0 
+bonus: 1 0 0 1 0 
+points: 0
+card reserved:
+Gem: 1 Cost: 0 0 3 7 0 
+Gem: 3 Cost: 0 0 0 0 7 
+Gem: 2 Cost: 7 0 0 0 0 
+
+10 [0 1 0 1 3][2 0] 9 [2 0 2 1 0][3 0] 21 [0 0 2 0 2][3 0] 13 [1 3 0 1 0][4 0] 
+44 [0 1 2 4 0][2 2] 45 [2 0 0 3 3][1 1] 67 [0 5 3 0 0][3 2] 66 [0 2 1 0 4][1 2] 
+81 [0 3 0 0 7][3 5] 89 [3 5 3 3 0][0 3] 85 [0 7 0 0 3][0 5] 79 [0 3 6 0 3][4 4] 
+
+value = 11.66 [0 0 3 7 0]
+joker_max = 0 cannot afford
+step.toofar = true step.pickn = 0
+
+value = 9.29 [2 0 2 1 0]
+joker_max = 0 cannot afford
+step.toofar = false step.pickn = 3
+
+value = 8.28 [7 0 0 0 0]
+joker_max = 0 cannot afford
+step.toofar = true step.pickn = 0
+
+value = 7.32 [0 0 2 0 2]
+joker_max = 0 cannot afford
+step.toofar = false step.pickn = 3
+
+value = 7.32 [1 3 0 1 0]
+joker_max = 0 cannot afford
+step.toofar = false step.pickn = 2
+
+value = 7.20 [0 0 0 0 7]
+joker_max = 0 cannot afford
+step.toofar = true step.pickn = 0
+
+value = 6.90 [0 3 0 0 7]
+joker_max = 0 cannot afford
+step.toofar = true step.pickn = 0
+
+value = 6.90 [0 7 0 0 3]
+joker_max = 0 cannot afford
+step.toofar = true step.pickn = 0
+
+value = 6.12 [0 1 0 1 3]
+joker_max = 0 cannot afford
+step.toofar = false step.pickn = 2
+
+value = 5.83 [0 1 2 4 0]
+joker_max = 0 cannot afford
+step.toofar = false step.pickn = 3
+
+player 0's move... 
+take 1 1 1 0 0 
+max = 1 min = 0 sum = 3
+m.gem[i] = 1 gem[i] = 3
+m.gem[i] = 1 gem[i] = 3
+m.gem[i] = 1 gem[i] = 4
+m.gem[i] = 0 gem[i] = 4
+m.gem[i] = 0 gem[i] = 4
+Total number of gem = 4
+==============================================
+Player 0's gem:   1 2 1 0 0 0 
+Player 0's bonus: 1 0 0 1 0 
+Player 0's reserve: 73 [0 0 0 0 7][3 4] 76 [0 0 3 7 0][1 5] 86 [7 0 0 0 0][2 4] 
+----------------------------------------------
+Remained Gem Tokens: 2 2 3 4 4 4 
+ 9 [2 0 2 1 0][3 0] 10 [0 1 0 1 3][2 0] 13 [1 3 0 1 0][4 0] 21 [0 0 2 0 2][3 0] 
+44 [0 1 2 4 0][2 2] 45 [2 0 0 3 3][1 1] 66 [0 2 1 0 4][1 2] 67 [0 5 3 0 0][3 2] 
+79 [0 3 6 0 3][4 4] 81 [0 3 0 0 7][3 5] 85 [0 7 0 0 3][0 5] 89 [3 5 3 3 0][0 3] 
+Score: 0 VS 0
+----------------------------------------------
+Player 1's gem:   1 0 0 0 0 0 
+Player 1's bonus: 0 1 1 0 1 
+Player 1's reserve: 
+==============================================
+player 1's move... 
+take 1 0 0 1 1 
+max = 1 min = 0 sum = 3
+m.gem[i] = 1 gem[i] = 2
+m.gem[i] = 0 gem[i] = 2
+m.gem[i] = 0 gem[i] = 3
+m.gem[i] = 1 gem[i] = 4
+m.gem[i] = 1 gem[i] = 4
+Total number of gem = 4
+==============================================
+Player 0's gem:   1 2 1 0 0 0 
+Player 0's bonus: 1 0 0 1 0 
+Player 0's reserve: 73 [0 0 0 0 7][3 4] 76 [0 0 3 7 0][1 5] 86 [7 0 0 0 0][2 4] 
+----------------------------------------------
+Remained Gem Tokens: 1 2 3 3 3 4 
+ 9 [2 0 2 1 0][3 0] 10 [0 1 0 1 3][2 0] 13 [1 3 0 1 0][4 0] 21 [0 0 2 0 2][3 0] 
+44 [0 1 2 4 0][2 2] 45 [2 0 0 3 3][1 1] 66 [0 2 1 0 4][1 2] 67 [0 5 3 0 0][3 2] 
+79 [0 3 6 0 3][4 4] 81 [0 3 0 0 7][3 5] 85 [0 7 0 0 3][0 5] 89 [3 5 3 3 0][0 3] 
+Score: 0 VS 0
+----------------------------------------------
+Player 1's gem:   2 0 0 1 1 0 
+Player 1's bonus: 0 1 1 0 1 
+Player 1's reserve: 
+==============================================
+Opponent's:
+gem: 2 0 0 1 1 0 
+bonus: 0 1 1 0 1 
+points: 0
+card reserved:
+
+Mine:
+gem: 1 2 1 0 0 0 
+bonus: 1 0 0 1 0 
+points: 0
+card reserved:
+Gem: 1 Cost: 0 0 3 7 0 
+Gem: 3 Cost: 0 0 0 0 7 
+Gem: 2 Cost: 7 0 0 0 0 
+
+10 [0 1 0 1 3][2 0] 9 [2 0 2 1 0][3 0] 21 [0 0 2 0 2][3 0] 13 [1 3 0 1 0][4 0] 
+44 [0 1 2 4 0][2 2] 45 [2 0 0 3 3][1 1] 67 [0 5 3 0 0][3 2] 66 [0 2 1 0 4][1 2] 
+81 [0 3 0 0 7][3 5] 89 [3 5 3 3 0][0 3] 85 [0 7 0 0 3][0 5] 79 [0 3 6 0 3][4 4] 
+
+value = 11.66 [0 0 3 7 0]
+joker_max = 0 cannot afford
+step.toofar = true step.pickn = 0
+
+value = 9.29 [2 0 2 1 0]
+joker_max = 0 cannot afford
+step.toofar = false step.pickn = 3
+
+value = 8.28 [7 0 0 0 0]
+joker_max = 0 cannot afford
+step.toofar = true step.pickn = 0
+
+value = 7.32 [0 0 2 0 2]
+joker_max = 0 cannot afford
+step.toofar = false step.pickn = 3
+
+value = 7.32 [1 3 0 1 0]
+joker_max = 0 cannot afford
+step.toofar = false step.pickn = 3
+
+value = 7.20 [0 0 0 0 7]
+joker_max = 0 cannot afford
+step.toofar = true step.pickn = 0
+
+value = 6.90 [0 3 0 0 7]
+joker_max = 0 cannot afford
+step.toofar = true step.pickn = 0
+
+value = 6.90 [0 7 0 0 3]
+joker_max = 0 cannot afford
+step.toofar = true step.pickn = 0
+
+value = 6.12 [0 1 0 1 3]
+joker_max = 0 cannot afford
+step.toofar = false step.pickn = 2
+
+value = 5.83 [0 1 2 4 0]
+joker_max = 0 cannot afford
+step.toofar = false step.pickn = 3
+
+player 0's move... 
+take 1 1 1 0 0 
+max = 1 min = 0 sum = 3
+m.gem[i] = 1 gem[i] = 1
+m.gem[i] = 1 gem[i] = 2
+m.gem[i] = 1 gem[i] = 3
+m.gem[i] = 0 gem[i] = 3
+m.gem[i] = 0 gem[i] = 3
+Total number of gem = 7
+==============================================
+Player 0's gem:   2 3 2 0 0 0 
+Player 0's bonus: 1 0 0 1 0 
+Player 0's reserve: 73 [0 0 0 0 7][3 4] 76 [0 0 3 7 0][1 5] 86 [7 0 0 0 0][2 4] 
+----------------------------------------------
+Remained Gem Tokens: 0 1 2 3 3 4 
+ 9 [2 0 2 1 0][3 0] 10 [0 1 0 1 3][2 0] 13 [1 3 0 1 0][4 0] 21 [0 0 2 0 2][3 0] 
+44 [0 1 2 4 0][2 2] 45 [2 0 0 3 3][1 1] 66 [0 2 1 0 4][1 2] 67 [0 5 3 0 0][3 2] 
+79 [0 3 6 0 3][4 4] 81 [0 3 0 0 7][3 5] 85 [0 7 0 0 3][0 5] 89 [3 5 3 3 0][0 3] 
+Score: 0 VS 0
+----------------------------------------------
+Player 1's gem:   2 0 0 1 1 0 
+Player 1's bonus: 0 1 1 0 1 
+Player 1's reserve: 
+==============================================
+player 1's move... 
+take 0 1 0 1 1 
+max = 1 min = 0 sum = 3
+m.gem[i] = 0 gem[i] = 0
+m.gem[i] = 1 gem[i] = 1
+m.gem[i] = 0 gem[i] = 2
+m.gem[i] = 1 gem[i] = 3
+m.gem[i] = 1 gem[i] = 3
+Total number of gem = 7
+==============================================
+Player 0's gem:   2 3 2 0 0 0 
+Player 0's bonus: 1 0 0 1 0 
+Player 0's reserve: 73 [0 0 0 0 7][3 4] 76 [0 0 3 7 0][1 5] 86 [7 0 0 0 0][2 4] 
+----------------------------------------------
+Remained Gem Tokens: 0 0 2 2 2 4 
+ 9 [2 0 2 1 0][3 0] 10 [0 1 0 1 3][2 0] 13 [1 3 0 1 0][4 0] 21 [0 0 2 0 2][3 0] 
+44 [0 1 2 4 0][2 2] 45 [2 0 0 3 3][1 1] 66 [0 2 1 0 4][1 2] 67 [0 5 3 0 0][3 2] 
+79 [0 3 6 0 3][4 4] 81 [0 3 0 0 7][3 5] 85 [0 7 0 0 3][0 5] 89 [3 5 3 3 0][0 3] 
+Score: 0 VS 0
+----------------------------------------------
+Player 1's gem:   2 1 0 2 2 0 
+Player 1's bonus: 0 1 1 0 1 
+Player 1's reserve: 
+==============================================
+Opponent's:
+gem: 2 1 0 2 2 0 
+bonus: 0 1 1 0 1 
+points: 0
+card reserved:
+
+Mine:
+gem: 2 3 2 0 0 0 
+bonus: 1 0 0 1 0 
+points: 0
+card reserved:
+Gem: 1 Cost: 0 0 3 7 0 
+Gem: 3 Cost: 0 0 0 0 7 
+Gem: 2 Cost: 7 0 0 0 0 
+
+10 [0 1 0 1 3][2 0] 9 [2 0 2 1 0][3 0] 21 [0 0 2 0 2][3 0] 13 [1 3 0 1 0][4 0] 
+44 [0 1 2 4 0][2 2] 45 [2 0 0 3 3][1 1] 67 [0 5 3 0 0][3 2] 66 [0 2 1 0 4][1 2] 
+81 [0 3 0 0 7][3 5] 89 [3 5 3 3 0][0 3] 85 [0 7 0 0 3][0 5] 79 [0 3 6 0 3][4 4] 
+
+value = 11.66 [0 0 3 7 0]
+joker_max = 0 cannot afford
+step.toofar = true step.pickn = 0
+
+value = 9.29 [2 0 2 1 0]
+player 0's move... 
+buy 9
+==============================================
+Player 0's gem:   1 3 0 0 0 0 
+Player 0's bonus: 1 0 0 2 0 
+Player 0's reserve: 73 [0 0 0 0 7][3 4] 76 [0 0 3 7 0][1 5] 86 [7 0 0 0 0][2 4] 
+----------------------------------------------
+Remained Gem Tokens: 1 0 4 2 2 4 
+10 [0 1 0 1 3][2 0] 13 [1 3 0 1 0][4 0] 21 [0 0 2 0 2][3 0] 34 [0 1 1 2 1][0 0] 
+44 [0 1 2 4 0][2 2] 45 [2 0 0 3 3][1 1] 66 [0 2 1 0 4][1 2] 67 [0 5 3 0 0][3 2] 
+79 [0 3 6 0 3][4 4] 81 [0 3 0 0 7][3 5] 85 [0 7 0 0 3][0 5] 89 [3 5 3 3 0][0 3] 
+Score: 0 VS 0
+----------------------------------------------
+Player 1's gem:   2 1 0 2 2 0 
+Player 1's bonus: 0 1 1 0 1 
+Player 1's reserve: 
+==============================================
+player 1's move... 
+buy 34
+==============================================
+Player 0's gem:   1 3 0 0 0 0 
+Player 0's bonus: 1 0 0 2 0 
+Player 0's reserve: 73 [0 0 0 0 7][3 4] 76 [0 0 3 7 0][1 5] 86 [7 0 0 0 0][2 4] 
+----------------------------------------------
+Remained Gem Tokens: 1 0 4 4 2 4 
+ 5 [0 0 4 0 0][3 1] 10 [0 1 0 1 3][2 0] 13 [1 3 0 1 0][4 0] 21 [0 0 2 0 2][3 0] 
+44 [0 1 2 4 0][2 2] 45 [2 0 0 3 3][1 1] 66 [0 2 1 0 4][1 2] 67 [0 5 3 0 0][3 2] 
+79 [0 3 6 0 3][4 4] 81 [0 3 0 0 7][3 5] 85 [0 7 0 0 3][0 5] 89 [3 5 3 3 0][0 3] 
+Score: 0 VS 0
+----------------------------------------------
+Player 1's gem:   2 1 0 0 2 0 
+Player 1's bonus: 1 1 1 0 1 
+Player 1's reserve: 
+==============================================
+Opponent's:
+gem: 2 1 0 0 2 0 
+bonus: 1 1 1 0 1 
+points: 0
+card reserved:
+
+Mine:
+gem: 1 3 0 0 0 0 
+bonus: 1 0 0 2 0 
+points: 0
+card reserved:
+Gem: 1 Cost: 0 0 3 7 0 
+Gem: 3 Cost: 0 0 0 0 7 
+Gem: 2 Cost: 7 0 0 0 0 
+
+10 [0 1 0 1 3][2 0] 5 [0 0 4 0 0][3 1] 21 [0 0 2 0 2][3 0] 13 [1 3 0 1 0][4 0] 
+44 [0 1 2 4 0][2 2] 45 [2 0 0 3 3][1 1] 67 [0 5 3 0 0][3 2] 66 [0 2 1 0 4][1 2] 
+81 [0 3 0 0 7][3 5] 89 [3 5 3 3 0][0 3] 85 [0 7 0 0 3][0 5] 79 [0 3 6 0 3][4 4] 
+
+value = 13.39 [0 0 3 7 0]
+joker_max = 0 cannot afford
+step.toofar = true step.pickn = 0
+
+value = 8.28 [7 0 0 0 0]
+joker_max = 0 cannot afford
+step.toofar = true step.pickn = 0
+
+value = 7.32 [1 3 0 1 0]
+player 0's move... 
+buy 13
+==============================================
+Player 0's gem:   1 0 0 0 0 0 
+Player 0's bonus: 1 0 0 2 1 
+Player 0's reserve: 73 [0 0 0 0 7][3 4] 76 [0 0 3 7 0][1 5] 86 [7 0 0 0 0][2 4] 
+----------------------------------------------
+Remained Gem Tokens: 1 3 4 4 2 4 
+ 2 [0 1 1 1 2][3 0]  5 [0 0 4 0 0][3 1] 10 [0 1 0 1 3][2 0] 21 [0 0 2 0 2][3 0] 
+44 [0 1 2 4 0][2 2] 45 [2 0 0 3 3][1 1] 66 [0 2 1 0 4][1 2] 67 [0 5 3 0 0][3 2] 
+79 [0 3 6 0 3][4 4] 81 [0 3 0 0 7][3 5] 85 [0 7 0 0 3][0 5] 89 [3 5 3 3 0][0 3] 
+Score: 0 VS 0
+----------------------------------------------
+Player 1's gem:   2 1 0 0 2 0 
+Player 1's bonus: 1 1 1 0 1 
+Player 1's reserve: 
+==============================================
+player 1's move... 
+take 1 0 1 1 0 
+max = 1 min = 0 sum = 3
+m.gem[i] = 1 gem[i] = 1
+m.gem[i] = 0 gem[i] = 3
+m.gem[i] = 1 gem[i] = 4
+m.gem[i] = 1 gem[i] = 4
+m.gem[i] = 0 gem[i] = 2
+Total number of gem = 8
+==============================================
+Player 0's gem:   1 0 0 0 0 0 
+Player 0's bonus: 1 0 0 2 1 
+Player 0's reserve: 73 [0 0 0 0 7][3 4] 76 [0 0 3 7 0][1 5] 86 [7 0 0 0 0][2 4] 
+----------------------------------------------
+Remained Gem Tokens: 0 3 3 3 2 4 
+ 2 [0 1 1 1 2][3 0]  5 [0 0 4 0 0][3 1] 10 [0 1 0 1 3][2 0] 21 [0 0 2 0 2][3 0] 
+44 [0 1 2 4 0][2 2] 45 [2 0 0 3 3][1 1] 66 [0 2 1 0 4][1 2] 67 [0 5 3 0 0][3 2] 
+79 [0 3 6 0 3][4 4] 81 [0 3 0 0 7][3 5] 85 [0 7 0 0 3][0 5] 89 [3 5 3 3 0][0 3] 
+Score: 0 VS 0
+----------------------------------------------
+Player 1's gem:   3 1 1 1 2 0 
+Player 1's bonus: 1 1 1 0 1 
+Player 1's reserve: 
+==============================================
+Opponent's:
+gem: 3 1 1 1 2 0 
+bonus: 1 1 1 0 1 
+points: 0
+card reserved:
+
+Mine:
+gem: 1 0 0 0 0 0 
+bonus: 1 0 0 2 1 
+points: 0
+card reserved:
+Gem: 1 Cost: 0 0 3 7 0 
+Gem: 3 Cost: 0 0 0 0 7 
+Gem: 2 Cost: 7 0 0 0 0 
+
+10 [0 1 0 1 3][2 0] 5 [0 0 4 0 0][3 1] 21 [0 0 2 0 2][3 0] 2 [0 1 1 1 2][3 0] 
+44 [0 1 2 4 0][2 2] 45 [2 0 0 3 3][1 1] 67 [0 5 3 0 0][3 2] 66 [0 2 1 0 4][1 2] 
+81 [0 3 0 0 7][3 5] 89 [3 5 3 3 0][0 3] 85 [0 7 0 0 3][0 5] 79 [0 3 6 0 3][4 4] 
+
+value = 13.39 [0 0 3 7 0]
+joker_max = 0 cannot afford
+step.toofar = true step.pickn = 0
+
+value = 8.67 [0 1 1 1 2]
+joker_max = 0 cannot afford
+step.toofar = false step.pickn = 3
+
+value = 8.28 [0 0 0 0 7]
+joker_max = 0 cannot afford
+step.toofar = true step.pickn = 0
+
+value = 8.28 [7 0 0 0 0]
+joker_max = 0 cannot afford
+step.toofar = true step.pickn = 0
+
+value = 8.18 [0 0 2 0 2]
+joker_max = 0 cannot afford
+step.toofar = false step.pickn = 3
+
+value = 8.10 [0 7 0 0 3]
+joker_max = 0 cannot afford
+step.toofar = true step.pickn = 0
+
+value = 8.10 [0 3 0 0 7]
+joker_max = 0 cannot afford
+step.toofar = true step.pickn = 0
+
+value = 7.92 [0 1 0 1 3]
+joker_max = 0 cannot afford
+step.toofar = false step.pickn = 3
+
+value = 7.13 [0 1 2 4 0]
+joker_max = 0 cannot afford
+step.toofar = false step.pickn = 3
+
+value = 7.02 [2 0 0 3 3]
+joker_max = 0 cannot afford
+step.toofar = false step.pickn = 3
+
+value = 5.83 [0 2 1 0 4]
+joker_max = 0 cannot afford
+step.toofar = false step.pickn = 3
+
+value = 5.60 [0 3 6 0 3]
+joker_max = 0 cannot afford
+step.toofar = true step.pickn = 0
+
+player 0's move... 
+take 0 1 1 0 1 
+max = 1 min = 0 sum = 3
+m.gem[i] = 0 gem[i] = 0
+m.gem[i] = 1 gem[i] = 3
+m.gem[i] = 1 gem[i] = 3
+m.gem[i] = 0 gem[i] = 3
+m.gem[i] = 1 gem[i] = 2
+Total number of gem = 4
+==============================================
+Player 0's gem:   1 1 1 0 1 0 
+Player 0's bonus: 1 0 0 2 1 
+Player 0's reserve: 73 [0 0 0 0 7][3 4] 76 [0 0 3 7 0][1 5] 86 [7 0 0 0 0][2 4] 
+----------------------------------------------
+Remained Gem Tokens: 0 2 2 3 1 4 
+ 2 [0 1 1 1 2][3 0]  5 [0 0 4 0 0][3 1] 10 [0 1 0 1 3][2 0] 21 [0 0 2 0 2][3 0] 
+44 [0 1 2 4 0][2 2] 45 [2 0 0 3 3][1 1] 66 [0 2 1 0 4][1 2] 67 [0 5 3 0 0][3 2] 
+79 [0 3 6 0 3][4 4] 81 [0 3 0 0 7][3 5] 85 [0 7 0 0 3][0 5] 89 [3 5 3 3 0][0 3] 
+Score: 0 VS 0
+----------------------------------------------
+Player 1's gem:   3 1 1 1 2 0 
+Player 1's bonus: 1 1 1 0 1 
+Player 1's reserve: 
+==============================================
+player 1's move... 
+buy 10
+==============================================
+Player 0's gem:   1 1 1 0 1 0 
+Player 0's bonus: 1 0 0 2 1 
+Player 0's reserve: 73 [0 0 0 0 7][3 4] 76 [0 0 3 7 0][1 5] 86 [7 0 0 0 0][2 4] 
+----------------------------------------------
+Remained Gem Tokens: 0 2 2 4 3 4 
+ 2 [0 1 1 1 2][3 0]  5 [0 0 4 0 0][3 1] 16 [2 0 0 0 2][1 0] 21 [0 0 2 0 2][3 0] 
+44 [0 1 2 4 0][2 2] 45 [2 0 0 3 3][1 1] 66 [0 2 1 0 4][1 2] 67 [0 5 3 0 0][3 2] 
+79 [0 3 6 0 3][4 4] 81 [0 3 0 0 7][3 5] 85 [0 7 0 0 3][0 5] 89 [3 5 3 3 0][0 3] 
+Score: 0 VS 0
+----------------------------------------------
+Player 1's gem:   3 1 1 0 0 0 
+Player 1's bonus: 1 1 2 0 1 
+Player 1's reserve: 
+==============================================
+Opponent's:
+gem: 3 1 1 0 0 0 
+bonus: 1 1 2 0 1 
+points: 0
+card reserved:
+
+Mine:
+gem: 1 1 1 0 1 0 
+bonus: 1 0 0 2 1 
+points: 0
+card reserved:
+Gem: 1 Cost: 0 0 3 7 0 
+Gem: 3 Cost: 0 0 0 0 7 
+Gem: 2 Cost: 7 0 0 0 0 
+
+16 [2 0 0 0 2][1 0] 5 [0 0 4 0 0][3 1] 21 [0 0 2 0 2][3 0] 2 [0 1 1 1 2][3 0] 
+44 [0 1 2 4 0][2 2] 45 [2 0 0 3 3][1 1] 67 [0 5 3 0 0][3 2] 66 [0 2 1 0 4][1 2] 
+81 [0 3 0 0 7][3 5] 89 [3 5 3 3 0][0 3] 85 [0 7 0 0 3][0 5] 79 [0 3 6 0 3][4 4] 
+
+value = 13.39 [0 0 3 7 0]
+joker_max = 0 cannot afford
+step.toofar = true step.pickn = 0
+
+value = 9.60 [2 0 0 0 2]
+player 0's move... 
+buy 16
+==============================================
+Player 0's gem:   0 1 1 0 0 0 
+Player 0's bonus: 1 1 0 2 1 
+Player 0's reserve: 73 [0 0 0 0 7][3 4] 76 [0 0 3 7 0][1 5] 86 [7 0 0 0 0][2 4] 
+----------------------------------------------
+Remained Gem Tokens: 1 2 2 4 4 4 
+ 2 [0 1 1 1 2][3 0]  5 [0 0 4 0 0][3 1] 21 [0 0 2 0 2][3 0] 28 [2 1 2 0 0][1 0] 
+44 [0 1 2 4 0][2 2] 45 [2 0 0 3 3][1 1] 66 [0 2 1 0 4][1 2] 67 [0 5 3 0 0][3 2] 
+79 [0 3 6 0 3][4 4] 81 [0 3 0 0 7][3 5] 85 [0 7 0 0 3][0 5] 89 [3 5 3 3 0][0 3] 
+Score: 0 VS 0
+----------------------------------------------
+Player 1's gem:   3 1 1 0 0 0 
+Player 1's bonus: 1 1 2 0 1 
+Player 1's reserve: 
+==============================================
+player 1's move... 
+buy 28
+==============================================
+Player 0's gem:   0 1 1 0 0 0 
+Player 0's bonus: 1 1 0 2 1 
+Player 0's reserve: 73 [0 0 0 0 7][3 4] 76 [0 0 3 7 0][1 5] 86 [7 0 0 0 0][2 4] 
+----------------------------------------------
+Remained Gem Tokens: 2 2 2 4 4 4 
+ 2 [0 1 1 1 2][3 0]  5 [0 0 4 0 0][3 1] 21 [0 0 2 0 2][3 0] 26 [0 0 0 0 4][2 1] 
+44 [0 1 2 4 0][2 2] 45 [2 0 0 3 3][1 1] 66 [0 2 1 0 4][1 2] 67 [0 5 3 0 0][3 2] 
+79 [0 3 6 0 3][4 4] 81 [0 3 0 0 7][3 5] 85 [0 7 0 0 3][0 5] 89 [3 5 3 3 0][0 3] 
+Score: 0 VS 0
+----------------------------------------------
+Player 1's gem:   2 1 1 0 0 0 
+Player 1's bonus: 1 2 2 0 1 
+Player 1's reserve: 
+==============================================
+Opponent's:
+gem: 2 1 1 0 0 0 
+bonus: 1 2 2 0 1 
+points: 0
+card reserved:
+
+Mine:
+gem: 0 1 1 0 0 0 
+bonus: 1 1 0 2 1 
+points: 0
+card reserved:
+Gem: 1 Cost: 0 0 3 7 0 
+Gem: 3 Cost: 0 0 0 0 7 
+Gem: 2 Cost: 7 0 0 0 0 
+
+26 [0 0 0 0 4][2 1] 5 [0 0 4 0 0][3 1] 21 [0 0 2 0 2][3 0] 2 [0 1 1 1 2][3 0] 
+44 [0 1 2 4 0][2 2] 45 [2 0 0 3 3][1 1] 67 [0 5 3 0 0][3 2] 66 [0 2 1 0 4][1 2] 
+81 [0 3 0 0 7][3 5] 89 [3 5 3 3 0][0 3] 85 [0 7 0 0 3][0 5] 79 [0 3 6 0 3][4 4] 
+
+value = 13.39 [0 0 3 7 0]
+joker_max = 0 cannot afford
+step.toofar = true step.pickn = 0
+
+value = 9.91 [0 1 1 1 2]
+joker_max = 0 cannot afford
+step.toofar = false step.pickn = 3
+
+value = 9.30 [0 3 0 0 7]
+joker_max = 0 cannot afford
+step.toofar = true step.pickn = 0
+
+value = 9.30 [0 7 0 0 3]
+joker_max = 0 cannot afford
+step.toofar = true step.pickn = 0
+
+value = 8.42 [0 1 2 4 0]
+joker_max = 0 cannot afford
+step.toofar = false step.pickn = 3
+
+value = 8.28 [0 0 0 0 7]
+joker_max = 0 cannot afford
+step.toofar = true step.pickn = 0
+
+value = 8.28 [7 0 0 0 0]
+joker_max = 0 cannot afford
+step.toofar = true step.pickn = 0
+
+value = 8.18 [0 0 2 0 2]
+joker_max = 0 cannot afford
+step.toofar = false step.pickn = 3
+
+value = 7.32 [0 0 0 0 4]
+joker_max = 0 cannot afford
+step.toofar = false step.pickn = 2
+
+value = 6.80 [0 3 6 0 3]
+joker_max = 0 cannot afford
+step.toofar = true step.pickn = 0
+
+value = 6.70 [3 5 3 3 0]
+joker_max = 0 cannot afford
+step.toofar = false step.pickn = 3
+
+value = 6.27 [0 2 1 0 4]
+joker_max = 0 cannot afford
+step.toofar = false step.pickn = 2
+
+value = 6.18 [2 0 0 3 3]
+joker_max = 0 cannot afford
+step.toofar = false step.pickn = 3
+
+player 0's move... 
+take 1 1 0 0 1 
+max = 1 min = 0 sum = 3
+m.gem[i] = 1 gem[i] = 2
+m.gem[i] = 1 gem[i] = 2
+m.gem[i] = 0 gem[i] = 2
+m.gem[i] = 0 gem[i] = 4
+m.gem[i] = 1 gem[i] = 4
+Total number of gem = 5
+==============================================
+Player 0's gem:   1 2 1 0 1 0 
+Player 0's bonus: 1 1 0 2 1 
+Player 0's reserve: 73 [0 0 0 0 7][3 4] 76 [0 0 3 7 0][1 5] 86 [7 0 0 0 0][2 4] 
+----------------------------------------------
+Remained Gem Tokens: 1 1 2 4 3 4 
+ 2 [0 1 1 1 2][3 0]  5 [0 0 4 0 0][3 1] 21 [0 0 2 0 2][3 0] 26 [0 0 0 0 4][2 1] 
+44 [0 1 2 4 0][2 2] 45 [2 0 0 3 3][1 1] 66 [0 2 1 0 4][1 2] 67 [0 5 3 0 0][3 2] 
+79 [0 3 6 0 3][4 4] 81 [0 3 0 0 7][3 5] 85 [0 7 0 0 3][0 5] 89 [3 5 3 3 0][0 3] 
+Score: 0 VS 0
+----------------------------------------------
+Player 1's gem:   2 1 1 0 0 0 
+Player 1's bonus: 1 2 2 0 1 
+Player 1's reserve: 
+==============================================
+player 1's move... 
+take 0 0 0 2 0 
+max = 2 min = 0 sum = 2
+m.gem[i] = 0 gem[i] = 1
+m.gem[i] = 0 gem[i] = 1
+m.gem[i] = 0 gem[i] = 2
+m.gem[i] = 2 gem[i] = 4
+m.gem[i] = 0 gem[i] = 3
+Total number of gem = 6
+==============================================
+Player 0's gem:   1 2 1 0 1 0 
+Player 0's bonus: 1 1 0 2 1 
+Player 0's reserve: 73 [0 0 0 0 7][3 4] 76 [0 0 3 7 0][1 5] 86 [7 0 0 0 0][2 4] 
+----------------------------------------------
+Remained Gem Tokens: 1 1 2 2 3 4 
+ 2 [0 1 1 1 2][3 0]  5 [0 0 4 0 0][3 1] 21 [0 0 2 0 2][3 0] 26 [0 0 0 0 4][2 1] 
+44 [0 1 2 4 0][2 2] 45 [2 0 0 3 3][1 1] 66 [0 2 1 0 4][1 2] 67 [0 5 3 0 0][3 2] 
+79 [0 3 6 0 3][4 4] 81 [0 3 0 0 7][3 5] 85 [0 7 0 0 3][0 5] 89 [3 5 3 3 0][0 3] 
+Score: 0 VS 0
+----------------------------------------------
+Player 1's gem:   2 1 1 2 0 0 
+Player 1's bonus: 1 2 2 0 1 
+Player 1's reserve: 
+==============================================
+Opponent's:
+gem: 2 1 1 2 0 0 
+bonus: 1 2 2 0 1 
+points: 0
+card reserved:
+
+Mine:
+gem: 1 2 1 0 1 0 
+bonus: 1 1 0 2 1 
+points: 0
+card reserved:
+Gem: 1 Cost: 0 0 3 7 0 
+Gem: 3 Cost: 0 0 0 0 7 
+Gem: 2 Cost: 7 0 0 0 0 
+
+26 [0 0 0 0 4][2 1] 5 [0 0 4 0 0][3 1] 21 [0 0 2 0 2][3 0] 2 [0 1 1 1 2][3 0] 
+44 [0 1 2 4 0][2 2] 45 [2 0 0 3 3][1 1] 67 [0 5 3 0 0][3 2] 66 [0 2 1 0 4][1 2] 
+81 [0 3 0 0 7][3 5] 89 [3 5 3 3 0][0 3] 85 [0 7 0 0 3][0 5] 79 [0 3 6 0 3][4 4] 
+
+value = 13.39 [0 0 3 7 0]
+joker_max = 0 cannot afford
+step.toofar = true step.pickn = 0
+
+value = 9.91 [0 1 1 1 2]
+player 0's move... 
+buy 2
+==============================================
+Player 0's gem:   1 2 0 0 0 0 
+Player 0's bonus: 1 1 0 3 1 
+Player 0's reserve: 73 [0 0 0 0 7][3 4] 76 [0 0 3 7 0][1 5] 86 [7 0 0 0 0][2 4] 
+----------------------------------------------
+Remained Gem Tokens: 1 1 3 2 4 4 
+ 5 [0 0 4 0 0][3 1] 11 [1 2 0 0 2][2 0] 21 [0 0 2 0 2][3 0] 26 [0 0 0 0 4][2 1] 
+44 [0 1 2 4 0][2 2] 45 [2 0 0 3 3][1 1] 66 [0 2 1 0 4][1 2] 67 [0 5 3 0 0][3 2] 
+79 [0 3 6 0 3][4 4] 81 [0 3 0 0 7][3 5] 85 [0 7 0 0 3][0 5] 89 [3 5 3 3 0][0 3] 
+Score: 0 VS 0
+----------------------------------------------
+Player 1's gem:   2 1 1 2 0 0 
+Player 1's bonus: 1 2 2 0 1 
+Player 1's reserve: 
+==============================================
+player 1's move... 
+take 0 0 0 2 0 
+max = 2 min = 0 sum = 2
+m.gem[i] = 0 gem[i] = 1
+m.gem[i] = 0 gem[i] = 1
+m.gem[i] = 0 gem[i] = 3
+m.gem[i] = 2 gem[i] = 2
+m.gem[i] = 0 gem[i] = 4
+Total number of gem = 8
+==============================================
+Player 0's gem:   1 2 0 0 0 0 
+Player 0's bonus: 1 1 0 3 1 
+Player 0's reserve: 73 [0 0 0 0 7][3 4] 76 [0 0 3 7 0][1 5] 86 [7 0 0 0 0][2 4] 
+----------------------------------------------
+Remained Gem Tokens: 1 1 3 0 4 4 
+ 5 [0 0 4 0 0][3 1] 11 [1 2 0 0 2][2 0] 21 [0 0 2 0 2][3 0] 26 [0 0 0 0 4][2 1] 
+44 [0 1 2 4 0][2 2] 45 [2 0 0 3 3][1 1] 66 [0 2 1 0 4][1 2] 67 [0 5 3 0 0][3 2] 
+79 [0 3 6 0 3][4 4] 81 [0 3 0 0 7][3 5] 85 [0 7 0 0 3][0 5] 89 [3 5 3 3 0][0 3] 
+Score: 0 VS 0
+----------------------------------------------
+Player 1's gem:   2 1 1 4 0 0 
+Player 1's bonus: 1 2 2 0 1 
+Player 1's reserve: 
+==============================================
+Opponent's:
+gem: 2 1 1 4 0 0 
+bonus: 1 2 2 0 1 
+points: 0
+card reserved:
+
+Mine:
+gem: 1 2 0 0 0 0 
+bonus: 1 1 0 3 1 
+points: 0
+card reserved:
+Gem: 1 Cost: 0 0 3 7 0 
+Gem: 3 Cost: 0 0 0 0 7 
+Gem: 2 Cost: 7 0 0 0 0 
+
+26 [0 0 0 0 4][2 1] 5 [0 0 4 0 0][3 1] 21 [0 0 2 0 2][3 0] 11 [1 2 0 0 2][2 0] 
+44 [0 1 2 4 0][2 2] 45 [2 0 0 3 3][1 1] 67 [0 5 3 0 0][3 2] 66 [0 2 1 0 4][1 2] 
+81 [0 3 0 0 7][3 5] 89 [3 5 3 3 0][0 3] 85 [0 7 0 0 3][0 5] 79 [0 3 6 0 3][4 4] 
+
+value = 15.12 [0 0 3 7 0]
+joker_max = 0 cannot afford
+step.toofar = false step.pickn = 2
+
+value = 10.80 [0 1 2 4 0]
+joker_max = 0 cannot afford
+step.toofar = false step.pickn = 2
+
+value = 9.30 [0 3 0 0 7]
+joker_max = 0 cannot afford
+step.toofar = true step.pickn = 0
+
+value = 9.30 [0 7 0 0 3]
+joker_max = 0 cannot afford
+step.toofar = true step.pickn = 0
+
+value = 8.28 [0 0 0 0 7]
+joker_max = 0 cannot afford
+step.toofar = true step.pickn = 0
+
+value = 8.28 [7 0 0 0 0]
+joker_max = 0 cannot afford
+step.toofar = true step.pickn = 0
+
+value = 8.13 [2 0 0 3 3]
+joker_max = 0 cannot afford
+step.toofar = false step.pickn = 2
+
+value = 7.20 [1 2 0 0 2]
+joker_max = 0 cannot afford
+step.toofar = false step.pickn = 3
+
+value = 6.97 [0 2 1 0 4]
+joker_max = 0 cannot afford
+step.toofar = false step.pickn = 3
+
+value = 6.80 [0 3 6 0 3]
+joker_max = 0 cannot afford
+step.toofar = true step.pickn = 0
+
+value = 6.70 [3 5 3 3 0]
+joker_max = 0 cannot afford
+step.toofar = false step.pickn = 3
+
+player 0's move... 
+take 0 0 2 0 0 
+max = 2 min = 0 sum = 2
+m.gem[i] = 0 gem[i] = 1
+m.gem[i] = 0 gem[i] = 1
+m.gem[i] = 2 gem[i] = 3
+m.gem[i] = 0 gem[i] = 0
+m.gem[i] = 0 gem[i] = 4
+Total number of gem = 5
+==============================================
+Player 0's gem:   1 2 2 0 0 0 
+Player 0's bonus: 1 1 0 3 1 
+Player 0's reserve: 73 [0 0 0 0 7][3 4] 76 [0 0 3 7 0][1 5] 86 [7 0 0 0 0][2 4] 
+----------------------------------------------
+Remained Gem Tokens: 1 1 1 0 4 4 
+ 5 [0 0 4 0 0][3 1] 11 [1 2 0 0 2][2 0] 21 [0 0 2 0 2][3 0] 26 [0 0 0 0 4][2 1] 
+44 [0 1 2 4 0][2 2] 45 [2 0 0 3 3][1 1] 66 [0 2 1 0 4][1 2] 67 [0 5 3 0 0][3 2] 
+79 [0 3 6 0 3][4 4] 81 [0 3 0 0 7][3 5] 85 [0 7 0 0 3][0 5] 89 [3 5 3 3 0][0 3] 
+Score: 0 VS 0
+----------------------------------------------
+Player 1's gem:   2 1 1 4 0 0 
+Player 1's bonus: 1 2 2 0 1 
+Player 1's reserve: 
+==============================================
+player 1's move... 
+buy 44
+==============================================
+Player 0's gem:   1 2 2 0 0 0 
+Player 0's bonus: 1 1 0 3 1 
+Player 0's reserve: 73 [0 0 0 0 7][3 4] 76 [0 0 3 7 0][1 5] 86 [7 0 0 0 0][2 4] 
+----------------------------------------------
+Remained Gem Tokens: 1 1 1 4 4 4 
+ 5 [0 0 4 0 0][3 1] 11 [1 2 0 0 2][2 0] 21 [0 0 2 0 2][3 0] 26 [0 0 0 0 4][2 1] 
+45 [2 0 0 3 3][1 1] 53 [0 3 2 3 0][3 1] 66 [0 2 1 0 4][1 2] 67 [0 5 3 0 0][3 2] 
+79 [0 3 6 0 3][4 4] 81 [0 3 0 0 7][3 5] 85 [0 7 0 0 3][0 5] 89 [3 5 3 3 0][0 3] 
+Score: 0 VS 2
+----------------------------------------------
+Player 1's gem:   2 1 1 0 0 0 
+Player 1's bonus: 1 2 3 0 1 
+Player 1's reserve: 
+==============================================
+Opponent's:
+gem: 2 1 1 0 0 0 
+bonus: 1 2 3 0 1 
+points: 2
+card reserved:
+
+Mine:
+gem: 1 2 2 0 0 0 
+bonus: 1 1 0 3 1 
+points: 0
+card reserved:
+Gem: 1 Cost: 0 0 3 7 0 
+Gem: 3 Cost: 0 0 0 0 7 
+Gem: 2 Cost: 7 0 0 0 0 
+
+26 [0 0 0 0 4][2 1] 5 [0 0 4 0 0][3 1] 21 [0 0 2 0 2][3 0] 11 [1 2 0 0 2][2 0] 
+53 [0 3 2 3 0][3 1] 45 [2 0 0 3 3][1 1] 67 [0 5 3 0 0][3 2] 66 [0 2 1 0 4][1 2] 
+81 [0 3 0 0 7][3 5] 89 [3 5 3 3 0][0 3] 85 [0 7 0 0 3][0 5] 79 [0 3 6 0 3][4 4] 
+
+value = 15.12 [0 0 3 7 0]
+joker_max = 0 cannot afford
+step.toofar = false step.pickn = 3
+
+value = 9.30 [0 3 0 0 7]
+joker_max = 0 cannot afford
+step.toofar = true step.pickn = 0
+
+value = 9.30 [0 7 0 0 3]
+joker_max = 0 cannot afford
+step.toofar = true step.pickn = 0
+
+value = 8.28 [0 0 0 0 7]
+joker_max = 0 cannot afford
+step.toofar = true step.pickn = 0
+
+value = 8.28 [7 0 0 0 0]
+joker_max = 0 cannot afford
+step.toofar = true step.pickn = 0
+
+value = 8.13 [2 0 0 3 3]
+joker_max = 0 cannot afford
+step.toofar = false step.pickn = 2
+
+value = 7.20 [1 2 0 0 2]
+joker_max = 0 cannot afford
+step.toofar = false step.pickn = 3
+
+value = 7.09 [0 3 2 3 0]
+player 0's move... 
+buy 53
+==============================================
+Player 0's gem:   1 0 0 0 0 0 
+Player 0's bonus: 1 1 0 4 1 
+Player 0's reserve: 73 [0 0 0 0 7][3 4] 76 [0 0 3 7 0][1 5] 86 [7 0 0 0 0][2 4] 
+----------------------------------------------
+Remained Gem Tokens: 1 3 3 4 4 4 
+ 5 [0 0 4 0 0][3 1] 11 [1 2 0 0 2][2 0] 21 [0 0 2 0 2][3 0] 26 [0 0 0 0 4][2 1] 
+45 [2 0 0 3 3][1 1] 55 [3 2 0 0 3][4 1] 66 [0 2 1 0 4][1 2] 67 [0 5 3 0 0][3 2] 
+79 [0 3 6 0 3][4 4] 81 [0 3 0 0 7][3 5] 85 [0 7 0 0 3][0 5] 89 [3 5 3 3 0][0 3] 
+Score: 1 VS 2
+----------------------------------------------
+Player 1's gem:   2 1 1 0 0 0 
+Player 1's bonus: 1 2 3 0 1 
+Player 1's reserve: 
+==============================================
+player 1's move... 
+reserve 66
+==============================================
+Player 0's gem:   1 0 0 0 0 0 
+Player 0's bonus: 1 1 0 4 1 
+Player 0's reserve: 73 [0 0 0 0 7][3 4] 76 [0 0 3 7 0][1 5] 86 [7 0 0 0 0][2 4] 
+----------------------------------------------
+Remained Gem Tokens: 1 3 3 4 4 3 
+ 5 [0 0 4 0 0][3 1] 11 [1 2 0 0 2][2 0] 21 [0 0 2 0 2][3 0] 26 [0 0 0 0 4][2 1] 
+45 [2 0 0 3 3][1 1] 55 [3 2 0 0 3][4 1] 56 [4 2 1 0 0][4 2] 67 [0 5 3 0 0][3 2] 
+79 [0 3 6 0 3][4 4] 81 [0 3 0 0 7][3 5] 85 [0 7 0 0 3][0 5] 89 [3 5 3 3 0][0 3] 
+Score: 1 VS 2
+----------------------------------------------
+Player 1's gem:   2 1 1 0 0 1 
+Player 1's bonus: 1 2 3 0 1 
+Player 1's reserve: 66 [0 2 1 0 4][1 2] 
+==============================================
+Opponent's:
+gem: 2 1 1 0 0 1 
+bonus: 1 2 3 0 1 
+points: 2
+card reserved:
+Gem: 1 Cost: 0 2 1 0 4 
+
+Mine:
+gem: 1 0 0 0 0 0 
+bonus: 1 1 0 4 1 
+points: 1
+card reserved:
+Gem: 1 Cost: 0 0 3 7 0 
+Gem: 3 Cost: 0 0 0 0 7 
+Gem: 2 Cost: 7 0 0 0 0 
+
+26 [0 0 0 0 4][2 1] 5 [0 0 4 0 0][3 1] 21 [0 0 2 0 2][3 0] 11 [1 2 0 0 2][2 0] 
+55 [3 2 0 0 3][4 1] 45 [2 0 0 3 3][1 1] 67 [0 5 3 0 0][3 2] 56 [4 2 1 0 0][4 2] 
+81 [0 3 0 0 7][3 5] 89 [3 5 3 3 0][0 3] 85 [0 7 0 0 3][0 5] 79 [0 3 6 0 3][4 4] 
+
+value = 16.85 [0 0 3 7 0]
+joker_max = 0 cannot afford
+step.toofar = false step.pickn = 3
+
+value = 9.30 [0 3 0 0 7]
+joker_max = 0 cannot afford
+step.toofar = true step.pickn = 0
+
+value = 9.30 [0 7 0 0 3]
+joker_max = 0 cannot afford
+step.toofar = true step.pickn = 0
+
+value = 8.28 [0 0 0 0 7]
+joker_max = 0 cannot afford
+step.toofar = true step.pickn = 0
+
+value = 8.28 [7 0 0 0 0]
+joker_max = 0 cannot afford
+step.toofar = true step.pickn = 0
+
+value = 8.13 [2 0 0 3 3]
+joker_max = 0 cannot afford
+step.toofar = false step.pickn = 2
+
+value = 7.20 [1 2 0 0 2]
+joker_max = 0 cannot afford
+step.toofar = false step.pickn = 3
+
+value = 6.97 [4 2 1 0 0]
+joker_max = 0 cannot afford
+step.toofar = false step.pickn = 3
+
+value = 6.80 [0 3 6 0 3]
+joker_max = 0 cannot afford
+step.toofar = true step.pickn = 0
+
+value = 6.70 [3 5 3 3 0]
+joker_max = 0 cannot afford
+step.toofar = false step.pickn = 3
+
+player 0's move... 
+take 1 0 1 1 0 
+max = 1 min = 0 sum = 3
+m.gem[i] = 1 gem[i] = 1
+m.gem[i] = 0 gem[i] = 3
+m.gem[i] = 1 gem[i] = 3
+m.gem[i] = 1 gem[i] = 4
+m.gem[i] = 0 gem[i] = 4
+Total number of gem = 4
+==============================================
+Player 0's gem:   2 0 1 1 0 0 
+Player 0's bonus: 1 1 0 4 1 
+Player 0's reserve: 73 [0 0 0 0 7][3 4] 76 [0 0 3 7 0][1 5] 86 [7 0 0 0 0][2 4] 
+----------------------------------------------
+Remained Gem Tokens: 0 3 2 3 4 3 
+ 5 [0 0 4 0 0][3 1] 11 [1 2 0 0 2][2 0] 21 [0 0 2 0 2][3 0] 26 [0 0 0 0 4][2 1] 
+45 [2 0 0 3 3][1 1] 55 [3 2 0 0 3][4 1] 56 [4 2 1 0 0][4 2] 67 [0 5 3 0 0][3 2] 
+79 [0 3 6 0 3][4 4] 81 [0 3 0 0 7][3 5] 85 [0 7 0 0 3][0 5] 89 [3 5 3 3 0][0 3] 
+Score: 1 VS 2
+----------------------------------------------
+Player 1's gem:   2 1 1 0 0 1 
+Player 1's bonus: 1 2 3 0 1 
+Player 1's reserve: 66 [0 2 1 0 4][1 2] 
+==============================================
+player 1's move... 
+buy 56
+==============================================
+Player 0's gem:   2 0 1 1 0 0 
+Player 0's bonus: 1 1 0 4 1 
+Player 0's reserve: 73 [0 0 0 0 7][3 4] 76 [0 0 3 7 0][1 5] 86 [7 0 0 0 0][2 4] 
+----------------------------------------------
+Remained Gem Tokens: 2 3 2 3 4 4 
+ 5 [0 0 4 0 0][3 1] 11 [1 2 0 0 2][2 0] 21 [0 0 2 0 2][3 0] 26 [0 0 0 0 4][2 1] 
+45 [2 0 0 3 3][1 1] 55 [3 2 0 0 3][4 1] 59 [0 0 0 3 5][1 2] 67 [0 5 3 0 0][3 2] 
+79 [0 3 6 0 3][4 4] 81 [0 3 0 0 7][3 5] 85 [0 7 0 0 3][0 5] 89 [3 5 3 3 0][0 3] 
+Score: 1 VS 4
+----------------------------------------------
+Player 1's gem:   0 1 1 0 0 0 
+Player 1's bonus: 1 2 3 0 2 
+Player 1's reserve: 66 [0 2 1 0 4][1 2] 
+==============================================
+Opponent's:
+gem: 0 1 1 0 0 0 
+bonus: 1 2 3 0 2 
+points: 4
+card reserved:
+Gem: 1 Cost: 0 2 1 0 4 
+
+Mine:
+gem: 2 0 1 1 0 0 
+bonus: 1 1 0 4 1 
+points: 1
+card reserved:
+Gem: 1 Cost: 0 0 3 7 0 
+Gem: 3 Cost: 0 0 0 0 7 
+Gem: 2 Cost: 7 0 0 0 0 
+
+26 [0 0 0 0 4][2 1] 5 [0 0 4 0 0][3 1] 21 [0 0 2 0 2][3 0] 11 [1 2 0 0 2][2 0] 
+55 [3 2 0 0 3][4 1] 45 [2 0 0 3 3][1 1] 67 [0 5 3 0 0][3 2] 59 [0 0 0 3 5][1 2] 
+81 [0 3 0 0 7][3 5] 89 [3 5 3 3 0][0 3] 85 [0 7 0 0 3][0 5] 79 [0 3 6 0 3][4 4] 
+
+value = 16.85 [0 0 3 7 0]
+joker_max = 0 cannot afford
+step.toofar = false step.pickn = 3
+
+value = 9.30 [0 3 0 0 7]
+joker_max = 0 cannot afford
+step.toofar = true step.pickn = 0
+
+value = 9.30 [0 7 0 0 3]
+joker_max = 0 cannot afford
+step.toofar = true step.pickn = 0
+
+value = 8.28 [0 0 0 0 7]
+joker_max = 0 cannot afford
+step.toofar = true step.pickn = 0
+
+value = 8.28 [7 0 0 0 0]
+joker_max = 0 cannot afford
+step.toofar = true step.pickn = 0
+
+value = 8.24 [0 0 0 3 5]
+joker_max = 0 cannot afford
+step.toofar = false step.pickn = 2
+
+value = 8.13 [2 0 0 3 3]
+joker_max = 0 cannot afford
+step.toofar = false step.pickn = 2
+
+value = 7.20 [1 2 0 0 2]
+joker_max = 0 cannot afford
+step.toofar = false step.pickn = 3
+
+value = 6.80 [0 3 6 0 3]
+joker_max = 0 cannot afford
+step.toofar = true step.pickn = 0
+
+value = 6.70 [3 5 3 3 0]
+joker_max = 0 cannot afford
+step.toofar = false step.pickn = 3
+
+player 0's move... 
+take 1 0 1 1 0 
+max = 1 min = 0 sum = 3
+m.gem[i] = 1 gem[i] = 2
+m.gem[i] = 0 gem[i] = 3
+m.gem[i] = 1 gem[i] = 2
+m.gem[i] = 1 gem[i] = 3
+m.gem[i] = 0 gem[i] = 4
+Total number of gem = 7
+==============================================
+Player 0's gem:   3 0 2 2 0 0 
+Player 0's bonus: 1 1 0 4 1 
+Player 0's reserve: 73 [0 0 0 0 7][3 4] 76 [0 0 3 7 0][1 5] 86 [7 0 0 0 0][2 4] 
+----------------------------------------------
+Remained Gem Tokens: 1 3 1 2 4 4 
+ 5 [0 0 4 0 0][3 1] 11 [1 2 0 0 2][2 0] 21 [0 0 2 0 2][3 0] 26 [0 0 0 0 4][2 1] 
+45 [2 0 0 3 3][1 1] 55 [3 2 0 0 3][4 1] 59 [0 0 0 3 5][1 2] 67 [0 5 3 0 0][3 2] 
+79 [0 3 6 0 3][4 4] 81 [0 3 0 0 7][3 5] 85 [0 7 0 0 3][0 5] 89 [3 5 3 3 0][0 3] 
+Score: 1 VS 4
+----------------------------------------------
+Player 1's gem:   0 1 1 0 0 0 
+Player 1's bonus: 1 2 3 0 2 
+Player 1's reserve: 66 [0 2 1 0 4][1 2] 
+==============================================
+player 1's move... 
+take 0 1 1 0 1 
+max = 1 min = 0 sum = 3
+m.gem[i] = 0 gem[i] = 1
+m.gem[i] = 1 gem[i] = 3
+m.gem[i] = 1 gem[i] = 1
+m.gem[i] = 0 gem[i] = 2
+m.gem[i] = 1 gem[i] = 4
+Total number of gem = 5
+==============================================
+Player 0's gem:   3 0 2 2 0 0 
+Player 0's bonus: 1 1 0 4 1 
+Player 0's reserve: 73 [0 0 0 0 7][3 4] 76 [0 0 3 7 0][1 5] 86 [7 0 0 0 0][2 4] 
+----------------------------------------------
+Remained Gem Tokens: 1 2 0 2 3 4 
+ 5 [0 0 4 0 0][3 1] 11 [1 2 0 0 2][2 0] 21 [0 0 2 0 2][3 0] 26 [0 0 0 0 4][2 1] 
+45 [2 0 0 3 3][1 1] 55 [3 2 0 0 3][4 1] 59 [0 0 0 3 5][1 2] 67 [0 5 3 0 0][3 2] 
+79 [0 3 6 0 3][4 4] 81 [0 3 0 0 7][3 5] 85 [0 7 0 0 3][0 5] 89 [3 5 3 3 0][0 3] 
+Score: 1 VS 4
+----------------------------------------------
+Player 1's gem:   0 2 2 0 1 0 
+Player 1's bonus: 1 2 3 0 2 
+Player 1's reserve: 66 [0 2 1 0 4][1 2] 
+==============================================
+Opponent's:
+gem: 0 2 2 0 1 0 
+bonus: 1 2 3 0 2 
+points: 4
+card reserved:
+Gem: 1 Cost: 0 2 1 0 4 
+
+Mine:
+gem: 3 0 2 2 0 0 
+bonus: 1 1 0 4 1 
+points: 1
+card reserved:
+Gem: 1 Cost: 0 0 3 7 0 
+Gem: 3 Cost: 0 0 0 0 7 
+Gem: 2 Cost: 7 0 0 0 0 
+
+26 [0 0 0 0 4][2 1] 5 [0 0 4 0 0][3 1] 21 [0 0 2 0 2][3 0] 11 [1 2 0 0 2][2 0] 
+55 [3 2 0 0 3][4 1] 45 [2 0 0 3 3][1 1] 67 [0 5 3 0 0][3 2] 59 [0 0 0 3 5][1 2] 
+81 [0 3 0 0 7][3 5] 89 [3 5 3 3 0][0 3] 85 [0 7 0 0 3][0 5] 79 [0 3 6 0 3][4 4] 
+
+value = 16.85 [0 0 3 7 0]
+joker_max = 0 cannot afford
+step.toofar = false step.pickn = 3
+
+value = 9.30 [0 3 0 0 7]
+joker_max = 0 cannot afford
+step.toofar = true step.pickn = 0
+
+value = 9.30 [0 7 0 0 3]
+joker_max = 0 cannot afford
+step.toofar = true step.pickn = 0
+
+value = 8.28 [0 0 0 0 7]
+joker_max = 0 cannot afford
+step.toofar = true step.pickn = 0
+
+value = 8.28 [7 0 0 0 0]
+joker_max = 0 cannot afford
+step.toofar = true step.pickn = 0
+
+value = 8.24 [0 0 0 3 5]
+joker_max = 0 cannot afford
+step.toofar = false step.pickn = 2
+
+value = 8.13 [2 0 0 3 3]
+joker_max = 0 cannot afford
+step.toofar = false step.pickn = 2
+
+value = 7.20 [1 2 0 0 2]
+joker_max = 0 cannot afford
+step.toofar = false step.pickn = 3
+
+value = 6.80 [0 3 6 0 3]
+joker_max = 0 cannot afford
+step.toofar = true step.pickn = 0
+
+value = 6.70 [3 5 3 3 0]
+joker_max = 0 cannot afford
+step.toofar = false step.pickn = 2
+
+player 0's move... 
+take 1 1 0 1 0 
+max = 1 min = 0 sum = 3
+m.gem[i] = 1 gem[i] = 1
+m.gem[i] = 1 gem[i] = 2
+m.gem[i] = 0 gem[i] = 0
+m.gem[i] = 1 gem[i] = 2
+m.gem[i] = 0 gem[i] = 3
+Total number of gem = 10
+==============================================
+Player 0's gem:   4 1 2 3 0 0 
+Player 0's bonus: 1 1 0 4 1 
+Player 0's reserve: 73 [0 0 0 0 7][3 4] 76 [0 0 3 7 0][1 5] 86 [7 0 0 0 0][2 4] 
+----------------------------------------------
+Remained Gem Tokens: 0 1 0 1 3 4 
+ 5 [0 0 4 0 0][3 1] 11 [1 2 0 0 2][2 0] 21 [0 0 2 0 2][3 0] 26 [0 0 0 0 4][2 1] 
+45 [2 0 0 3 3][1 1] 55 [3 2 0 0 3][4 1] 59 [0 0 0 3 5][1 2] 67 [0 5 3 0 0][3 2] 
+79 [0 3 6 0 3][4 4] 81 [0 3 0 0 7][3 5] 85 [0 7 0 0 3][0 5] 89 [3 5 3 3 0][0 3] 
+Score: 1 VS 4
+----------------------------------------------
+Player 1's gem:   0 2 2 0 1 0 
+Player 1's bonus: 1 2 3 0 2 
+Player 1's reserve: 66 [0 2 1 0 4][1 2] 
+==============================================
+player 1's move... 
+take 0 1 0 1 1 
+max = 1 min = 0 sum = 3
+m.gem[i] = 0 gem[i] = 0
+m.gem[i] = 1 gem[i] = 1
+m.gem[i] = 0 gem[i] = 0
+m.gem[i] = 1 gem[i] = 1
+m.gem[i] = 1 gem[i] = 3
+Total number of gem = 8
+==============================================
+Player 0's gem:   4 1 2 3 0 0 
+Player 0's bonus: 1 1 0 4 1 
+Player 0's reserve: 73 [0 0 0 0 7][3 4] 76 [0 0 3 7 0][1 5] 86 [7 0 0 0 0][2 4] 
+----------------------------------------------
+Remained Gem Tokens: 0 0 0 0 2 4 
+ 5 [0 0 4 0 0][3 1] 11 [1 2 0 0 2][2 0] 21 [0 0 2 0 2][3 0] 26 [0 0 0 0 4][2 1] 
+45 [2 0 0 3 3][1 1] 55 [3 2 0 0 3][4 1] 59 [0 0 0 3 5][1 2] 67 [0 5 3 0 0][3 2] 
+79 [0 3 6 0 3][4 4] 81 [0 3 0 0 7][3 5] 85 [0 7 0 0 3][0 5] 89 [3 5 3 3 0][0 3] 
+Score: 1 VS 4
+----------------------------------------------
+Player 1's gem:   0 3 2 1 2 0 
+Player 1's bonus: 1 2 3 0 2 
+Player 1's reserve: 66 [0 2 1 0 4][1 2] 
+==============================================
+Opponent's:
+gem: 0 3 2 1 2 0 
+bonus: 1 2 3 0 2 
+points: 4
+card reserved:
+Gem: 1 Cost: 0 2 1 0 4 
+
+Mine:
+gem: 4 1 2 3 0 0 
+bonus: 1 1 0 4 1 
+points: 1
+card reserved:
+Gem: 1 Cost: 0 0 3 7 0 
+Gem: 3 Cost: 0 0 0 0 7 
+Gem: 2 Cost: 7 0 0 0 0 
+
+26 [0 0 0 0 4][2 1] 5 [0 0 4 0 0][3 1] 21 [0 0 2 0 2][3 0] 11 [1 2 0 0 2][2 0] 
+55 [3 2 0 0 3][4 1] 45 [2 0 0 3 3][1 1] 67 [0 5 3 0 0][3 2] 59 [0 0 0 3 5][1 2] 
+81 [0 3 0 0 7][3 5] 89 [3 5 3 3 0][0 3] 85 [0 7 0 0 3][0 5] 79 [0 3 6 0 3][4 4] 
+
+value = 16.85 [0 0 3 7 0]
+joker_max = 0 cannot afford
+step.toofar = false step.pickn = 0
+
+value = 9.30 [0 3 0 0 7]
+joker_max = 0 cannot afford
+step.toofar = true step.pickn = 0
+
+value = 9.30 [0 7 0 0 3]
+joker_max = 0 cannot afford
+step.toofar = true step.pickn = 0
+
+value = 8.28 [0 0 0 0 7]
+joker_max = 0 cannot afford
+step.toofar = true step.pickn = 0
+
+value = 8.28 [7 0 0 0 0]
+joker_max = 0 cannot afford
+step.toofar = true step.pickn = 0
+
+value = 8.24 [0 0 0 3 5]
+joker_max = 0 cannot afford
+step.toofar = false step.pickn = 0
+
+value = 8.13 [2 0 0 3 3]
+joker_max = 0 cannot afford
+step.toofar = false step.pickn = 0
+
+value = 7.20 [1 2 0 0 2]
+joker_max = 0 cannot afford
+step.toofar = false step.pickn = 0
+
+value = 6.80 [0 3 6 0 3]
+joker_max = 0 cannot afford
+step.toofar = true step.pickn = 0
+
+value = 6.70 [3 5 3 3 0]
+joker_max = 0 cannot afford
+step.toofar = false step.pickn = 0
+
+[3 2 0 0 3]
+joker_max = 0 cannot afford
+[0 0 0 0 4]
+joker_max = 0 cannot afford
+[0 0 2 0 2]
+joker_max = 0 cannot afford
+[0 5 3 0 0]
+joker_max = 0 cannot afford
+[0 0 4 0 0]
+joker_max = 0 cannot afford
+No valid operation
+player 0's move... 
+reserve 89
+Invalid move from player.
+Wrong Answer

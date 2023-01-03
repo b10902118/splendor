@@ -37,8 +37,8 @@ struct card {
 };
 
 struct move {
-    int type; // 0 for initial, 1 for get gem, 2 for buy card, 3 for
-              // imprison card
+    int type;    // 0 for initial, 1 for get gem, 2 for buy card, 3 for
+                 // imprison card
     int card_id; // only for type 2 and 3
     int gem[5];  // only for type 1
 };
@@ -68,8 +68,7 @@ vector<card> stk;
 
 int n[3];
 
-int score[2], gem[6] = {4, 4, 4, 4, 4, 4}, player_gem[2][7],
-              hand[2][5], cnt[3];
+int score[2], gem[6] = {4, 4, 4, 4, 4, 4}, player_gem[2][7], hand[2][5], cnt[3];
 
 set<int> imprisoned[2], buffer[3];
 
@@ -82,8 +81,7 @@ void show_move(struct move m, int p) {
         cerr << endl;
     }
     else {
-        cerr << (m.type == 2 ? "buy " : "reserve ") << m.card_id
-             << endl;
+        cerr << (m.type == 2 ? "buy " : "reserve ") << m.card_id << endl;
     }
 #endif
 }
@@ -135,6 +133,8 @@ void show_board() {
 
 void show() {
 #ifdef SPLENDER_DEBUG
+    static int roundn = 1;
+    cout << "Round " << roundn++ << '\n';
     cout << "==============================================\n";
     show_player(0);
     cout << "----------------------------------------------\n";
@@ -182,8 +182,7 @@ string Recv(int size = -1) {
         string s, t;
         int bytesRead;
         while (size > 0) {
-            bytesRead =
-            recv(sockfd, buf, min(size, int(sizeof(buf))), 0);
+            bytesRead = recv(sockfd, buf, min(size, int(sizeof(buf))), 0);
             t = string(buf);
             // cout << t << endl;
             t.resize(bytesRead);
@@ -223,24 +222,21 @@ void start(vector<card> &stack_1, vector<card> &stack_2,
     stack_3.resize(n[2]);
 
     for (int i = 0; i < n[0]; i++) {
-        ss >> stack_1[i].id >> stack_1[i].cost[0] >>
-        stack_1[i].cost[1] >> stack_1[i].cost[2] >>
-        stack_1[i].cost[3] >> stack_1[i].cost[4] >> stack_1[i].gem >>
-        stack_1[i].score;
+        ss >> stack_1[i].id >> stack_1[i].cost[0] >> stack_1[i].cost[1] >>
+        stack_1[i].cost[2] >> stack_1[i].cost[3] >> stack_1[i].cost[4] >>
+        stack_1[i].gem >> stack_1[i].score;
         stk.push_back(stack_1[i]);
     }
     for (int i = 0; i < n[1]; i++) {
-        ss >> stack_2[i].id >> stack_2[i].cost[0] >>
-        stack_2[i].cost[1] >> stack_2[i].cost[2] >>
-        stack_2[i].cost[3] >> stack_2[i].cost[4] >> stack_2[i].gem >>
-        stack_2[i].score;
+        ss >> stack_2[i].id >> stack_2[i].cost[0] >> stack_2[i].cost[1] >>
+        stack_2[i].cost[2] >> stack_2[i].cost[3] >> stack_2[i].cost[4] >>
+        stack_2[i].gem >> stack_2[i].score;
         stk.push_back(stack_2[i]);
     }
     for (int i = 0; i < n[2]; i++) {
-        ss >> stack_3[i].id >> stack_3[i].cost[0] >>
-        stack_3[i].cost[1] >> stack_3[i].cost[2] >>
-        stack_3[i].cost[3] >> stack_3[i].cost[4] >> stack_3[i].gem >>
-        stack_3[i].score;
+        ss >> stack_3[i].id >> stack_3[i].cost[0] >> stack_3[i].cost[1] >>
+        stack_3[i].cost[2] >> stack_3[i].cost[3] >> stack_3[i].cost[4] >>
+        stack_3[i].gem >> stack_3[i].score;
         stk.push_back(stack_3[i]);
     }
 
@@ -282,11 +278,11 @@ struct move server_move(struct move m) {
 #ifdef SPLENDER_INTERACTIVE
     struct move ret;
     do {
-        int tmp = input_int(
-        "You want to take tokens, purchase or reserve? (type 1 for "
-        "take tokens, 2 for purchase a development card, 3 for "
-        "reserve a development card) ",
-        1, 3);
+        int tmp =
+        input_int("You want to take tokens, purchase or reserve? (type 1 for "
+                  "take tokens, 2 for purchase a development card, 3 for "
+                  "reserve a development card) ",
+                  1, 3);
         ret.type = tmp;
         switch (tmp) {
         case 1:
@@ -298,41 +294,37 @@ struct move server_move(struct move m) {
             input_int("How many diamond tokens you want to purchase? "
                       "(type number from 0 to 2) ",
                       0, 2);
-            ret.gem[2] =
-            input_int("How many sapphire tokens you want to "
-                      "purchase? (type number from 0 to 2) ",
-                      0, 2);
-            ret.gem[3] =
-            input_int("How many onyx tokens you want to purchase? "
-                      "(type number from 0 to 2) ",
-                      0, 2);
-            ret.gem[4] =
-            input_int("How many ruby tokens you want to purchase? "
-                      "(type number from 0 to 2) ",
-                      0, 2);
+            ret.gem[2] = input_int("How many sapphire tokens you want to "
+                                   "purchase? (type number from 0 to 2) ",
+                                   0, 2);
+            ret.gem[3] = input_int("How many onyx tokens you want to purchase? "
+                                   "(type number from 0 to 2) ",
+                                   0, 2);
+            ret.gem[4] = input_int("How many ruby tokens you want to purchase? "
+                                   "(type number from 0 to 2) ",
+                                   0, 2);
             break;
         case 2:
-            ret.card_id = input_int(
-            "What card you want to purchase? (type card id) ", 0,
-            n[0] + n[1] + n[2] - 1);
+            ret.card_id =
+            input_int("What card you want to purchase? (type card id) ", 0,
+                      n[0] + n[1] + n[2] - 1);
             break;
         case 3:
-            ret.card_id = input_int(
-            "What card you want to reserve? (type card id) ", 0,
-            n[0] + n[1] + n[2] - 1);
+            ret.card_id =
+            input_int("What card you want to reserve? (type card id) ", 0,
+                      n[0] + n[1] + n[2] - 1);
             break;
         }
     } while (fail(ret, 1));
     return ret;
 #else
     stringstream ss;
-    ss << m.type << " " << m.card_id << " " << m.gem[0] << " "
-       << m.gem[1] << " " << m.gem[2] << " " << m.gem[3] << " "
-       << m.gem[4] << " ";
+    ss << m.type << " " << m.card_id << " " << m.gem[0] << " " << m.gem[1]
+       << " " << m.gem[2] << " " << m.gem[3] << " " << m.gem[4] << " ";
     Send(ss.str().c_str());
     ss = stringstream(Recv());
-    ss >> m.type >> m.card_id >> m.gem[0] >> m.gem[1] >> m.gem[2] >>
-    m.gem[3] >> m.gem[4];
+    ss >> m.type >> m.card_id >> m.gem[0] >> m.gem[1] >> m.gem[2] >> m.gem[3] >>
+    m.gem[4];
     return m;
 #endif
 }
@@ -348,10 +340,11 @@ bool fail(struct move m, int player) {
             mx = max(mx, m.gem[i]);
             mn = min(mn, m.gem[i]);
         }
+        /*
 #ifdef SPLENDER_DEBUG
-        cout << "max = " << mx << " min = " << mn << " sum = " << sum
-             << '\n';
+cout << "max = " << mx << " min = " << mn << " sum = " << sum << '\n';
 #endif
+*/
         switch (sum) {
         case 2:
             if (mx != 2 || mn != 0) {
@@ -368,27 +361,30 @@ bool fail(struct move m, int player) {
         }
         // check the remain gem in pubilic is enough
         for (int i = 0; i < 5; i++) {
+            /*
 #ifdef SPLENDER_DEBUG
-            cout << "m.gem[i] = " << m.gem[i]
-                 << " gem[i] = " << gem[i] << "\n";
+cout << "m.gem[i] = " << m.gem[i] << " gem[i] = " << gem[i] << "\n";
 #endif
+*/
             if (m.gem[i] > gem[i]) {
+                /*
 #ifdef SPLENDER_DEBUG
-                cout << "Gem " << i << " is not enough\n";
+cout << "Gem " << i << " is not enough\n";
 #endif
+*/
                 return true;
             }
         }
         // check over limit of hand
+        /*
 #ifdef SPLENDER_DEBUG
-        cout << "Total number of gem = "
-             << player_gem[player][6] + sum << "\n";
+cout << "Total number of gem = " << player_gem[player][6] + sum << "\n";
 #endif
+*/
         return player_gem[player][6] + sum > 10;
     case 2:
         // check the card is on the board or imprisoned
-        if ((
-            !buffer[find_stack_number(m.card_id)].count(m.card_id)) &&
+        if ((!buffer[find_stack_number(m.card_id)].count(m.card_id)) &&
             (!imprisoned[player].count(m.card_id))) {
             return true;
         }
@@ -396,8 +392,8 @@ bool fail(struct move m, int player) {
         for (int i = 0; i < 5; i++) {
             if (player_gem[player][i] + hand[player][i] <
                 stk[m.card_id].cost[i]) {
-                tmp += stk[m.card_id].cost[i] -
-                       player_gem[player][i] - hand[player][i];
+                tmp += stk[m.card_id].cost[i] - player_gem[player][i] -
+                       hand[player][i];
             }
         }
         return tmp > player_gem[player][5];
@@ -430,13 +426,10 @@ bool play(struct move m, int player) {
     case 2:
         // put the gem into the public area
         for (int i = 0; i < 5; i++) {
-            int tmp_gem =
-            max(stk[m.card_id].cost[i] - hand[player][i], 0);
+            int tmp_gem = max(stk[m.card_id].cost[i] - hand[player][i], 0);
             if (tmp_gem > player_gem[player][i]) {
-                player_gem[player][5] -=
-                tmp_gem - player_gem[player][i];
-                player_gem[player][6] -=
-                tmp_gem - player_gem[player][i];
+                player_gem[player][5] -= tmp_gem - player_gem[player][i];
+                player_gem[player][6] -= tmp_gem - player_gem[player][i];
                 gem[5] += tmp_gem - player_gem[player][i];
                 tmp_gem = player_gem[player][i];
             }
@@ -478,8 +471,7 @@ void check_buffer(vector<card> v[3]) {
 
 } // namespace
 
-void init(vector<card> stack_1, vector<card> stack_2,
-          vector<card> stack_3);
+void init(vector<card> stack_1, vector<card> stack_2, vector<card> stack_3);
 
 struct move player_move(struct move m);
 
@@ -503,8 +495,7 @@ int main(int argc, char *argv[]) {
     serveraddr.sin_port = htons(serv_port);
     serveraddr.sin_addr.s_addr = inet_addr(serv_ip);
 
-    if (connect(sockfd, (sockaddr *)&serveraddr,
-                sizeof(serveraddr)) == -1) {
+    if (connect(sockfd, (sockaddr *)&serveraddr, sizeof(serveraddr)) == -1) {
         cerr << "connect() fail" << std::endl;
         exit(1);
     }
