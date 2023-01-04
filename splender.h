@@ -74,7 +74,7 @@ set<int> imprisoned[2], buffer[3];
 
 void show_move(struct move m, int p) {
 #ifdef SPLENDER_DEBUG
-    cerr << "player " << p << "'s move... " << endl;
+    cerr << "player " << p << "'s move: ";
     if (m.type == 1) {
         cerr << "take ";
         for (int i = 0; i < 5; i++) cerr << m.gem[i] << " ";

@@ -26,11 +26,13 @@ double resbase = 7;
 const double inc_res = 0.3, resbase_max = 8.5, resbase_fac = 0.6;
 const double part = 0.4;
 const double dec_jk[3][4] = {
-{1, 1.8, 2.2, 2.5}, {0.4, 0.7, 1, 1.3}, {0.3, 0.6, 0.9, 1.2}};
+{1.5, 1.8, 2.2, 2.5}, {0.4, 0.7, 1, 1.3}, {0.3, 0.6, 0.9, 1.2}};
 
-constexpr double stage_parm[stage_n][3]{{1, 0.9, 1}, {0.75, 1, 1}, {0.7, 1, 1}};
-constexpr double res_parm[res_max]{0.65, 0.8, 0.9};
-constexpr double majbuf = 1.6, norbuf = 1.1, dec_ratio = 0.88;
+constexpr double stage_parm[stage_n][3]{{1, 0.9, 1}, {0.8, 1, 1}, {0.6, 1, 1}};
+// constexpr double res_parm[res_max]{0.65, 0.8, 0.9};
+constexpr double majbuf = 1.6, norbuf = 1.2, dec_ratio = 0.88;
+
+constexpr double highd = 45, lowd = 27, highs = 18.5, lows = 13;
 
 constexpr int TAKE = 1, BUY = 2, RES = 3;
 
@@ -40,8 +42,11 @@ constexpr int hold_max = 10;
 int remain[Gem::all];
 }; // namespace Gem
 
+// runtime variables
 int stage, major = -1;
-double demand[Gem::normal];
+double demand[Gem::normal], supply[Gem::normal], buf[Gem::normal];
+bool res3;
+
 vector<pair<int, int>> resource[Gem::normal];
 
 class Board {
@@ -222,7 +227,7 @@ bool iskeycard(card c) {
     for (int i = 1; i < Gem::normal; ++i) {
         if (c.cost[i] > c.cost[m]) m = i;
     }
-    if (m == major && c.cost[m] >= 6) return true;
+    if (m == major && c.cost[m] >= 5) return true;
     // if (m == major) return true;
     return false;
 }
@@ -291,16 +296,15 @@ void init(vector<card> stack_1, vector<card> stack_2, vector<card> stack_3) {
     fac_init();
     my.init();
     op.init();
-    stage = 0;
+    stage = -1; // initialization stage
     fill(demand, demand + 5, 0);
 
-    // analyze here because index of deck start from 4
-    // supply 1
+    // supply 0
+    // double supcnt[Gem::normal]{};
     double supply[Gem::normal]{};
     for (int i = 0; i < depth[0]; ++i) {
         supply[stack_1[i].gem] += fac[0][i] * score1(stack_1[i]);
-        // cout << stack_1[i].gem << " += " << score1(stack_1[i])
-        //<< '\n';
+        // supcnt[stack_1[i].gem] += fac[0][i];
     }
 
 #ifdef SPLENDER_DEBUG
@@ -317,21 +321,25 @@ void init(vector<card> stack_1, vector<card> stack_2, vector<card> stack_3) {
             if (stack_2[i].cost[type] > 3)
                 demand[type] += v * stack_2[i].cost[type];
         }
-        // cout << stack_2[i].gem << " += " << score2(stack_2[i])
-        //<< '\n';
     }
 
 #ifdef SPLENDER_DEBUG
     cout << "Supply:\n";
     for (int i = 0; i < Gem::normal; ++i) {
         cout << i << "  Lv 0: " << sup1[i] << "\tLv 1: " << supply[i] - sup1[i]
-             << "\tTotal: " << supply[i] << '\n';
+             << "\tTotal: " << supply[i]
+             << "\tFinal: " << (supply[i] > 20 ? 20 : supply[i]) << '\n';
     }
 
     cout << "demand before:\n";
     for (double i : demand) cout << i << ' ';
     cout << endl;
 #endif
+
+    // chopped to 20
+    for (double &i : supply)
+        if (i > 20) i = 20;
+
     // demand 3
     for (int i = 0; i < depth[2]; ++i) {
         double v = fac[2][i] * score3(stack_3[i]);
@@ -353,25 +361,27 @@ void init(vector<card> stack_1, vector<card> stack_2, vector<card> stack_3) {
     for (double i : demand) cout << i << ' ';
     cout << endl;
 #endif
-    for (int i = 0; i < Gem::normal; ++i) demand[i] *= supply[i];
+
 #ifdef SPLENDER_DEBUG
     cout << "demand times supply:\n";
-    for (double i : demand) cout << i << ' ';
+    for (int i = 0; i < Gem::normal; ++i) cout << demand[i] * supply[i] << ' ';
     cout << endl;
 #endif
-    // decide major and minor by supply and demand
+    // decide major or TODO: no major
     major = 0;
     for (int i = 1; i < Gem::normal; ++i) {
-        if (demand[i] > demand[major]) {
+        if (demand[i] > lowd &&
+            demand[i] * supply[i] > demand[major] * supply[major]) {
             major = i;
         }
     }
+    if (demand[major] < lowd) major = -1;
 #ifdef SPLENDER_DEBUG
     cout << "Major: " << major << endl;
 #endif
     for (int i = 0; i < Gem::normal; ++i) {
-        if (i == major) demand[i] = majbuf;
-        else demand[i] = 1.2;
+        if (i == major) buf[i] = majbuf;
+        else buf[i] = 1;
     }
 
     // set table and deck
@@ -384,6 +394,9 @@ void init(vector<card> stack_1, vector<card> stack_2, vector<card> stack_3) {
     deck[0].init(stack_1); // stack "moved"
     deck[1].init(stack_2);
     deck[2].init(stack_3);
+
+    // set stage parm
+    stage = 0;
 }
 
 pair<int, int> get_index(profile &p, int cid) {
@@ -564,24 +577,6 @@ struct move player_move(struct move m) {
     // reserved cards
     double value[deckn + 1][table.row]{};
 
-    for (int i = 0; i < my.res.size(); ++i) {
-        value[reserved][i] = scoref[my.res[i].lv](my.res[i].c) *
-                             stage_parm[stage][my.res[i].lv] *
-                             res_parm[my.res.size() - 1];
-        if (my.res[i].lv == 2 && iskeycard(my.res[i].c))
-            value[reserved][i] *= majbuf;
-        else if (my.res[i].lv <= 1)
-            value[reserved][i] *= demand[my.res[i].c.gem];
-        /*
-if (my.res[i].lv == 0)
-    value[reserved][i] = score1(my.res[i].c);
-else if (my.res[i].lv == 1)
-    value[reserved][i] = score2(my.res[i].c);
-else value[reserved][i] = score3(my.res[i].c);
-        */
-        card_index.push_back(pair<int, int>(reserved, i));
-    }
-
     for (int i = 0; i < Gem::normal; ++i) resource[i].clear();
 
     // table cards
@@ -619,7 +614,7 @@ else value[reserved][i] = score3(my.res[i].c);
     // pair<int, int> bestres;
     int totake[5]{};
     int totake_n = 0, filled_n = 0;
-    double dependency[5]{};
+    double dependency[5]{}, dep_set_n = 0;
     int jkcnt[deckn + 1][table.row]{};
     bool wantres = true;
     // auto it = card_index.begin(); //fail after insert
@@ -633,8 +628,71 @@ else value[reserved][i] = score3(my.res[i].c);
             ;
         card_index.insert(pos, *it);
     };
+    auto process_step = [&](card c) {
+        Step step = cal_step(c, my);
+#ifdef SPLENDER_DEBUG
+        print_step(step);
+#endif
+        if (!step.toofar) {
+            if (totake_n == 0 && step.pickn != 0) {
+                totake_n = step.pickn;
+                for (int i = 0; i < Gem::normal; ++i) {
+                    if (step.gem[i] != 0) {
+                        totake[i] = step.gem[i];
+                        filled_n += step.gem[i];
+                    }
+                }
+            }
+            else if (!allzero(step.gem)) {
+                ++dep_set_n;
+                for (int i = 0; i < Gem::normal; ++i) {
+                    dependency[i] += (double)step.gem[i] / dep_set_n;
+                }
+            }
+            return true;
+        }
+        return false;
+    };
+
+    // TODO stage-specific operation
+    if (stage == 0 && major != -1) {
+        cout << "start stage0\n";
+        for (auto it = card_index.begin(); it != card_index.end();) {
+            card c = table[it->first][it->second];
+            int level = it->first;
+            if (iskeycard(c)) {
+                if (res3) {
+                    res3 = false;
+                    return reserve(*it);
+                }
+                else ++it;
+            }
+            else if (c.gem == major && level == 0) {
+                int d = lack(my, c, 0);
+                if (d < 1 && my.gem[Gem::joker] >= 1) return buy(*it);
+                // might miss affordable without joker but lower score
+                else {
+                    if (/*supply[i]<lows&&*/ lack(op, c, op.gem[Gem::joker]) ==
+                        0 &&
+                        reservable(my)) {
+                        return reserve(*it);
+                    }
+                    else {
+                        process_step(c);
+                        cout << "process end\n";
+                        it = card_index.erase(it);
+                    }
+                }
+            }
+            else ++it; // not important major
+        }
+
+        // TODO set stage specific parameters
+        wantres = false;
+    }
+
     int cur = 0;
-    for (double dep_set_n = 0, val;
+    for (double val;
          cur != card_index.size() &&
          value[card_index[cur].first][card_index[cur].second] > buybase[stage];
          ++cur) {
@@ -654,43 +712,44 @@ else value[reserved][i] = score3(my.res[i].c);
         cout << "value = " << val << ' ';
 #endif
         int dgem = lack(my, c, jkcnt[it->first][it->second]);
-        if (dgem == 0) return buy(*it);
+        if (dgem == 0) return buy(*it); // low level problem
         else {
             if (wantres)
                 wantres =
                 val > resbase + resbase_fac * my.res.size() && level != 0;
 
-            if (it->first != reserved && reservable(my) &&
-                val > resbase + resbase_fac * my.res.size() && wantres) {
+            if (reservable(my) && wantres) {
                 return reserve(*it);
             }
             else {
-                Step step = cal_step(c, my);
-#ifdef SPLENDER_DEBUG
-                print_step(step);
-#endif
-                if (!step.toofar) {
-                    if (totake_n == 0 && step.pickn != 0) {
-                        totake_n = step.pickn;
-                        for (int i = 0; i < Gem::normal; ++i) {
-                            if (step.gem[i] != 0) {
-                                totake[i] = step.gem[i];
-                                filled_n += step.gem[i];
-                            }
-                        }
-                    }
-                    else if (!allzero(step.gem)) {
-                        for (int i = 0; i < Gem::normal; ++i) {
-                            dependency[i] += (double)step.gem[i] / dep_set_n;
-                        }
-                        ++dep_set_n;
-                    }
-
+                if (process_step(c)) {
                     if (jkcnt[it->first][it->second] < my.gem[Gem::joker]) {
                         reshuffle(it, level);
                     }
                 }
             }
+        }
+    }
+    // TODO try to buy reserved card
+
+    vector<pair<int, int>> rq;
+    for (int i = 0; i < my.res.size(); ++i) {
+        value[reserved][i] =
+        scoref[my.res[i].lv](my.res[i].c) * stage_parm[stage][my.res[i].lv];
+        //* res_parm[my.res.size() - 1];
+        if (my.res[i].lv == 2 && iskeycard(my.res[i].c))
+            value[reserved][i] *= majbuf;
+        else if (my.res[i].lv <= 1)
+            value[reserved][i] *= demand[my.res[i].c.gem];
+        rq.push_back(pair<int, int>(reserved, i));
+    }
+    sort(rq.begin(), rq.end(), cmp);
+    for (auto p : rq) {
+        card c = my.res[p.second].c;
+        int level = my.res[p.second].lv;
+        if (lack(my, c, min(my.gem[Gem::joker], 2 * level)) == 0) return buy(p);
+        else {
+            process_step(c);
         }
     }
 
@@ -738,6 +797,8 @@ else value[reserved][i] = score3(my.res[i].c);
     else {
         return take(totake);
     }
+
+    // need fix cannot reserve major in stage 0
     for (auto iter = card_index.begin() + cur; iter != card_index.end();
          ++iter) {
         int level;

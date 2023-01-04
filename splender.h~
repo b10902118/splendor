@@ -340,9 +340,11 @@ bool fail(struct move m, int player) {
             mx = max(mx, m.gem[i]);
             mn = min(mn, m.gem[i]);
         }
+        /*
 #ifdef SPLENDER_DEBUG
-        cout << "max = " << mx << " min = " << mn << " sum = " << sum << '\n';
+cout << "max = " << mx << " min = " << mn << " sum = " << sum << '\n';
 #endif
+*/
         switch (sum) {
         case 2:
             if (mx != 2 || mn != 0) {
@@ -359,20 +361,26 @@ bool fail(struct move m, int player) {
         }
         // check the remain gem in pubilic is enough
         for (int i = 0; i < 5; i++) {
+            /*
 #ifdef SPLENDER_DEBUG
-            cout << "m.gem[i] = " << m.gem[i] << " gem[i] = " << gem[i] << "\n";
+cout << "m.gem[i] = " << m.gem[i] << " gem[i] = " << gem[i] << "\n";
 #endif
+*/
             if (m.gem[i] > gem[i]) {
+                /*
 #ifdef SPLENDER_DEBUG
-                cout << "Gem " << i << " is not enough\n";
+cout << "Gem " << i << " is not enough\n";
 #endif
+*/
                 return true;
             }
         }
         // check over limit of hand
+        /*
 #ifdef SPLENDER_DEBUG
-        cout << "Total number of gem = " << player_gem[player][6] + sum << "\n";
+cout << "Total number of gem = " << player_gem[player][6] + sum << "\n";
 #endif
+*/
         return player_gem[player][6] + sum > 10;
     case 2:
         // check the card is on the board or imprisoned
