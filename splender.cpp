@@ -19,7 +19,7 @@ constexpr int deckn = 3, stage_n = 3, res_max = 3, reserved = 3, goal = 15;
 
 // parameters
 constexpr int depth[deckn]{16, 9, 7};
-constexpr double rate[deckn]{0.96, 0.88, 0.75};
+constexpr double rate[deckn]{0.94, 0.88, 0.75};
 constexpr double buybase[stage_n] = {5.5, 6.5, 7.5};
 // double resbase[stage_n] = {8, 8.5, 9}; // need fix
 double resbase = 7;
@@ -28,9 +28,9 @@ const double part = 0.4;
 const double dec_jk[3][4] = {
 {1.5, 1.8, 2.2, 2.5}, {0.4, 0.7, 1, 1.3}, {0.3, 0.6, 0.9, 1.2}};
 
-constexpr double stage_parm[stage_n][3]{{1, 0.9, 1}, {0.8, 1, 1}, {0.6, 1, 1}};
+constexpr double stage_parm[stage_n][3]{{1, 0.9, 1}, {0.9, 1, 1}, {0.6, 1, 1}};
 // constexpr double res_parm[res_max]{0.65, 0.8, 0.9};
-constexpr double majbuf = 1.6, norbuf = 1.2, dec_ratio = 0.88;
+constexpr double majbuf = 1.6, norbuf = 1, dec_ratio = 0.88;
 
 constexpr double highd = 45, lowd = 27, highs = 18.5, lows = 13;
 
@@ -232,6 +232,18 @@ bool iskeycard(card c) {
     return false;
 }
 
+double score_(const card &cd) {
+    constexpr double p[6]{0, 1.5, 3.2, 5.4, 7.8, 10.2};
+    constexpr double d[8]{0, 1.2, 2.6, 4.3, 6.3, 8.6, 11.2, 14.2};
+    double s = 10;
+    for (int i = 0; i < Gem::normal; ++i) {
+        int cost = cd.cost[i] - my.bns[i];
+        if (cost > 0) s -= d[cost];
+    }
+    s += p[cd.gem];
+    return s;
+}
+
 double score1(const card &cd) {
     static constexpr double c[6] = {0,       1 * 1,    1.2 * 2,
                                     1.3 * 3, 1.45 * 4, 1.55 * 5};
@@ -381,7 +393,7 @@ void init(vector<card> stack_1, vector<card> stack_2, vector<card> stack_3) {
 #endif
     for (int i = 0; i < Gem::normal; ++i) {
         if (i == major) buf[i] = majbuf;
-        else buf[i] = 1;
+        else buf[i] = norbuf;
     }
 
     // set table and deck
@@ -571,7 +583,7 @@ struct move player_move(struct move m) {
     vector<pair<int, int>> card_index;
 
     // change stage
-    if (stage == 0 && my.bns[major] >= 3) stage = 1;
+    if (stage == 0 && my.bns[major] >= 2) stage = 1;
     else if (my.pts > 8) stage = 2;
 
     // reserved cards
@@ -584,7 +596,7 @@ struct move player_move(struct move m) {
         for (int i = 0; i < table.row; ++i) {
             if (iscard(table[lv][i])) {
                 value[lv][i] = scoref[lv](table[lv][i]) *
-                               stage_parm[stage][lv] * demand[table[lv][i].gem];
+                               stage_parm[stage][lv] * buf[table[lv][i].gem];
                 card_index.push_back(pair<int, int>(lv, i));
                 resource[table[lv][i].gem].push_back(pair<int, int>(lv, i));
             }
@@ -656,20 +668,21 @@ struct move player_move(struct move m) {
 
     // TODO stage-specific operation
     if (stage == 0 && major != -1) {
-        cout << "start stage0\n";
+        cout << "start stage 0\n";
         for (auto it = card_index.begin(); it != card_index.end();) {
             card c = table[it->first][it->second];
             int level = it->first;
             if (iskeycard(c)) {
-                if (res3) {
+                if (lack(my, c, my.gem[Gem::joker]) == 0) return buy(*it);
+                else if (res3) {
                     res3 = false;
                     return reserve(*it);
                 }
-                else ++it;
+                else it = card_index.erase(it);
             }
             else if (c.gem == major && level == 0) {
-                int d = lack(my, c, 0);
-                if (d < 1 && my.gem[Gem::joker] >= 1) return buy(*it);
+                int d = lack(my, c, min(1, my.gem[Gem::joker]));
+                if (d == 0) return buy(*it);
                 // might miss affordable without joker but lower score
                 else {
                     if (/*supply[i]<lows&&*/ lack(op, c, op.gem[Gem::joker]) ==
@@ -686,6 +699,7 @@ struct move player_move(struct move m) {
             }
             else ++it; // not important major
         }
+        cout << "end stage 0\n";
 
         // TODO set stage specific parameters
         wantres = false;
@@ -739,8 +753,7 @@ struct move player_move(struct move m) {
         //* res_parm[my.res.size() - 1];
         if (my.res[i].lv == 2 && iskeycard(my.res[i].c))
             value[reserved][i] *= majbuf;
-        else if (my.res[i].lv <= 1)
-            value[reserved][i] *= demand[my.res[i].c.gem];
+        else if (my.res[i].lv <= 1) value[reserved][i] *= buf[my.res[i].c.gem];
         rq.push_back(pair<int, int>(reserved, i));
     }
     sort(rq.begin(), rq.end(), cmp);
